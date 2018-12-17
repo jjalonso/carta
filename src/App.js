@@ -76,13 +76,13 @@ class App extends React.Component {
   }
 
   handlePresenceChange = e => {
-		this.setState({
-			presence: {
-				...this.state.presence,
-				[e.target.value]: e.target.checked,
-			},
-		});
-	};
+    this.setState({
+      presence: {
+        ...this.state.presence,
+        [e.target.value]: e.target.checked,
+      },
+    });
+  };
 
   render() {
     return (
