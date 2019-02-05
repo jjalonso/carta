@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Typography } from '@material-ui/core';
 
-import styles from './AppTitle.module.css';
-
-const AppTitle = ({ title }) => <h1 className={styles.title}>{title}</h1>;
+const AppTitle = ({ title }) => (
+  <Typography variant='h4' gutterBottom>
+    {title}
+  </Typography>
+);
 
 AppTitle.propTypes = {
   title: PropTypes.string,
 };
 
 AppTitle.defaultProps = {
-  title: 'Hello world',
+  title: 'App title',
 };
 
 export default AppTitle;
-
