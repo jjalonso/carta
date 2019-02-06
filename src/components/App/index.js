@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core';
 
 import AppTitle from '../AppTitle';
 import Form from '../Form';
+import Letter from '../Letter';
 
 import styles from './App.module.css';
 
@@ -32,7 +33,7 @@ class App extends React.Component {
             />
           </Grid>
           <Grid item xs={6}>
-            Work in progress <span role='img' aria-label='yo'>😎</span>
+            <Letter />
           </Grid>
         </Grid>
       </div>
