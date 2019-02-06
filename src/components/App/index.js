@@ -10,6 +10,8 @@ class App extends React.Component {
   state = {
     name: '',
     gender: 'female',
+    date: '',
+    place: 'home',
   };
 
   handleChange = (e) => {
