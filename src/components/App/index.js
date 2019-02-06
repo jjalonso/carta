@@ -33,7 +33,9 @@ class App extends React.Component {
             />
           </Grid>
           <Grid item xs={6}>
-            <Letter />
+            <Letter
+              {...this.state}
+            />
           </Grid>
         </Grid>
       </div>
