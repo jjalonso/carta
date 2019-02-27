@@ -1,0 +1,28 @@
+.right {
+  text-align: right;
+}
+
+.testInput {
+  padding-top: 20px;
+}
+
+.top {
+  margin-bottom: 25px;
+}
+
+.scoreInput {
+  width: 100%;
+}
+
+.separator {
+  text-align: center;
+  /* padding: 0 10px 0; */
+}
+
+.add {
+  composes: right;
+}
+
+.remove {
+  composes: right;
+}

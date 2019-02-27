@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, NoSsr } from '@material-ui/core';
-import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
-import AsyncSelect from 'react-select/lib/Async';
-import debounce from 'debounce';
+import ReactSelectAsyncCreatable from 'react-select/lib/AsyncCreatable';
+import ReactSelectAsync from 'react-select/lib/Async';
+import debounce from 'debounce-promise';
 
 import components from './components';
 import styles from './styles';
 
-const Select = ({
+const AsyncSelect = ({
   classes,
   theme,
   canCreate,
   isMulti,
-  placeholder,
+  debounceDelay,
   loadOptions,
-  noOptionsMessage,
   onChange,
+  value,
 }) => {
-  // TODO: Move this styles out
+  const debouncedLoadOptions = debounce(loadOptions, debounceDelay);
   const selectStyles = {
     input: base => ({
       ...base,
@@ -29,37 +29,36 @@ const Select = ({
     }),
   };
 
-  const debouncedLoadOptions = debounce(loadOptions, 500);
-
   return (
     <NoSsr>
       {
         canCreate ? (
-          <AsyncCreatableSelect
+          <ReactSelectAsyncCreatable
             defaultOptions
-            noOptionsMessage={() => null}
             isMulti={isMulti}
             isClearable={false}
-            components={components}
+            noOptionsMessage={() => null}
             loadOptions={debouncedLoadOptions}
-            classes={classes}
-            styles={selectStyles}
-            placeholder={placeholder}
             onChange={onChange}
+            // value={value}
+            components={components}
+            styles={selectStyles}
+            classes={classes}
+
           />
         )
           : (
-            <AsyncSelect
+            <ReactSelectAsync
               defaultOptions
               isMulti={isMulti}
               isClearable={false}
-              noOptionsMessage={noOptionsMessage}
-              components={components}
+              noOptionsMessage={() => null}
               loadOptions={debouncedLoadOptions}
-              classes={classes}
-              styles={selectStyles}
-              placeholder={placeholder}
               onChange={onChange}
+              // value={value}
+              components={components}
+              styles={selectStyles}
+              classes={classes}
             />
           )
       }
@@ -67,26 +66,30 @@ const Select = ({
   );
 };
 
-Select.propTypes = {
+AsyncSelect.propTypes = {
   theme: PropTypes.objectOf(PropTypes.any),
   classes: PropTypes.objectOf(PropTypes.any),
   canCreate: PropTypes.bool,
   isMulti: PropTypes.bool,
-  placeholder: PropTypes.string,
-  noOptionsMessage: PropTypes.func,
-  loadOptions: PropTypes.func,
+  // noOptionsMessage: PropTypes.func,
+  debounceDelay: PropTypes.number,
+  loadOptions: PropTypes.func.isRequired,
   onChange: PropTypes.func,
+  value: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+  ]),
 };
 
-Select.defaultProps = {
+AsyncSelect.defaultProps = {
   theme: {},
   classes: {},
   canCreate: false,
   isMulti: false,
-  placeholder: '',
-  noOptionsMessage: undefined,
-  loadOptions: () => ({}),
-  onChange: () => ({}),
+  debounceDelay: 0,
+  // noOptionsMessage: undefined,
+  onChange: () => {},
+  value: {},
 };
 
-export default withStyles(styles, { withTheme: true })(Select);
+export default withStyles(styles, { withTheme: true })(AsyncSelect);

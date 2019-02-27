@@ -6,7 +6,7 @@ export const useFormPropType = PropTypes.shape({
   onChange: PropTypes.func,
 });
 
-export const useFormInput = (initialValue) => {
+export const useFormTarget = (initialValue) => {
   const [value, setValue] = useState(initialValue);
 
   function onChange(e) {
@@ -16,25 +16,19 @@ export const useFormInput = (initialValue) => {
   return { value, onChange };
 };
 
-export const useFormCheckbox = (initialValue) => {
+export const useFormValue = (initialValue) => {
   const [value, setValue] = useState(initialValue);
-
-  function onChange(e) {
-    setValue(
-      value.includes(e.target.value)
-        ? value.filter(v => v !== e.target.value)
-        : [...value, e.target.value],
-    );
+  function onChange(v) {
+    setValue(v);
   }
 
   return { value, onChange };
 };
 
-export const useFormSelect = (initialValue) => {
+export const useFormCheckbox = (initialValue) => {
   const [value, setValue] = useState(initialValue);
-
-  function onChange(values) {
-    setValue(values.map(v => v.value));
+  function onChange(e) {
+    setValue(e.target.checked);
   }
 
   return { value, onChange };

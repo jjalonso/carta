@@ -1,0 +1,15 @@
+
+.medicationSpin {
+  width: 100%;
+  padding: 55px 0 54px;
+}
+
+.sideImage {
+  padding: 0 110px;
+  width: 100%;
+}
+
+.imageContainer {
+  display: flex;
+  align-items: center;
+}

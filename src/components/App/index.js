@@ -1,70 +1,121 @@
+import 'antd/dist/antd.css';
 import React from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
-import AppTitle from '../AppTitle';
-import Form from '../Form';
-import Letter from '../Letter';
+import StepWizard from 'react-step-wizard';
+import {
+  Row,
+  Col,
+  Layout,
+  Menu,
+  Icon,
+} from 'antd';
 
 import styles from './App.module.css';
-import { useFormInput, useFormCheckbox, useFormSelect } from '../../hooks/useForm';
+import AssessmentSteps from '../AssessmentSteps';
+import IntroForm from '../IntroForm';
+import {
+  useFormTarget,
+  useFormValue,
+  useFormCheckbox,
+} from '../../hooks/useForm';
+import MedicalForm from '../MedicalForm';
+import PersonalForm from '../PersonalForm';
+import ExaminationForm from '../ExaminationForm';
+import CognitiveForm from '../CognitiveForm';
+import AssessmentStep from '../AssessmentStep';
 
 const App = () => {
-  const name = useFormInput('');
-  const gender = useFormInput('male');
-  const date = useFormInput('');
-  const place = useFormInput('clinic');
-  const patientCompany = useFormCheckbox([]);
-  const problems = useFormSelect([]);
-  const medication = useFormSelect([]);
-
-  const formFields = {
-    name,
-    gender,
-    date,
-    place,
-    patientCompany,
-    problems,
-    medication,
-  };
-
-  const getTheme = () => (
-    createMuiTheme({
-      typography: {
-        useNextVariants: true,
-      },
-      palette: {
-        primary: {
-          main: '#1976d2',
-        },
-        secondary: {
-          main: '#4fc3f7',
-          contrastText: '#fff',
-        },
-      },
-    })
-  );
+  const title = useFormValue();
+  const name = useFormTarget();
+  const date = useFormValue();
+  const company = useFormValue();
+  const place = useFormTarget('clinic');
+  const problems = useFormValue();
+  const conditions = useFormValue();
+  const medication = useFormValue();
+  const country = useFormValue();
+  const emigrationYear = useFormValue();
+  const degree = useFormTarget();
+  const isDegreeIncompleted = useFormCheckbox(true);
+  const living = useFormValue();
+  const totalChildren = useFormValue(0);
+  const activities = useFormValue('');
+  const examination = useFormValue('');
+  const cognitive = useFormValue();
 
   return (
-    <MuiThemeProvider theme={getTheme()}>
-      <div className={styles.app}>
-        <Grid container spacing={24}>
-          <Grid item xs={5}>
-            <AppTitle title="Angular debugger" />
-            <Form
-              {...formFields}
-            />
-          </Grid>
+    <Layout className="layout">
+      <Layout.Header>
+        <div className="logo" />
+        <Menu
+          className={styles.menu}
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={['1']}
+        >
+          <Menu.Item key="1">Assessments</Menu.Item>
+        </Menu>
+      </Layout.Header>
 
-          <Grid item xs={1} />
-
-          <Grid item xs={6}>
-            <Letter
-              {...formFields}
+      <Layout.Content className={styles.content}>
+        <Row>
+          <Col span={16} offset={4}>
+            <AssessmentSteps
+              current={1}
             />
-          </Grid>
-        </Grid>
-      </div>
-    </MuiThemeProvider>
+          </Col>
+          <Col span={24}>
+            <StepWizard>
+              <AssessmentStep>
+                <IntroForm
+                  title={title}
+                  name={name}
+                  date={date}
+                  company={company}
+                  place={place}
+                />
+              </AssessmentStep>
+              <AssessmentStep>
+                <MedicalForm
+                  problems={problems}
+                  conditions={conditions}
+                  medication={medication}
+                />
+              </AssessmentStep>
+              <AssessmentStep>
+                <PersonalForm
+                  country={country}
+                  emigrationYear={emigrationYear}
+                  degree={degree}
+                  isDegreeIncompleted={isDegreeIncompleted}
+                  living={living}
+                  totalChildren={totalChildren}
+                  activities={activities}
+                />
+              </AssessmentStep>
+              <AssessmentStep>
+                <ExaminationForm
+                  examination={examination}
+                />
+              </AssessmentStep>
+              <AssessmentStep>
+                <CognitiveForm
+                  cognitive={cognitive}
+                />
+              </AssessmentStep>
+            </StepWizard>
+          </Col>
+        </Row>
+
+      </Layout.Content>
+
+      <Layout.Footer className={styles.footer}>
+        Made with&nbsp;
+        <Icon type="heart" />
+        <br />
+        Rocktaps Limited.
+      </Layout.Footer>
+
+    </Layout>
   );
 };
 

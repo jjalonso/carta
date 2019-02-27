@@ -1,4 +1,27 @@
-.app {
-  padding: 100px;
+.maxWidth {
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
+  overflow: hidden;
 }
+
+.content {
+  composes: maxWidth;
+  padding: 50px;
+  background: white;
+}
+
+.menu {
+  composes: maxWidth;
+  line-height: 64px;
+}
+
+.footer {
+  composes: maxWidth;
+  text-align: center;
+}
+
+/* .main {
+  background: white;
+  min-height: 300px;
+} */
