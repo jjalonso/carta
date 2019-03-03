@@ -1,66 +1,56 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import TestInputPresentational from './TestInput';
+import { valueType } from './types';
 
 const TestInput = ({
-  onChange,
   value,
+  onChange,
 }) => {
-  const [state, setState] = useState(value);
-
   const handleAdd = () => {
-    const newState = [...state];
+    const newState = [...value];
     newState.push({
       key: Date.now(),
       domain: '',
       score: '',
       maxScore: '',
     });
-    setState(newState);
-    onChange(state);
+    onChange(newState);
   };
 
   const handleRemove = (key) => {
-    setState(state.filter(item => item.key !== key));
-    onChange(state);
+    const newState = value.filter(item => item.key !== key);
+    onChange(newState);
   };
 
   const handleChange = (key, name, v) => {
-    const newState = [...state];
-    const found = newState.find(item => item.key === key);
-    found[name] = v;
-    setState(newState);
-    onChange(state);
+    const newState = [...value];
+    const changedIndex = newState.findIndex(item => item.key === key);
+    newState[changedIndex][name] = v;
+    onChange(newState);
   };
 
   return (
     <TestInputPresentational
-      data={state}
+      value={value}
       onChange={handleChange}
       onAdd={handleAdd}
       onRemove={handleRemove}
-      isAddDisabled={state.length === 10}
-      isRemoveDisabled={state.length === 1}
+      isAddDisabled={value.length === 10}
+      isRemoveDisabled={value.length === 1}
     />
   );
 };
 
 TestInput.propTypes = {
+  value: valueType,
   onChange: PropTypes.func,
-  value: PropTypes.arrayOf(
-    PropTypes.shape({
-      domain: PropTypes.string,
-      score: PropTypes.number,
-      maxScore: PropTypes.number,
-    }),
-  ),
-  
 };
 
 TestInput.defaultProps = {
-  onChange: () => {},
   value: [],
+  onChange: () => {},
 };
 
 export default TestInput;

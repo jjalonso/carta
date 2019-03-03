@@ -10,14 +10,15 @@ import {
 } from 'antd';
 
 import styles from './TestInput.module.css';
+import { valueType } from './types';
 
 const TestInput = ({
-  data,
+  value,
+  isAddDisabled,
+  isRemoveDisabled,  
   onChange,
   onAdd,
   onRemove,
-  isAddDisabled,
-  isRemoveDisabled,
 }) => (
   <div className={styles.testInput}>
     <Row
@@ -40,7 +41,7 @@ const TestInput = ({
       </Col>
     </Row>
     {
-      data.map(item => (
+      value.map(item => (
         <Row key={item.key}>
           <Col span={8}>
             <Input
@@ -93,13 +94,8 @@ const TestInput = ({
   </div>
 );
 
-
 TestInput.propTypes = {
-  data: PropTypes.shape({
-    domain: PropTypes.string,
-    score: PropTypes.number,
-    maxScore: PropTypes.number,
-  }).isRequired,
+  value: valueType.isRequired,
   onAdd: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   isAddDisabled: PropTypes.bool.isRequired,

@@ -12,6 +12,7 @@ const CognitiveForm = ({
     <Row>
       <Col span={13}>
         <Form.Item label="Cognitive Test Result">
+          <p>Record here the patient test result, you can add and remove domains to suit your test.</p>
           <TestInput {...cognitive} />
         </Form.Item>
       </Col>
