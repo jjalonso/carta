@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import TestInputPresentational from './TestInput';
 
 const TestInput = ({
-  value,
   onChange,
+  value,
 }) => {
   const [state, setState] = useState(value);
 
@@ -55,6 +55,7 @@ TestInput.propTypes = {
       maxScore: PropTypes.number,
     }),
   ),
+  
 };
 
 TestInput.defaultProps = {

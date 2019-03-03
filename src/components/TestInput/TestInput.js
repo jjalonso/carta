@@ -96,7 +96,6 @@ const TestInput = ({
 
 TestInput.propTypes = {
   data: PropTypes.shape({
-    key: PropTypes.number,
     domain: PropTypes.string,
     score: PropTypes.number,
     maxScore: PropTypes.number,
