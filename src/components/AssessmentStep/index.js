@@ -21,32 +21,33 @@ const AssessmentStep = ({
     layout="horizontal"
     onSubmit={() => {}}
   >
-    <Row>
+    <div className={styles.content}>
       {children}
-    </Row>
+    </div>
 
-    <Row
-      type="flex"
-      justify="end"
-      className={styles.buttons}
-    >
+    <Row className={styles.buttons}>
+      <Col
+        span={12}
+        className={styles.left}
+      >
+        {
+          currentStep !== 1
+          && (
+          <Button
+            type="primary"
+            onClick={previousStep}
+          >
+            <Icon type="left" />
+            Back
+          </Button>
+          )
+        }
+      </Col>
 
-      {
-        currentStep !== 1
-        && (
-          <Col span={3}>
-            <Button
-              type="primary"
-              onClick={previousStep}
-            >
-              <Icon type="left" />
-              Back
-            </Button>
-          </Col>
-        )
-      }
-
-      <Col span={3}>
+      <Col
+        span={12}
+        className={styles.right}
+      >
         <Button
           type="primary"
           onClick={nextStep}
@@ -69,7 +70,7 @@ AssessmentStep.propTypes = {
 };
 
 AssessmentStep.defaultProps = {
-  currentStep: 1,
+  currentStep: 0,
   previousStep: () => {},
   nextStep: () => {},
   children: [],

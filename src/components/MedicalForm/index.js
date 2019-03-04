@@ -6,7 +6,6 @@ import {
   Form,
   Select,
   Spin,
-  Empty,
 } from 'antd';
 
 import styles from './MedicalForm.module.css';
@@ -58,6 +57,23 @@ const MedicalForm = ({
           </Col>
 
           <Col span={24}>
+            <Form.Item label="Current Medication">
+              <Select
+                mode="multiple"
+                // labelInValue
+                filterOption={false}
+                placeholder="Search by medicament name"
+                notFoundContent={isFetching ? <Spin className={styles.medicationSpin} size="small" /> : undefined}
+                onSearch={fetchMedication}
+                onBlur={onBlur}
+                {...medication}
+              >
+                {medicationData.map(med => <Select.Option key={med.id}>{med.name}</Select.Option>)}
+              </Select>
+            </Form.Item>
+          </Col>
+
+          <Col span={24}>
             <Form.Item label="Presenting Problems">
               <Select
                 mode="tags"
@@ -73,23 +89,6 @@ const MedicalForm = ({
                 <Select.Option value="unable to retain information">Unable to retain information</Select.Option>
                 <Select.Option value="cooking issues">Cooking issues</Select.Option>
                 <Select.Option value="loosing items">Loosing items</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-
-          <Col span={24}>
-            <Form.Item label="Current Medication">
-              <Select
-                mode="multiple"
-                // labelInValue
-                filterOption={false}
-                placeholder="Search by medicament name"
-                notFoundContent={isFetching ? <Spin className={styles.medicationSpin} size="small" /> : <Empty />}
-                onSearch={fetchMedication}
-                onBlur={onBlur}
-                {...medication}
-              >
-                {medicationData.map(med => <Select.Option key={med.id}>{med.name}</Select.Option>)}
               </Select>
             </Form.Item>
           </Col>

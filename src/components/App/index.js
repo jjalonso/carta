@@ -1,5 +1,5 @@
 import 'antd/dist/antd.css';
-import React from 'react';
+import React, { useState } from 'react';
 import StepWizard from 'react-step-wizard';
 import {
   Row,
@@ -10,20 +10,20 @@ import {
 } from 'antd';
 
 import styles from './App.module.css';
-import AssessmentSteps from '../AssessmentSteps';
+import NavSteps from '../NavSteps';
 import IntroForm from '../IntroForm';
+import MedicalForm from '../MedicalForm';
+import PersonalForm from '../PersonalForm';
+import TestsForm from '../TestsForm';
+import AssessmentStep from '../AssessmentStep';
 import {
   useFormTarget,
   useFormValue,
   useFormCheckbox,
 } from '../../hooks/useForm';
-import MedicalForm from '../MedicalForm';
-import PersonalForm from '../PersonalForm';
-import ExaminationForm from '../ExaminationForm';
-import CognitiveForm from '../CognitiveForm';
-import AssessmentStep from '../AssessmentStep';
 
 const App = () => {
+  const [navSteps, setNavSteps] = useState(0);
   const title = useFormValue();
   const name = useFormTarget();
   const date = useFormValue();
@@ -38,9 +38,11 @@ const App = () => {
   const isDegreeIncompleted = useFormCheckbox(true);
   const living = useFormValue();
   const totalChildren = useFormValue(0);
-  const activities = useFormValue('');
-  const examination = useFormValue('');
+  const activities = useFormValue();
+  const examinationNotes = useFormValue();
   const cognitive = useFormValue();
+  const cognitiveNotes = useFormValue();
+
 
   return (
     <Layout className="layout">
@@ -58,13 +60,13 @@ const App = () => {
 
       <Layout.Content className={styles.content}>
         <Row>
-          <Col span={16} offset={4}>
-            <AssessmentSteps
-              current={1}
+          <Col span={20} offset={2}>
+            <NavSteps
+              current={navSteps}
             />
           </Col>
           <Col span={24}>
-            <StepWizard>
+            <StepWizard onStepChange={({ activeStep }) => setNavSteps(activeStep - 1)}>
               <AssessmentStep>
                 <IntroForm
                   title={title}
@@ -93,19 +95,15 @@ const App = () => {
                 />
               </AssessmentStep>
               <AssessmentStep>
-                <ExaminationForm
-                  examination={examination}
-                />
-              </AssessmentStep>
-              <AssessmentStep>
-                <CognitiveForm
+                <TestsForm
+                  examinationNotes={examinationNotes}
                   cognitive={cognitive}
+                  cognitiveNotes={cognitiveNotes}
                 />
               </AssessmentStep>
             </StepWizard>
           </Col>
         </Row>
-
       </Layout.Content>
 
       <Layout.Footer className={styles.footer}>

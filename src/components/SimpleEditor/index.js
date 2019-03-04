@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BraftEditor from 'braft-editor';
+import BraftEditor, { EditorState } from 'braft-editor';
 import 'braft-editor/dist/index.css';
 
 import styles from './SimpleEditor.module.css';
@@ -20,7 +20,7 @@ const SimpleEditor = ({
   ];
 
   return (
-    <div className={styles.editorContainer}>
+    <div className={styles.simpleEditor}>
       <BraftEditor
         language="en"
         fontSizes={[12]}
@@ -36,15 +36,15 @@ const SimpleEditor = ({
 
 SimpleEditor.propTypes = {
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.instanceOf(EditorState),
   placeholder: PropTypes.string,
   contentClassName: PropTypes.string,
 };
 
 SimpleEditor.defaultProps = {
   onChange: () => {},
-  value: undefined,
-  contentClassName: undefined,
+  value: BraftEditor.createEditorState(),
+  contentClassName: '',
   placeholder: '',
 };
 

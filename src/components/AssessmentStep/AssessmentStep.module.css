@@ -1,9 +1,20 @@
 
 .assessmentStep {
-  min-height: 400px;
   padding: 0 150px;
+}
+
+.content {
+  min-height: 350px;
 }
 
 .buttons {
   margin-top: 40px;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
 }

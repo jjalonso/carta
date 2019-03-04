@@ -11,6 +11,7 @@ import {
 
 import styles from './IntroForm.module.css';
 import { useFormPropType } from '../../hooks/useForm';
+import CompanyWidget from '../CompanyWidget';
 
 
 const IntroForm = ({
@@ -67,23 +68,9 @@ const IntroForm = ({
     <Row>
       <Col span={12}>
         <Form.Item label="Assessment Company">
-          <Select
-            mode="multiple"
-            placeholder="Select company"
+          <CompanyWidget
             {...company}
-          >
-            <Select.Option value="husband">Husband</Select.Option>
-            <Select.Option value="wife">Wife</Select.Option>
-            <Select.Option value="partner">Partner</Select.Option>
-            <Select.Option value="daughter">Daughter</Select.Option>
-            <Select.Option value="son">Son</Select.Option>
-            <Select.Option value="mother">Mother</Select.Option>
-            <Select.Option value="father">Father</Select.Option>
-            <Select.Option value="friend">Friend</Select.Option>
-            <Select.Option value="cousin">Cousin</Select.Option>
-            <Select.Option value="uncle">Uncle</Select.Option>
-            <Select.Option value="aunt">Aunt</Select.Option>
-          </Select>
+          />
         </Form.Item>
       </Col>
     </Row>
