@@ -15,34 +15,16 @@ import IntroForm from '../IntroForm';
 import MedicalForm from '../MedicalForm';
 import PersonalForm from '../PersonalForm';
 import TestsForm from '../TestsForm';
-import AssessmentStep from '../AssessmentStep';
-import {
-  useFormTarget,
-  useFormValue,
-  useFormCheckbox,
-} from '../../hooks/useForm';
+import initialState from './initial-state';
 
 const App = () => {
   const [navSteps, setNavSteps] = useState(0);
-  const title = useFormValue();
-  const name = useFormTarget();
-  const date = useFormValue();
-  const company = useFormValue();
-  const place = useFormTarget('clinic');
-  const problems = useFormValue();
-  const conditions = useFormValue();
-  const medication = useFormValue();
-  const country = useFormValue();
-  const emigrationYear = useFormValue();
-  const degree = useFormTarget();
-  const isDegreeIncompleted = useFormCheckbox(true);
-  const living = useFormValue();
-  const totalChildren = useFormValue(0);
-  const activities = useFormValue();
-  const examinationNotes = useFormValue();
-  const cognitive = useFormValue();
-  const cognitiveNotes = useFormValue();
+  // TODO: Global Context/reducer mechamism
+  const [state] = useState(initialState); // Initial state is only for development purpose
 
+  const handleStepChange = ({ activeStep }) => {
+    setNavSteps(activeStep - 1);
+  };
 
   return (
     <Layout className="layout">
@@ -60,47 +42,47 @@ const App = () => {
 
       <Layout.Content className={styles.content}>
         <Row>
-          <Col span={20} offset={2}>
+          <Col span={24}>
             <NavSteps
               current={navSteps}
             />
           </Col>
           <Col span={24}>
-            <StepWizard onStepChange={({ activeStep }) => setNavSteps(activeStep - 1)}>
-              <AssessmentStep>
-                <IntroForm
-                  title={title}
-                  name={name}
-                  date={date}
-                  company={company}
-                  place={place}
-                />
-              </AssessmentStep>
-              <AssessmentStep>
-                <MedicalForm
-                  problems={problems}
-                  conditions={conditions}
-                  medication={medication}
-                />
-              </AssessmentStep>
-              <AssessmentStep>
-                <PersonalForm
-                  country={country}
-                  emigrationYear={emigrationYear}
-                  degree={degree}
-                  isDegreeIncompleted={isDegreeIncompleted}
-                  living={living}
-                  totalChildren={totalChildren}
-                  activities={activities}
-                />
-              </AssessmentStep>
-              <AssessmentStep>
-                <TestsForm
-                  examinationNotes={examinationNotes}
-                  cognitive={cognitive}
-                  cognitiveNotes={cognitiveNotes}
-                />
-              </AssessmentStep>
+            <StepWizard onStepChange={handleStepChange}>
+              <IntroForm
+                state={{
+                  title: state.title,
+                  name: state.name,
+                  companion: state.companion,
+                  date: state.date,
+                  place: state.place,
+                }}
+              />
+              <MedicalForm
+                state={{
+                  conditions: state.conditions,
+                  medication: state.medication,
+                  problems: state.problems,
+                }}
+              />
+              <PersonalForm
+                state={{
+                  country: state.country,
+                  emigrationYear: state.emigrationYear,
+                  degree: state.degree,
+                  isDegreeIncompleted: state.isDegreeIncompleted,
+                  living: state.living,
+                  totalChildren: state.totalChildren,
+                  activities: state.activities,
+                }}
+              />
+              <TestsForm
+                state={{
+                  examination: state.examination,
+                  cognitive: state.cognitive,
+                  cognitiveNotes: state.cognitiveNotes,
+                }}
+              />
             </StepWizard>
           </Col>
         </Row>

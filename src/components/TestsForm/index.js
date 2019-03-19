@@ -1,51 +1,69 @@
 import React from 'react';
-import { Form, Row, Col } from 'antd';
-import { useFormPropType } from '../../hooks/useForm';
+import PropTypes from 'prop-types';
 
-import styles from './TestsForm.module.css';
-import SimpleEditor from '../SimpleEditor';
-import CognitiveWidget from '../CognitiveWidget';
+import TestsForm from './TestsForm';
+import StepButtons from '../StepButtons';
+import { useField } from '../../hooks/useField';
+import useValidation from '../../hooks/useValidation';
+import schema from './schema';
 
-const TestsForm = ({
-  examinationNotes,
-  cognitive,
-  cognitiveNotes,
-}) => (
-  <>
-    <Row className={styles.section}>
-      <Col span={24}>
-        <Form.Item label="Mental health examination">
-          <SimpleEditor
-            contentClassName={styles.notepad}
-            placeholder="Describe the patient mental health examination"
-            {...examinationNotes}
-          />
-        </Form.Item>
-      </Col>
-    </Row>
-    <Row className={styles.section}>
-      <Col span={8}>
-        <Form.Item label="Cognitive Test Result">
-          <CognitiveWidget {...cognitive} />
-        </Form.Item>
-      </Col>
-      <Col offset={1} span={15}>
-        <Form.Item label="Aditional notes">
-          <SimpleEditor
-            contentClassName={styles.notepad}
-            placeholder="Describe other cognitive test observations"
-            {...cognitiveNotes}
-          />
-        </Form.Item>
-      </Col>
-    </Row>
-  </>
-);
+const TestFormContainer = ({
+  state,
+  currentStep,
+  totalSteps,
+  nextStep,
+  previousStep,
+}) => {
+  const examination = useField(state.examination);
+  const cognitive = useField(state.cognitive);
+  const cognitiveNotes = useField(state.cognitiveNotes);
 
-TestsForm.propTypes = {
-  examinationNotes: useFormPropType.isRequired,
-  cognitive: useFormPropType.isRequired,
-  cognitiveNotes: useFormPropType.isRequired,
+  const fields = {
+    examination,
+    cognitive,
+    cognitiveNotes,
+  };
+
+  const [fieldsState, validate] = useValidation(fields);
+
+  const isFirstStep = currentStep !== 1;
+  const isLastStep = currentStep === totalSteps;
+
+  const handleSubmit = () => {
+    const validated = validate(schema);
+    if (validated) {
+      nextStep();
+    }
+  };
+
+  return (
+    <>
+      <TestsForm
+        fieldsState={fieldsState}
+        fields={fields}
+      />
+      <StepButtons
+        isFirstStep={isFirstStep}
+        isLastStep={isLastStep}
+        onNextStep={handleSubmit}
+        onPreviousStep={previousStep}
+      />
+    </>
+  );
 };
 
-export default TestsForm;
+TestFormContainer.propTypes = {
+  currentStep: PropTypes.number,
+  totalSteps: PropTypes.number,
+  nextStep: PropTypes.func,
+  previousStep: PropTypes.func,
+};
+
+TestFormContainer.defaultProps = {
+  currentStep: 0,
+  totalSteps: 0,
+  nextStep: () => {},
+  previousStep: () => {},
+};
+
+export default TestFormContainer;

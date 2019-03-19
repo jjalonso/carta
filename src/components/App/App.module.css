@@ -7,7 +7,7 @@
 
 .content {
   composes: maxWidth;
-  padding: 50px;
+  padding: 50px 200px;
   background: white;
 }
 
@@ -21,6 +21,10 @@
   text-align: center;
 }
 
+:global(.ant-form-explain) {
+  font-size: 12px;
+  padding-top: 3px;  
+}
 /* .main {
   background: white;
   min-height: 300px;

@@ -1,0 +1,22 @@
+
+.tag {
+  font-size: 14px;
+  height: 30px;
+  line-height: 28px;
+  cursor: default;
+}
+
+.newTag {
+  composes: tag;
+  background: #fff;
+  border-style: dashed;
+  cursor: pointer;
+}
+
+.newIcon {
+  margin-right: 5px;
+}
+
+.input {
+  width: 215px !important;
+}

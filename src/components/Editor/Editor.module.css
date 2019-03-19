@@ -1,0 +1,13 @@
+:global(.has-error) .editor {
+  border-color: red;
+}
+
+.editor {
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+  margin-top: 4px;
+}
+
+.content {
+  font-size: 14px !important;
+}

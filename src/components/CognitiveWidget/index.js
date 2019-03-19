@@ -38,7 +38,7 @@ const CognitiveWidget = ({
             <Col span={7}>
               <InputNumber
                 className={styles.scoreInput}
-                min={0}
+                min={1}
                 max={100}
                 placeholder="Max Score"
                 onChange={v => handleChange(index, 'maxScore', v)}
@@ -56,8 +56,14 @@ CognitiveWidget.propTypes = {
   value: PropTypes.arrayOf(
     PropTypes.shape({
       domain: PropTypes.string,
-      score: PropTypes.number, // TODO: when writing letter it thrown an exception!
-      maxScore: PropTypes.number, // TODO: when writing letter it thrown an exception!
+      score: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
+      maxScore: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
     }),
   ),
   onChange: PropTypes.func,

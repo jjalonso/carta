@@ -1,140 +1,91 @@
 import React from 'react';
-import worldCountries from 'world-countries';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import PersonalForm from './PersonalForm';
+import StepButtons from '../StepButtons';
 import {
-  Row,
-  Col,
-  Form,
-  Select,
-  Checkbox,
-  Input,
-  InputNumber,
-} from 'antd';
+  useField,
+  useFieldValue,
+  useFieldCheckbox,
+} from '../../hooks/useField';
+import useValidation from '../../hooks/useValidation';
+import schema from './schema';
 
-import styles from './PersonalForm.module.css';
-import { useFormPropType } from '../../hooks/useForm';
-import SimpleEditor from '../SimpleEditor';
-
-const countries = worldCountries
-  .map(country => country.name.common)
-  .sort();
-
-const PersonalForm = ({
-  country,
-  emigrationYear,
-  degree,
-  isDegreeIncompleted,
-  living,
-  totalChildren,
-  activities,
+const PersonalFormContainer = ({
+  state,
+  currentStep,
+  totalSteps,
+  nextStep,
+  previousStep,
 }) => {
+  const country = useField(state.country);
+  const emigrationYear = useField(state.emigrationYear);
+  const degree = useFieldValue(state.degree);
+  const isDegreeIncompleted = useFieldCheckbox(state.isDegreeIncompleted);
+  const living = useField(state.living);
+  const totalChildren = useField(state.totalChildren);
+  const activities = useField(state.activities);
+
+  const fields = {
+    country,
+    emigrationYear,
+    degree,
+    isDegreeIncompleted,
+    living,
+    totalChildren,
+    activities,
+  };
+
+  const [fieldsState, validate] = useValidation(fields);
+
+  const isFirstStep = currentStep !== 1;
+  const isLastStep = currentStep === totalSteps;
   const maxEmigrationYear = moment().year();
   const minEmigrationYear = maxEmigrationYear - 100;
+  const isEmigrationYearDisabled = country.value === 'United Kingdom' || !country.value;
+  const isDegreeIncompletedDisabled = !degree.value;
+
+  const handleSubmit = () => {
+    // TODO: Update global state
+    const validated = validate(schema);
+    if (validated) {
+      nextStep();
+    }
+  };
 
   return (
     <>
-      <Row>
-        <Col span={12}>
-
-          <Col span={12}>
-            <Form.Item label="Birth Country">
-              <Select
-                showSearch
-                placeholder="Select country"
-                {...country}
-              >
-                {countries.map(name => <Select.Option key={name}>{name}</Select.Option>)}
-              </Select>
-            </Form.Item>
-          </Col>
-
-          <Col offset={2} span={10}>
-            <Form.Item label="Emigration year">
-              <InputNumber
-                className={styles.children}
-                disabled={country.value === 'United Kingdom' || !country.value}
-                min={minEmigrationYear}
-                max={maxEmigrationYear}
-                {...emigrationYear}
-              />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item label="Studies">
-              <Input
-                placeholder="Enter degree name"
-                {...degree}
-              />
-            </Form.Item>
-          </Col>
-
-          <Col offset={2} span={10}>
-            <Form.Item label="Studies status">
-              <Checkbox
-                disabled={!degree.value}
-                {...isDegreeIncompleted}
-              >
-                Degree incompleted
-              </Checkbox>
-            </Form.Item>
-          </Col>
-
-          <Col span={15}>
-            <Form.Item label="Living with">
-              <Select
-                mode="multiple"
-                placeholder="Select members"
-                {...living}
-              >
-                <Select.Option value="husband">Husband</Select.Option>
-                <Select.Option value="wife">Wife</Select.Option>
-                <Select.Option value="partner">Partner</Select.Option>
-                <Select.Option value="children">Children</Select.Option>
-                <Select.Option value="parent">Parent</Select.Option>
-                <Select.Option value="friend">Friend</Select.Option>
-                <Select.Option value="family">Family</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-
-          <Col offset={2} span={7}>
-            <Form.Item label="Total children">
-              <InputNumber
-                className={styles.children}
-                min={0}
-                max={100}
-                {...totalChildren}
-              />
-            </Form.Item>
-          </Col>
-
-        </Col>
-
-        <Col offset={1} span={11}>
-          <Form.Item label="Activities">
-            <SimpleEditor
-              contentClassName={styles.activities}
-              placeholder="Describe patient activities"
-              {...activities}
-            />
-          </Form.Item>
-        </Col>
-      </Row>
-
+      <PersonalForm
+        isDegreeIncompletedDisabled={isDegreeIncompletedDisabled}
+        isEmigrationYearDisabled={isEmigrationYearDisabled}
+        maxEmigrationYear={maxEmigrationYear}
+        minEmigrationYear={minEmigrationYear}
+        fieldsState={fieldsState}
+        fields={fields}
+      />
+      <StepButtons
+        isFirstStep={isFirstStep}
+        isLastStep={isLastStep}
+        onNextStep={handleSubmit}
+        onPreviousStep={previousStep}
+      />
     </>
   );
 };
 
-PersonalForm.propTypes = {
-  country: useFormPropType.isRequired,
-  emigrationYear: useFormPropType.isRequired,
-  degree: useFormPropType.isRequired,
-  isDegreeIncompleted: useFormPropType.isRequired,
-  living: useFormPropType.isRequired,
-  totalChildren: useFormPropType.isRequired,
-  activities: useFormPropType.isRequired,
+PersonalFormContainer.propTypes = {
+  currentStep: PropTypes.number,
+  totalSteps: PropTypes.number,
+  nextStep: PropTypes.func,
+  previousStep: PropTypes.func,
 };
 
-export default PersonalForm;
+PersonalFormContainer.defaultProps = {
+  currentStep: 0,
+  totalSteps: 0,
+  nextStep: () => {},
+  previousStep: () => {},
+};
+
+export default PersonalFormContainer;

@@ -9,11 +9,10 @@ const NavSteps = ({ current }) => (
     current={current}
     className={styles.navSteps}
   >
-    <Steps.Step title="Assessment" description="Patient introduction." />
+    <Steps.Step title="Start" description="Patient introduction." />
     <Steps.Step title="Health" description="Medical information." />
     <Steps.Step title="Personal" description="Patient background." />
     <Steps.Step title="Tests" description="Tests results." />
-
     <Steps.Step title="Conclusion" description="Design your plan." />
     <Steps.Step title="Letter" description="Magic happens" />
   </Steps>

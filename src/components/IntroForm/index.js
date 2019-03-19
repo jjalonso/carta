@@ -1,88 +1,75 @@
 import React from 'react';
-import {
-  Row,
-  Col,
-  Input,
-  Form,
-  Select,
-  DatePicker,
-  Radio,
-} from 'antd';
+import PropTypes from 'prop-types';
 
-import styles from './IntroForm.module.css';
-import { useFormPropType } from '../../hooks/useForm';
-import CompanyWidget from '../CompanyWidget';
+import IntroForm from './IntroForm';
+import StepButtons from '../StepButtons';
+import { useField, useFieldValue } from '../../hooks/useField';
+import useValidation from '../../hooks/useValidation';
+import schema from './schema';
 
+const IntroFormContainer = ({
+  state,
+  currentStep,
+  totalSteps,
+  nextStep,
+  previousStep,
+}) => {
+  const title = useField(state.title);
+  const name = useFieldValue(state.name);
+  const companion = useField(state.companion);
+  const date = useField(state.date);
+  const place = useFieldValue(state.place);
 
-const IntroForm = ({
-  title,
-  name,
-  date,
-  company,
-  place,
-}) => (
-  <>
-    <Row>
-      <Col span={10}>
-        <Form.Item label="Patient">
-          <Input.Group compact>
-            <Select
-              className={styles.title}
-              placeholder="Title"
-              {...title}
-            >
-              <Select.Option value="Miss">Miss</Select.Option>
-              <Select.Option value="Mrs">Mrs</Select.Option>
-              <Select.Option value="Ms">Ms</Select.Option>
-              <Select.Option value="Mr">Mr</Select.Option>
-            </Select>
-            <Input
-              className={styles.name}
-              placeholder="Patient Name"
-              {...name}
-            />
-          </Input.Group>
-        </Form.Item>
-      </Col>
+  const fields = {
+    title,
+    name,
+    companion,
+    date,
+    place,
+  };
 
-      <Col span={5}>
-        <Form.Item label="Assessment Date">
-          <DatePicker
-            className={styles.date}
-            format="DD-MM-YYYY"
-            {...date}
-          />
-        </Form.Item>
-      </Col>
+  const [fieldsState, validate] = useValidation(fields);
 
-      <Col offset={1} span={8}>
-        <Form.Item label="Assessment Place">
-          <Radio.Group {...place}>
-            <Radio value="clinic">Clinic</Radio>
-            <Radio value="home">Home</Radio>
-          </Radio.Group>
-        </Form.Item>
-      </Col>
-    </Row>
+  const handleSubmit = () => {
+    // TODO: Update global state
+    const validated = validate(schema);
+    if (validated) {
+      nextStep();
+    }
+  };
 
-    <Row>
-      <Col span={12}>
-        <Form.Item label="Assessment Company">
-          <CompanyWidget
-            {...company}
-          />
-        </Form.Item>
-      </Col>
-    </Row>
-  </>
-);
+  const isFirstStep = currentStep !== 1;
+  const isLastStep = currentStep === totalSteps;
 
-IntroForm.propTypes = {
-  title: useFormPropType.isRequired,
-  name: useFormPropType.isRequired,
-  date: useFormPropType.isRequired,
-  place: useFormPropType.isRequired,
-  company: useFormPropType.isRequired,
+  return (
+    <>
+      <IntroForm
+        fieldsState={fieldsState}
+        fields={fields}
+      />
+      <StepButtons
+        isFirstStep={isFirstStep}
+        isLastStep={isLastStep}
+        onNextStep={handleSubmit}
+        onPreviousStep={previousStep}
+      />
+    </>
+  );
 };
 
-export default IntroForm;
+IntroFormContainer.propTypes = {
+  // TODO: state
+  currentStep: PropTypes.number,
+  totalSteps: PropTypes.number,
+  nextStep: PropTypes.func,
+  previousStep: PropTypes.func,
+};
+
+IntroFormContainer.defaultProps = {
+  currentStep: 0,
+  totalSteps: 0,
+  nextStep: () => {},
+  previousStep: () => {},
+};
+
+export default IntroFormContainer;
