@@ -7,3 +7,12 @@
   width: 100%;
 }
 
+.sideImage {
+  padding: 0 110px;
+  width: 100%;
+}
+
+.imageContainer {
+  display: flex;
+  align-items: center;
+}

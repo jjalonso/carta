@@ -3,23 +3,32 @@ import React from 'react';
 import { Steps } from 'antd';
 import styles from './NavSteps.module.css';
 
-const NavSteps = ({ current }) => (
+const NavSteps = ({
+  current,
+  options,
+}) => (
   <Steps
     progressDot
     current={current}
     className={styles.navSteps}
   >
-    <Steps.Step title="Start" description="Patient introduction." />
-    <Steps.Step title="Health" description="Medical information." />
-    <Steps.Step title="Personal" description="Patient background." />
-    <Steps.Step title="Tests" description="Tests results." />
-    <Steps.Step title="Conclusion" description="Design your plan." />
-    <Steps.Step title="Letter" description="Magic happens" />
+    { options.map(opt => (
+      <Steps.Step
+        key={opt.title}
+        title={opt.title}
+        description={opt.description}
+      />
+    ))}
+
   </Steps>
 );
 
 NavSteps.propTypes = {
   current: PropTypes.number.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string,
+    descriptipn: PropTypes.string,
+  })).isRequired,
 };
 
 export default NavSteps;

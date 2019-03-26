@@ -34,8 +34,7 @@ export default yup.object().shape({
   totalChildren: yup
     .string()
     .label(' ')
-    .nullable()
-    .required(),
+    .notRequired(),
   activities: yup
     .object()
     .label(' ')

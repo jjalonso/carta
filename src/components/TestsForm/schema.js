@@ -20,12 +20,4 @@ export default yup.object().shape({
         ...value.map(item => item.maxScore),
       ].every(v => !(v === null)),
     ),
-  cognitiveNotes: yup
-    .object()
-    .label(' ')
-    .test(
-      'required',
-      'is a required field',
-      value => !value.isEmpty(),
-    ),
 });

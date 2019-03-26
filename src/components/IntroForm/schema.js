@@ -9,7 +9,8 @@ export default yup.object().shape({
     .string()
     .label(' ')
     .required(),
-  date: yup.string()
+  date: yup
+    .string()
     .label(' ')
     .required()
     .ensure(),
@@ -21,4 +22,16 @@ export default yup.object().shape({
     .string()
     .label(' ')
     .notRequired(),
+  conditions: yup
+    .array()
+    .label(' ')
+    .notRequired(),
+  medication: yup
+    .array()
+    .label(' ')
+    .notRequired(),
+  problems: yup
+    .array()
+    .label(' ')
+    .required(),
 });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Row,
   Col,
@@ -52,11 +52,10 @@ const MedicalForm = ({
 
         <Col span={24}>
           <Form.Item
-            labelCol={{ span: 7 }}
             label="Patient problems"
             {...fieldsState.problems}
           >
-            <Col span={17}>
+            <Col span={7}>
               <FieldHelp text="You can select a problem from the list or create a new one" />
             </Col>
             <TagsSelect

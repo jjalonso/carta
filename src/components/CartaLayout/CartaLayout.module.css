@@ -1,0 +1,52 @@
+:global(body) {
+  background: #24243A;
+}
+
+.maxWidth {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.requestHelp {
+  margin: 16px 35px;
+  float: right;
+  color: #24243A;
+}
+
+.requestHelp:hover {
+  color: #24243A;
+}
+
+.logo {
+  margin: 21px 35px;
+  float: left;
+}
+
+.wrapper {
+  composes: maxWidth;
+}
+
+.content {
+  composes: maxWidth;
+  min-height: 1000px;
+  padding: 50px 200px;
+  background: white;
+}
+
+.header {
+  /* composes: maxWidth; */
+  /* line-height: 64px; */
+}
+
+.menu {
+  /* composes: maxWidth; */
+  line-height: 64px;
+}
+
+.footer {
+  text-align: center;
+  height:230px;
+  color: #5EC1A1;
+}

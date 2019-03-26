@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Input,
-  Tag,
-  Tooltip,
-  Icon,
-} from 'antd';
 
-import styles from './TagsInput.module.css';
+import TagsInput from './TagsInput';
 
 const TagsInputContainer = ({
   newLabel,
@@ -36,7 +29,7 @@ const TagsInputContainer = ({
     setInputVisible(true);
   };
 
-  const handleTyping = (e) => {
+  const handleChange = (e) => {
     setInputValue(e.target.value);
   };
 
@@ -53,65 +46,36 @@ const TagsInputContainer = ({
   };
 
   return (
-    <>
-      {value.map((v) => {
-        const isLongTag = v.length > maxCharacters;
-        const tagElem = (
-          <Tag
-            closable
-            className={styles.tag}
-            key={v}
-            afterClose={() => handleTagClose(v)}
-          >
-            {isLongTag ? `${v.slice(0, maxCharacters)}...` : v}
-          </Tag>
-        );
-        return isLongTag ? <Tooltip title={v} key={v}>{tagElem}</Tooltip> : tagElem;
-      })}
-
-      { !inputVisible && (
-        <Tag
-          className={styles.newTag}
-          onClick={showInput}
-        >
-          <Icon
-            className={styles.newIcon}
-            type="plus"
-          />
-          {newLabel}
-        </Tag>
-      )}
-
-      { inputVisible && (
-        <Input
-          type="text"
-          ref={inputRef}
-          placeholder={placeholder}
-          className={styles.input}
-          value={inputValue}
-          onChange={handleTyping}
-          onBlur={addValue}
-          onPressEnter={addValue}
-        />
-      )}
-    </>
+    <TagsInput
+      newLabel={newLabel}
+      maxCharacters={maxCharacters}
+      placeholder={placeholder}
+      inputVisible={inputVisible}
+      value={value}
+      inputRef={inputRef}
+      inputValue={inputValue}
+      onChange={handleChange}
+      addValue={addValue}
+      showInput={showInput}
+      handleTagClose={handleTagClose}
+    />
   );
 };
 
-TagsInputContainer.propTypes = {
-  maxCharacters: PropTypes.number,
-  newLabel: PropTypes.string,
-  placeholder: PropTypes.string,
-  value: PropTypes.arrayOf(PropTypes.string),
-  onChange: PropTypes.func,
-};
+// TagsInputContainer.propTypes = {
+//   maxCharacters: PropTypes.number,
+//   newLabel: PropTypes.string,
+//   placeholder: PropTypes.string,
+//   value: PropTypes.arrayOf(PropTypes.string),
+//   onChange: PropTypes.func,
+// };
 
-TagsInputContainer.defaultProps = {
-  maxCharacters: 35,
-  newLabel: 'New',
-  placeholder: '',
-  value: [],
-  onChange: () => {},
-};
+// TagsInputContainer.defaultProps = {
+//   maxCharacters: 35,
+//   newLabel: 'New',
+//   placeholder: '',
+//   value: [],
+//   onChange: () => {},
+// };
 
 export default TagsInputContainer;

@@ -16,12 +16,16 @@ const TestFormContainer = ({
 }) => {
   const examination = useField(state.examination);
   const cognitive = useField(state.cognitive);
-  const cognitiveNotes = useField(state.cognitiveNotes);
+  const riskSelf = useField(state.riskSelf);
+  const riskOthers = useField(state.riskOthers);
+  const riskXtras = useField(state.riskXtras);
 
   const fields = {
     examination,
     cognitive,
-    cognitiveNotes,
+    riskSelf,
+    riskOthers,
+    riskXtras,
   };
 
   const [fieldsState, validate] = useValidation(fields);

@@ -4,14 +4,19 @@
   "private": true,
   "dependencies": {
     "antd": "^3.14.1",
+    "babel-plugin-import": "^1.11.0",
     "braft-editor": "^2.2.9",
     "classnames": "^2.2.6",
+    "customize-cra": "^0.2.12",
     "debounce": "^1.2.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
+    "react-app-rewired": "^2.1.1",
     "react-dom": "^16.8.4",
-    "react-input-autosize": "^2.2.1",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "^2.1.8",
     "react-step-wizard": "^5.0.0",
     "world-countries": "^2.1.0",
@@ -19,9 +24,9 @@
   },
   "scripts": {
     "lint": "eslint ./src --ext .js",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

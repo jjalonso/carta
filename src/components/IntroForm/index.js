@@ -19,6 +19,9 @@ const IntroFormContainer = ({
   const companion = useField(state.companion);
   const date = useField(state.date);
   const place = useFieldValue(state.place);
+  const conditions = useField(state.conditions);
+  const medication = useField(state.medication);
+  const problems = useField(state.problems);
 
   const fields = {
     title,
@@ -26,6 +29,9 @@ const IntroFormContainer = ({
     companion,
     date,
     place,
+    conditions,
+    medication,
+    problems,
   };
 
   const [fieldsState, validate] = useValidation(fields);

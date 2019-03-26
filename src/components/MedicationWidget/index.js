@@ -29,7 +29,7 @@ const MedicationWidget = ({
             .filter(med => med.type === 'product format')
             .slice(0, 50)
             .map(med => med.name.replace(/_/g, ' '))
-            // Duplication
+            // Filter Duplication
             .filter((med, i, array) => array.indexOf(med) === i),
         );
       });

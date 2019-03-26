@@ -7,7 +7,7 @@ import moment from 'moment';
 export default {
   title: 'Mr',
   name: 'Juan',
-  companion: ['Perpetua', 'Wife'],
+  companion: ['Wife'],
   place: 'clinic',
   date: moment(),
   conditions: ['Diabetes type I'],
@@ -17,8 +17,8 @@ export default {
   emigrationYear: '1987',
   degree: 'Mental Health Nursing',
   isDegreeIncompleted: true,
-  living: ['Godfather', 'Superman'],
-  totalChildren: '2',
+  living: ['Superman'],
+  totalChildren: '3',
   activities: BraftEditor.createEditorState('<p>Cositas varias</p>'),
   examination: BraftEditor.createEditorState('<p>Lo examinanos</p>'),
   cognitive: [
@@ -28,5 +28,7 @@ export default {
     { domain: 'Language', score: 12, maxScore: 20 },
     { domain: 'Visuospatial', score: 15, maxScore: 20 },
   ],
-  cognitiveNotes: BraftEditor.createEditorState('<p>Tomaya la nota del payo</p>'),
+  riskSelf: 1,
+  riskOthers: 2,
+  riskXtras: 3,
 };
