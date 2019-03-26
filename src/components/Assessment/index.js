@@ -13,8 +13,8 @@ import NavSteps from '../NavSteps';
 import IntroForm from '../IntroForm';
 import PersonalForm from '../PersonalForm';
 import TestsForm from '../TestsForm';
-import initialState from './initial-state';
-// import initialState from './empty-state';
+// import initialState from './initial-state';
+import initialState from './empty-state';
 
 const Assessment = () => {
   const [navStep, setNavStep] = useState(0);
