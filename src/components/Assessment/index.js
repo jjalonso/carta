@@ -61,6 +61,7 @@ const Assessment = () => {
       <MessengerCustomerChat
         pageId="2029102333853119"
         appId="163164767920929"
+        themeColor="#5EC1A1"
       />
       <Row>
         <Col span={24}>
