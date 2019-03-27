@@ -7,6 +7,7 @@ import {
   Icon,
   notification,
 } from 'antd';
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 import styles from './Assessment.module.css';
 import NavSteps from '../NavSteps';
@@ -56,50 +57,56 @@ const Assessment = () => {
 
 
   return (
-    <Row>
-      <Col span={24}>
-        <NavSteps
-          current={navStep}
-          options={stepsOptions}
-        />
-      </Col>
-      <Col span={24}>
-        <StepWizard onStepChange={handleStepChange}>
-          <IntroForm
-            state={{
-              title: state.title,
-              name: state.name,
-              companion: state.companion,
-              date: state.date,
-              place: state.place,
-              conditions: state.conditions,
-              medication: state.medication,
-              problems: state.problems,
-            }}
+    <>
+      <MessengerCustomerChat
+        pageId="2029102333853119"
+        appId="163164767920929"
+      />
+      <Row>
+        <Col span={24}>
+          <NavSteps
+            current={navStep}
+            options={stepsOptions}
           />
-          <PersonalForm
-            state={{
-              country: state.country,
-              emigrationYear: state.emigrationYear,
-              degree: state.degree,
-              isDegreeIncompleted: state.isDegreeIncompleted,
-              living: state.living,
-              totalChildren: state.totalChildren,
-              activities: state.activities,
-            }}
-          />
-          <TestsForm
-            state={{
-              examination: state.examination,
-              cognitive: state.cognitive,
-              riskSelf: state.riskSelf,
-              riskOthers: state.riskOthers,
-              riskXtras: state.riskXtras,
-            }}
-          />
-        </StepWizard>
-      </Col>
-    </Row>
+        </Col>
+        <Col span={24}>
+          <StepWizard onStepChange={handleStepChange}>
+            <IntroForm
+              state={{
+                title: state.title,
+                name: state.name,
+                companion: state.companion,
+                date: state.date,
+                place: state.place,
+                conditions: state.conditions,
+                medication: state.medication,
+                problems: state.problems,
+              }}
+            />
+            <PersonalForm
+              state={{
+                country: state.country,
+                emigrationYear: state.emigrationYear,
+                degree: state.degree,
+                isDegreeIncompleted: state.isDegreeIncompleted,
+                living: state.living,
+                totalChildren: state.totalChildren,
+                activities: state.activities,
+              }}
+            />
+            <TestsForm
+              state={{
+                examination: state.examination,
+                cognitive: state.cognitive,
+                riskSelf: state.riskSelf,
+                riskOthers: state.riskOthers,
+                riskXtras: state.riskXtras,
+              }}
+            />
+          </StepWizard>
+        </Col>
+      </Row>
+    </>
   );
 };
 
