@@ -30,7 +30,6 @@
 
 .content {
   composes: maxWidth;
-  min-height: 1000px;
   padding: 50px 200px;
   background: white;
 }
@@ -41,12 +40,19 @@
 }
 
 .menu {
-  /* composes: maxWidth; */
   line-height: 64px;
 }
 
 .footer {
   text-align: center;
-  height:230px;
+  color: white;
+  padding: 40px;
+}
+
+.footerHeart {
+  margin: 15px 10px;
+}
+.footerLink {
   color: #5EC1A1;
+  margin: 15px;
 }
