@@ -1,9 +1,12 @@
 /* eslint react/jsx-no-target-blank:  */
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-import { Layout, Icon, Button, Col, Row } from 'antd';
+import {
+  Layout,
+  Icon,
+  Button,
+  Row,
+} from 'antd';
 
 import styles from './CartaLayout.module.css';
 import Assessment from '../Assessment';
@@ -34,9 +37,6 @@ const CartaLayout = () => (
 
     <Layout.Footer className={styles.footer}>
       <div className={styles.wrapper}>
-        {/* <Row>
-          <img className={styles.footerLogo} alt="logo" src="/images/logo.png" />
-        </Row> */}
         <Row>
           <Link className={styles.footerLink} to="/terms">Terms</Link>
           |
