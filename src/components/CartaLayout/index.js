@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import {
   Layout,
   Icon,
-  Button,
   Row,
 } from 'antd';
 
@@ -20,13 +19,13 @@ const CartaLayout = () => (
           target="_blank"
           href="http://m.me/2029102333853119"
         >
-          <Button
+          {/* <Button
             className={styles.requestHelp}
             type="primary"
           >
             <Icon type="message" />
             Get Help
-          </Button>
+          </Button> */}
         </a>
       </div>
     </Layout.Header>

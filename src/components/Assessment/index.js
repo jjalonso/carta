@@ -27,9 +27,9 @@ const Assessment = () => {
       <>
         <p>Carta could still contain errors.</p>
         <p>
-          Please use the&nbsp;
-          <strong>Get Help&nbsp;</strong>
-          button to report an issue.
+          Please click on the&nbsp;
+          <strong>Messenger bubble&nbsp;</strong>
+          on the right-bottom corner to chat with us.
         </p>
       </>
     );
@@ -39,7 +39,6 @@ const Assessment = () => {
       duration: 12,
       message: 'We are under development',
       description: notificationContent,
-      placement: 'bottomLeft',
       className: styles.betaNotification,
     }), 2000);
   }, []);
