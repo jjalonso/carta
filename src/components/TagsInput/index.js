@@ -39,8 +39,9 @@ const TagsInputContainer = ({
   };
 
   const addValue = () => {
-    if (inputValue && isNotDuplicated(inputValue)) {
-      onChange([...value, inputValue]);
+    const val = inputValue.trim();
+    if (val && isNotDuplicated(val)) {
+      onChange([...value, val]);
     }
     hideInput();
   };

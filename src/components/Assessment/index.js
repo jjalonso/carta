@@ -25,7 +25,7 @@ const Assessment = () => {
   useEffect(() => {
     const notificationContent = (
       <>
-        <p>Carta could still contain errors.</p>
+        <p>Your feedback is really important for us.</p>
         <p>
           Please click on the&nbsp;
           <strong>Messenger bubble&nbsp;</strong>

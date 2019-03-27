@@ -47,8 +47,11 @@ const TagsSelect = ({
   };
 
   const addValue = (v) => {
-    if (v && isNotInValues(v)) {
-      onChange([...value, v]);
+    if (v) {
+      const val = v.trim();
+      if (val && isNotInValues(val)) {
+        onChange([...value, val]);
+      }
     }
     hideInput();
     onSelect(v);

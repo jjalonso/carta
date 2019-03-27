@@ -8,6 +8,7 @@ export default yup.object().shape({
   name: yup
     .string()
     .label(' ')
+    .trim()
     .required(),
   date: yup
     .string()
