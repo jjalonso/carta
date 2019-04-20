@@ -1,40 +1,30 @@
 import { useState } from 'react';
 
-export default (fields) => {
-  const [fieldState, setFieldState] = useState({});
+export default (schema) => {
+  const [help, setHelp] = useState();
+  const [validateStatus, setValidateStatus] = useState();
 
-  const extractFromFields = (fieldsObject) => {
-    const values = {};
-    Object
-      .keys(fieldsObject)
-      .forEach((fieldName) => {
-        values[fieldName] = fieldsObject[fieldName].value || fieldsObject[fieldName].checked;
-      });
-    return values;
+  const setError = (message) => {
+    setHelp(message);
+    setValidateStatus('error');
   };
 
-  const updateErrors = (err) => {
-    const state = {};
-    if (err) {
-      err.inner.forEach((errorItem) => {
-        state[errorItem.path] = {
-          // Antd interface
-          help: errorItem.message,
-          validateStatus: 'error',
-        };
-      });
-    }
-    setFieldState(state);
+  const setSuccess = () => {
+    setHelp(undefined);
+    setValidateStatus('success');
   };
 
-  const validate = (schema) => {
+  const validate = (value) => {
+    debugger;
     try {
-      updateErrors();
-      return schema.validateSync(extractFromFields(fields), { abortEarly: false });
+      schema.validateSync(value);
+      setSuccess();
+      return true;
     } catch (err) {
-      updateErrors(err);
+      setError(err.message);
       return false;
     }
   };
-  return [fieldState, validate];
+
+  return [validate, { help, validateStatus }];
 };

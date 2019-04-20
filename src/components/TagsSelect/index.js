@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import nop from 'nop';
 import {
-  Select,
-  Tooltip,
   Tag,
+  Tooltip,
   Icon,
+  Select,
 } from 'antd';
 
 import styles from './TagsSelect.module.css';
 
 const TagsSelect = ({
-  inputStyle,
+  className,
   newLabel,
-  maxCharacters,
   placeholder,
   choices,
   value,
   loading,
+  onHideInput,
   onSearch,
-  onSelect,
   onChange,
 }) => {
   const inputRef = React.createRef();
   const [inputVisible, setInputVisible] = useState(false);
-  const [inputState, setInputState] = useState();
+  const [inputState, setInputState] = useState('');
 
   useEffect(() => {
     if (inputRef.current) {
@@ -31,8 +31,8 @@ const TagsSelect = ({
     }
   }, [inputVisible]);
 
+  const maxCharacters = 35;
   const showInput = () => setInputVisible(true);
-
   const isNotInValues = v => value
     .findIndex(str => str.toLowerCase() === v.toLowerCase()) === -1;
 
@@ -42,6 +42,7 @@ const TagsSelect = ({
   };
 
   const hideInput = () => {
+    onHideInput();
     setInputState(undefined);
     setInputVisible(false);
   };
@@ -54,7 +55,6 @@ const TagsSelect = ({
       }
     }
     hideInput();
-    onSelect(v);
   };
 
   const handleBlur = () => {
@@ -83,7 +83,6 @@ const TagsSelect = ({
         const tagElem = (
           <Tag
             closable
-            className={styles.tag}
             key={v}
             afterClose={() => handleTagClose(v)}
           >
@@ -111,7 +110,7 @@ const TagsSelect = ({
           showSearch
           loading={loading}
           ref={inputRef}
-          className={`${inputStyle} ${styles.input}`}
+          className={`${className} ${styles.input}`}
           placeholder={placeholder}
           value={inputState}
           onBlur={handleBlur}
@@ -127,27 +126,27 @@ const TagsSelect = ({
 };
 
 TagsSelect.propTypes = {
+  className: PropTypes.string,
   newLabel: PropTypes.string,
-  maxCharacters: PropTypes.number,
   placeholder: PropTypes.string,
   choices: PropTypes.arrayOf(PropTypes.string),
   value: PropTypes.arrayOf(PropTypes.string),
   loading: PropTypes.bool,
-  onSelect: PropTypes.func,
+  onHideInput: PropTypes.func,
   onSearch: PropTypes.func,
   onChange: PropTypes.func,
 };
 
 TagsSelect.defaultProps = {
-  loading: false,
+  className: '',
   newLabel: 'New',
-  maxCharacters: 35,
   placeholder: '',
   choices: [],
   value: [],
-  onSelect: () => {},
-  onSearch: () => {},
-  onChange: () => {},
+  loading: false,
+  onHideInput: nop,
+  onSearch: nop,
+  onChange: nop,
 };
 
 export default TagsSelect;

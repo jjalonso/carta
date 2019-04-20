@@ -8,11 +8,11 @@
 }
 
 .sideImage {
-  padding: 0 110px;
+  /* padding: 0 110px; */
   width: 100%;
 }
 
-.imageContainer {
+/* .imageContainer {
   display: flex;
   align-items: center;
-}
+} */

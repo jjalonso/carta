@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import nop from 'nop';
 import { Row, Col, InputNumber } from 'antd';
 
 import styles from './CognitiveWidget.module.css';
@@ -9,18 +10,18 @@ const CognitiveWidget = ({
   onChange,
 }) => {
   const handleChange = (index, prop, v) => {
-    const newState = [...value];
-    newState[index][prop] = v;
-    onChange(newState);
+    const newValue = [...value];
+    newValue[index][prop] = v;
+    onChange(newValue);
   };
 
   return (
     <>
       {
         value.map((item, index) => (
-          <Row key={item.domain}>
+          <Row key={item.name}>
             <Col span={7}>
-              {item.domain}
+              {item.name}
             </Col>
             <Col offset={1} span={7}>
               <InputNumber
@@ -28,8 +29,8 @@ const CognitiveWidget = ({
                 min={0}
                 max={100}
                 placeholder="Score"
-                onChange={v => handleChange(index, 'score', v)}
                 value={item.score}
+                onChange={v => handleChange(index, 'score', v)}
               />
             </Col>
             <Col span={2} className={styles.separator}>
@@ -53,31 +54,13 @@ const CognitiveWidget = ({
 };
 
 CognitiveWidget.propTypes = {
-  value: PropTypes.arrayOf(
-    PropTypes.shape({
-      domain: PropTypes.string,
-      score: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-      ]),
-      maxScore: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-      ]),
-    }),
-  ),
+  value: PropTypes.arrayOf(PropTypes.object),
   onChange: PropTypes.func,
 };
 
 CognitiveWidget.defaultProps = {
-  value: [
-    { domain: 'Attention', score: null, maxScore: null },
-    { domain: 'Memory', score: null, maxScore: null },
-    { domain: 'Fluency', score: null, maxScore: null },
-    { domain: 'Language', score: null, maxScore: null },
-    { domain: 'Visuospatial', score: null, maxScore: null },
-  ],
-  onChange: () => {},
+  value: [],
+  onChange: nop,
 };
 
 export default CognitiveWidget;

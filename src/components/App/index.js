@@ -3,10 +3,11 @@ import 'antd/dist/antd.less';
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import CartaLayout from '../CartaLayout';
+import './App.module.css';
 
 const App = () => (
   <BrowserRouter>
-    <Route path="/" exact component={CartaLayout} />
+    <Route path="/" component={CartaLayout} />
   </BrowserRouter>
 
 );

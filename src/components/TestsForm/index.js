@@ -1,73 +1,80 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Row, Col, Form } from 'antd';
+import Editor from '../Editor';
+import RiskWidget from '../RiskWidget';
+import FieldHelp from '../FieldHelp';
+import CognitiveWidget from '../CognitiveWidget';
+import styles from './TestsForm.module.css';
+import Field from '../Field';
 
-import TestsForm from './TestsForm';
-import StepButtons from '../StepButtons';
-import { useField } from '../../hooks/useField';
-import useValidation from '../../hooks/useValidation';
-import schema from './schema';
+const TestForm = ({
+  examination,
+  cognitive,
+  riskSelf,
+  riskOthers,
+  riskXtras,
+}) => (
+  <Form
+    autoComplete="off"
+    labelAlign="left"
+    colon={false}
+  >
+    <Row>
+      <Col span={13}>
+        <Field
+          name="examination"
+          render={(field, error) => (
+            <Form.Item
+              label="Mental health examination"
+              {...error}
+            >
+              <Editor
+                contentClassName={styles.notepad}
+                placeholder="Describe the patient mental health examination"
+                {...field}
+              />
+            </Form.Item>
+          )}
+        />
+      </Col>
 
-const TestFormContainer = ({
-  state,
-  currentStep,
-  totalSteps,
-  nextStep,
-  previousStep,
-}) => {
-  const examination = useField(state.examination);
-  const cognitive = useField(state.cognitive);
-  const riskSelf = useField(state.riskSelf);
-  const riskOthers = useField(state.riskOthers);
-  const riskXtras = useField(state.riskXtras);
+      <Col offset={1} span={10}>
+        <Field
+          name="cognitive"
+          render={(field, error) => (
+            <Form.Item
+              label="Cognitive test result"
+              extra="You can write a more extensive conclusion in the next step"
+              {...error}
+            >
+              <CognitiveWidget {...field} />
+            </Form.Item>
+          )}
+        />
+      </Col>
+    </Row>
 
-  const fields = {
-    examination,
-    cognitive,
-    riskSelf,
-    riskOthers,
-    riskXtras,
-  };
+    <Row>
+      <Col span={10}>
+        <Field
+          name="risks"
+          render={(field, error) => (
+            <Form.Item
+              labelCol={{ span: 7 }}
+              label="Risk assestment"
+              extra="You can write a more extensive conclusion in the next step"
+              {...error}
+            >
+              <FieldHelp text="Drag the slider along the bar to set a risk level" />
+              <Row>
+                <RiskWidget {...field} />
+              </Row>
+            </Form.Item>
+          )}
+        />
+      </Col>
+    </Row>
+  </Form>
+);
 
-  const [fieldsState, validate] = useValidation(fields);
-
-  const isFirstStep = currentStep !== 1;
-  const isLastStep = currentStep === totalSteps;
-
-  const handleSubmit = () => {
-    const validated = validate(schema);
-    if (validated) {
-      nextStep();
-    }
-  };
-
-  return (
-    <>
-      <TestsForm
-        fieldsState={fieldsState}
-        fields={fields}
-      />
-      <StepButtons
-        isFirstStep={isFirstStep}
-        isLastStep={isLastStep}
-        onNextStep={handleSubmit}
-        onPreviousStep={previousStep}
-      />
-    </>
-  );
-};
-
-TestFormContainer.propTypes = {
-  currentStep: PropTypes.number,
-  totalSteps: PropTypes.number,
-  nextStep: PropTypes.func,
-  previousStep: PropTypes.func,
-};
-
-TestFormContainer.defaultProps = {
-  currentStep: 0,
-  totalSteps: 0,
-  nextStep: () => {},
-  previousStep: () => {},
-};
-
-export default TestFormContainer;
+export default TestForm;

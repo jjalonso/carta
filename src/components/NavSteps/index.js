@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Steps } from 'antd';
 import styles from './NavSteps.module.css';
@@ -22,13 +21,5 @@ const NavSteps = ({
 
   </Steps>
 );
-
-NavSteps.propTypes = {
-  current: PropTypes.number.isRequired,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string,
-    descriptipn: PropTypes.string,
-  })).isRequired,
-};
 
 export default NavSteps;

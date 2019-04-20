@@ -1,6 +1,6 @@
 /* eslint react/jsx-no-target-blank:  */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import {
   Layout,
   Icon,
@@ -8,30 +8,20 @@ import {
 } from 'antd';
 
 import styles from './CartaLayout.module.css';
-import Assessment from '../Assessment';
+import Assessment from '../../containers/Assessment';
+import Welcome from '../Welcome';
 
 const CartaLayout = () => (
   <Layout>
     <Layout.Header>
       <div className={styles.wrapper}>
         <img className={styles.logo} alt="logo" src="/images/logo_green.png" />
-        <a
-          target="_blank"
-          href="http://m.me/2029102333853119"
-        >
-          {/* <Button
-            className={styles.requestHelp}
-            type="primary"
-          >
-            <Icon type="message" />
-            Get Help
-          </Button> */}
-        </a>
       </div>
     </Layout.Header>
 
     <Layout.Content className={styles.content}>
-      <Assessment />
+      <Route path="/assessment" component={Assessment} />
+      <Route path="/" exact component={Welcome} />
     </Layout.Content>
 
     <Layout.Footer className={styles.footer}>
@@ -47,6 +37,9 @@ const CartaLayout = () => (
           Made with
           <Icon className={styles.footerHeart} type="heart" theme="filled" />
           in London
+        </Row>
+        <Row>
+          <img className={styles.footerLondon} src="/images/london.svg" alt="London" />
         </Row>
       </div>
     </Layout.Footer>

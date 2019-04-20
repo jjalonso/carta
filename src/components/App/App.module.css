@@ -8,3 +8,16 @@
   font-size: 12px;
   padding-top: 3px;  
 }
+
+:global(.ant-form-item-label > label) {
+  color: grey;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+:global(.ant-tag) {
+  height: 30px !important;
+  line-height: 28px !important;
+  cursor: default;
+}

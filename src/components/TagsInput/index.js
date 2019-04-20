@@ -1,20 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import nop from 'nop';
+import PropTypes from 'prop-types';
+import {
+  Tooltip,
+  Tag,
+  Icon,
+  Input,
+} from 'antd';
 
-import TagsInput from './TagsInput';
+// import TagsInput from './TagsInput';
+import styles from './TagsInput.module.css';
 
-const TagsInputContainer = ({
+const TagsInput = ({
   newLabel,
-  maxCharacters,
   placeholder,
   value,
   onChange,
 }) => {
   const inputRef = React.createRef();
   const [inputVisible, setInputVisible] = useState(false);
-  const [inputValue, setInputValue] = useState();
+  const [inputValue, setInputValue] = useState('');
+
   useEffect(() => {
     if (inputRef.current) inputRef.current.focus();
   });
+
+  const maxCharacters = 35;
 
   const isNotDuplicated = v => value.findIndex(
     str => str.toLowerCase() === v.toLowerCase(),
@@ -39,44 +50,72 @@ const TagsInputContainer = ({
   };
 
   const addValue = () => {
-    const val = inputValue.trim();
-    if (val && isNotDuplicated(val)) {
-      onChange([...value, val]);
+    if (inputValue) {
+      const val = inputValue.trim();
+      if (val && isNotDuplicated(val)) {
+        onChange([...value, val]);
+      }
     }
     hideInput();
   };
 
   return (
-    <TagsInput
-      newLabel={newLabel}
-      maxCharacters={maxCharacters}
-      placeholder={placeholder}
-      inputVisible={inputVisible}
-      value={value}
-      inputRef={inputRef}
-      inputValue={inputValue}
-      onChange={handleChange}
-      addValue={addValue}
-      showInput={showInput}
-      handleTagClose={handleTagClose}
-    />
+    <>
+      {value.map((v) => {
+        const isLongTag = v.length > maxCharacters;
+        const tagElem = (
+          <Tag
+            closable
+            key={v}
+            afterClose={() => handleTagClose(v)}
+          >
+            {isLongTag ? `${v.slice(0, maxCharacters)}...` : v}
+          </Tag>
+        );
+        return isLongTag ? <Tooltip title={v} key={v}>{tagElem}</Tooltip> : tagElem;
+      })}
+
+      { !inputVisible && (
+        <Tag
+          className={styles.newTag}
+          onClick={showInput}
+        >
+          <Icon
+            className={styles.newIcon}
+            type="plus"
+          />
+          {newLabel}
+        </Tag>
+      )}
+
+      { inputVisible && (
+        <Input
+          type="text"
+          ref={inputRef}
+          placeholder={placeholder}
+          className={styles.input}
+          value={inputValue}
+          onChange={handleChange}
+          onBlur={addValue}
+          onPressEnter={addValue}
+        />
+      )}
+    </>
   );
 };
 
-// TagsInputContainer.propTypes = {
-//   maxCharacters: PropTypes.number,
-//   newLabel: PropTypes.string,
-//   placeholder: PropTypes.string,
-//   value: PropTypes.arrayOf(PropTypes.string),
-//   onChange: PropTypes.func,
-// };
+TagsInput.propTypes = {
+  newLabel: PropTypes.string,
+  placeholder: PropTypes.string,
+  value: PropTypes.arrayOf(PropTypes.string),
+  onChange: PropTypes.func,
+};
 
-// TagsInputContainer.defaultProps = {
-//   maxCharacters: 35,
-//   newLabel: 'New',
-//   placeholder: '',
-//   value: [],
-//   onChange: () => {},
-// };
+TagsInput.defaultProps = {
+  newLabel: 'New',
+  placeholder: '',
+  value: [],
+  onChange: nop,
+};
 
-export default TagsInputContainer;
+export default TagsInput;
