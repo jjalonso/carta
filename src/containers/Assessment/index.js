@@ -10,7 +10,7 @@ import { Wizard, Steps as WizardSteps, Step } from 'react-albus';
 // import posed from 'react-pose';
 
 import schema from './schema';
-import { filledValues as initialValues } from './initial-values';
+import { emptyValues as initialValues } from './initial-values';
 import styles from './Assessment.module.css';
 import WizardButtons from '../../components/WizardButtons';
 import IntroForm from '../../components/IntroForm';
@@ -111,7 +111,8 @@ const AssessmentContainer = () => {
         pageId="2029102333853119"
         appId="163164767920929"
         themeColor="#5EC1A1"
-        loggedOutGreeting="Hello dear! We are here in case you need help or wanted to say hi!"
+        loggedInGreeting="Hello dear! We are here to chat in case you need help or wanted to say hi!"
+        loggedOutGreeting="Hello dear! We are here to chat in case you need help or wanted to say hi!"
       />
       <Row>
         <Col span={24}>
