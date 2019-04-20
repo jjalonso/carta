@@ -1,6 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import BraftEditor, { EditorState } from 'braft-editor';
+import React, { useEffect } from 'react';
+import BraftEditor from 'braft-editor';
 import 'braft-editor/dist/index.css';
 
 import styles from './Editor.module.css';
@@ -11,7 +10,19 @@ const Editor = ({
   placeholder,
   contentClassName,
 }) => {
-  const handleChange = editorState => onChange(editorState);
+  // ***************************
+  // Workaround: https://github.com/margox/braft-editor/issues/238
+  let isFirstEnter;
+
+  useEffect(() => {
+    isFirstEnter = true;
+  }, []);
+
+  const handleChange = (editorState) => {
+    if (!isFirstEnter) onChange(editorState);
+  };
+  // ***************************
+
   const excludedControls = [
     'undo', 'redo', 'separator', 'font-size', 'line-height', 'letter-spacing',
     'separator', 'text-color', 'strike-through', 'superscript', 'subscript',
@@ -24,6 +35,7 @@ const Editor = ({
     <div className={styles.editor}>
       <BraftEditor
         language="en"
+        triggerChangeOnMount={false}
         contentClassName={`${contentClassName} ${styles.content}`}
         excludeControls={excludedControls}
         placeholder={placeholder}
@@ -32,20 +44,6 @@ const Editor = ({
       />
     </div>
   );
-};
-
-Editor.propTypes = {
-  onChange: PropTypes.func,
-  value: PropTypes.instanceOf(EditorState),
-  placeholder: PropTypes.string,
-  contentClassName: PropTypes.string,
-};
-
-Editor.defaultProps = {
-  onChange: () => {},
-  value: BraftEditor.createEditorState(null),
-  contentClassName: '',
-  placeholder: '',
 };
 
 export default Editor;

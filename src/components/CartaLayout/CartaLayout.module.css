@@ -4,7 +4,7 @@
 
 .maxWidth {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1220px;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -30,8 +30,9 @@
 
 .content {
   composes: maxWidth;
-  padding: 50px 200px;
+  padding: 50px 120px;
   background: white;
+  min-height: 900px;
 }
 
 .header {
@@ -49,10 +50,16 @@
   padding: 40px;
 }
 
-.footerHeart {
-  margin: 15px 10px;
-}
 .footerLink {
   color: #5EC1A1;
   margin: 15px;
+}
+
+.footerHeart {
+  margin: 15px 10px;
+}
+
+.footerLondon {
+  width: 65px;
+  filter: invert(1);
 }

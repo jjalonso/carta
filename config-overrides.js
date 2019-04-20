@@ -19,6 +19,7 @@ module.exports = override(
       '@error-color': '#E15750',
       '@font-family': 'Noto Sans, sans-serif',
       '@layout-footer-background': cartaDark,
+      '@font-size-base': '12px',
     },
   }),
 );

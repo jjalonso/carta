@@ -1,81 +1,240 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {
+  Row,
+  Col,
+  Input,
+  Form,
+  Select,
+  DatePicker,
+  Radio,
+  Tooltip,
+} from 'antd';
 
-import IntroForm from './IntroForm';
-import StepButtons from '../StepButtons';
-import { useField, useFieldValue } from '../../hooks/useField';
-import useValidation from '../../hooks/useValidation';
-import schema from './schema';
+import styles from './IntroForm.module.css';
+import FieldHelp from '../FieldHelp';
+import TagsSelect from '../TagsSelect';
+// import MedicationWidget from '../MedicationWidget';
+import TagsInput from '../TagsInput';
+import Field from '../Field';
 
-const IntroFormContainer = ({
-  state,
-  currentStep,
-  totalSteps,
-  nextStep,
-  previousStep,
-}) => {
-  const title = useField(state.title);
-  const name = useFieldValue(state.name);
-  const companion = useField(state.companion);
-  const date = useField(state.date);
-  const place = useFieldValue(state.place);
-  const conditions = useField(state.conditions);
-  const medication = useField(state.medication);
-  const problems = useField(state.problems);
+const IntroForm = ({
+  isFetchingMedication,
+  medicationData,
+  fetchMedication,
+  clearMedication,
+}) => (
+  <Form
+    autoComplete="off"
+    labelAlign="left"
+    colon={false}
+  >
+    <Row>
+      <Col span={4}>
+        <Field
+          name="title"
+          render={(field, error) => (
+            <Form.Item
+              label="Title"
+              {...error}
+            >
+              <Select
+                placeholder="Title"
+                {...field}
+              >
+                <Select.Option value="Miss">Miss</Select.Option>
+                <Select.Option value="Mrs">Mrs</Select.Option>
+                <Select.Option value="Ms">Ms</Select.Option>
+                <Select.Option value="Mr">Mr</Select.Option>
+              </Select>
+            </Form.Item>
+          )}
+        />
+      </Col>
+      <Col offset={1} span={8}>
+        <Field
+          name="name"
+          render={(field, error) => (
+            <Form.Item
+              label="Name"
+              {...error}
+            >
+              <Tooltip
+                placement="bottom"
+                title="Your patient doesn&#39;t want to be in Carta. We respect patient confidentiality."
+              >
+                <Input
+                  disabled
+                  {...field}
+                />
+              </Tooltip>
+            </Form.Item>
+          )}
+        />
+      </Col>
 
-  const fields = {
-    title,
-    name,
-    companion,
-    date,
-    place,
-    conditions,
-    medication,
-    problems,
-  };
+      <Col offset={1} span={10}>
+        <Field
+          name="companion"
+          render={(field, error) => (
+            <Form.Item
+              labelCol={{ span: 9 }}
+              label="Assessment companion"
+              extra="Leave it empty if there is no companion"
 
-  const [fieldsState, validate] = useValidation(fields);
+              {...error}
+            >
+              <Col span={15}>
+                <FieldHelp text="You can select a companion from the list or create a new one" />
+              </Col>
+              <TagsSelect
+                placeholder="Enter companion..."
+                newLabel="Add Companion"
+                choices={[
+                  'Husband',
+                  'Wife',
+                  'Partner',
+                  'Daughter',
+                  'Son',
+                  'Mother',
+                  'Father',
+                  'Friend',
+                  'Cousin',
+                  'Uncle',
+                  'Aunt',
+                ]}
+                {...field}
+              />
+            </Form.Item>
+          )}
+        />
+      </Col>
 
-  const handleSubmit = () => {
-    // TODO: Update global state
-    const validated = validate(schema);
-    if (validated) {
-      nextStep();
-    }
-  };
+    </Row>
 
-  const isFirstStep = currentStep !== 1;
-  const isLastStep = currentStep === totalSteps;
+    <Row>
+      <Col span={5}>
+        <Field
+          name="date"
+          render={(field, error) => (
+            <Form.Item
+              label="Assessment date"
+              {...error}
+            >
+              <DatePicker
+                format="DD-MM-YYYY"
+                {...field}
+              />
+            </Form.Item>
+          )}
+        />
+      </Col>
 
-  return (
-    <>
-      <IntroForm
-        fieldsState={fieldsState}
-        fields={fields}
-      />
-      <StepButtons
-        isFirstStep={isFirstStep}
-        isLastStep={isLastStep}
-        onNextStep={handleSubmit}
-        onPreviousStep={previousStep}
-      />
-    </>
-  );
-};
+      <Col offset={1} span={6}>
+        <Field
+          name="place"
+          render={(field, error) => (
+            <Form.Item
+              label="Assessment place"
+              {...error}
+            >
+              <Radio.Group
+                {...field}
+              >
+                <Radio value="clinic">Clinic</Radio>
+                <Radio value="home">Home</Radio>
+              </Radio.Group>
+            </Form.Item>
+          )}
+        />
+      </Col>
+    </Row>
 
-IntroFormContainer.propTypes = {
-  // TODO: state
-  currentStep: PropTypes.number,
-  totalSteps: PropTypes.number,
-  nextStep: PropTypes.func,
-  previousStep: PropTypes.func,
-};
+    <Row>
+      <Col span={12}>
 
-IntroFormContainer.defaultProps = {
-  currentStep: 0,
-  totalSteps: 0,
-  nextStep: () => {},
-  previousStep: () => {},
-};
+        <Col span={24}>
+          <Field
+            name="conditions"
+            render={(field, error) => (
+              <Form.Item
+                label="Health conditions"
+                {...error}
+              >
+                <TagsInput
+                  newLabel="Add Condition"
+                  placeholder="Enter condition..."
+                  {...field}
+                />
+              </Form.Item>
+            )}
+          />
+        </Col>
 
-export default IntroFormContainer;
+        <Col span={24}>
+          <Field
+            name="medication"
+            render={(field, error) => (
+              <Form.Item
+                label="Current medication"
+                labelCol={{ span: 7 }}
+                {...error}
+              >
+                <Col span={17}>
+                  <FieldHelp text="You can search for a medication or create a new one" />
+                </Col>
+                <TagsSelect
+                  loading={isFetchingMedication}
+                  placeholder="Search for medication..."
+                  newLabel="Add Medication"
+                  onHideInput={clearMedication}
+                  onSearch={fetchMedication}
+                  choices={medicationData}
+                  {...field}
+                />
+              </Form.Item>
+            )}
+          />
+        </Col>
+
+        <Col span={24}>
+          <Field
+            name="problems"
+            render={(field, error) => (
+              <Form.Item
+                label="Patient problems"
+                labelCol={{ span: 6 }}
+                {...error}
+              >
+                <Col span={18}>
+                  <FieldHelp text="You can select a problem from the list or create a new one" />
+                </Col>
+                <TagsSelect
+                  placeholder="Enter problems..."
+                  newLabel="Add Problem"
+                  choices={[
+                    'Forgeting medication',
+                    'Forgeting to eat',
+                    'Getting confuse',
+                    'Getting muddled with Days/Dates',
+                    'Forgetful conversations',
+                    'Poor short-term memory',
+                    'Unable to retain information',
+                    'Cooking issues',
+                    'Loosing items',
+                  ]}
+                  {...field}
+                />
+              </Form.Item>
+            )}
+          />
+        </Col>
+      </Col>
+
+      <Col offset={2} span={6}>
+        <img className={styles.sideImage} alt="Introduction" src="/images/introduction.svg" />
+      </Col>
+    </Row>
+  </Form>
+);
+
+export default IntroForm;

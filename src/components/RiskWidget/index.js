@@ -1,10 +1,20 @@
 import React from 'react';
-import RiskWidget from './RiskWidget';
+import PropTypes from 'prop-types';
+import nop from 'nop';
+import { Slider, Col, Tag, Row } from 'antd';
 
-const RiskWidgetContainer = ({
+import styles from './RiskWidget.module.css';
+
+const RiskWidget = ({
   value,
   onChange,
 }) => {
+  const handleChange = (index, prop, v) => {
+    const newValue = [...value];
+    newValue[index][prop] = v;
+    onChange(newValue);
+  };
+
   const formatter = (v) => {
     switch (v) {
       case 1:
@@ -17,22 +27,41 @@ const RiskWidgetContainer = ({
   };
 
   return (
-    <RiskWidget
-      value={value}
-      onChange={onChange}
-      tipFormatter={formatter}
-    />
+    <>
+      {
+        value.map((item, index) => (
+          <Row key={item.name}>
+            <Col span={6}>
+              {item.name}
+            </Col>
+            <Col span={10}>
+              <Slider
+                dots
+                tooltipVisible={false}
+                min={1}
+                max={3}
+                value={item.level}
+                onChange={v => handleChange(index, 'level', v)}
+              />
+            </Col>
+            <Col offset={2} span={6}>
+              <Tag className={styles.level}>{formatter(item.level)}</Tag>
+            </Col>
+          </Row>
+        ))
+      }
+    </>
   );
 };
 
-// RiskWidgetContainer.propTypes = {
-//   value: PropTypes.number,
-//   onChange: PropTypes.func,
-// };
+RiskWidget.propTypes = {
+  value: PropTypes.arrayOf(PropTypes.object),
+  onChange: PropTypes.func,
+};
 
-// RiskWidgetContainer.defaultProps = {
-//   value: PropTypes.number,
-//   onChange: () => {},
-// };
+RiskWidget.defaultProps = {
+  value: [],
+  onChange: nop,
+};
 
-export default RiskWidgetContainer;
+export default RiskWidget;

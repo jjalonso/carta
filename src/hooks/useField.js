@@ -1,25 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export const useFieldValue = (initialValue) => {
+export default (initialValue, validator) => {
   const [value, setValue] = useState(initialValue);
-  function onChange(e) {
-    setValue(e.target.value);
-  }
+  const [dirty, setDirty] = useState(false);
+
+  useEffect(() => {
+    if (dirty) validator(value);
+  }, [value]);
+
+  const getValue = (v) => {
+    if (v && v.target) return v.target.value || v.target.checked;
+    return v;
+  };
+
+  const onChange = (v) => {
+    setDirty(true);
+    setValue(getValue(v));
+  };
+
   return { value, onChange };
-};
-
-export const useField = (initialValue) => {
-  const [value, setValue] = useState(initialValue);
-  function onChange(v) {
-    setValue(v);
-  }
-  return { value, onChange };
-};
-
-export const useFieldCheckbox = (initialValue) => {
-  const [value, setValue] = useState(initialValue);
-  function onChange(e) {
-    setValue(e.target.checked);
-  }
-  return { checked: value, onChange };
 };

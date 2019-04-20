@@ -7,3 +7,11 @@
 .betaNotification {
   background-color: #5EC1A1;
 }
+
+.navSteps {
+  padding: 60px 0 100px !important;
+}
+
+.assessmentContent {
+  min-height: 560px;
+}

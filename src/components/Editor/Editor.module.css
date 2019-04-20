@@ -2,12 +2,16 @@
   border-color: red;
 }
 
+:global(.bf-container .public-DraftEditorPlaceholder-root) {
+  font-size: 12px;
+}
+
 .editor {
   border: 1px solid #d1d1d1;
   border-radius: 5px;
-  margin-top: 4px;
+  margin: 5px 0;
 }
 
 .content {
-  font-size: 14px !important;
+  font-size: 12px !important;
 }

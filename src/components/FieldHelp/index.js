@@ -1,17 +1,14 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Tooltip, Icon } from 'antd';
+
+import styles from './FieldHelp.module.css';
 
 const FieldHelp = ({
   text,
 }) => (
   <Tooltip placement="top" title={text}>
-    <Icon type="question-circle" />
+    <Icon className={styles.icon} type="question-circle" />
   </Tooltip>
 );
-
-FieldHelp.propTypes = {
-  text: PropTypes.string.isRequired,
-};
 
 export default FieldHelp;
