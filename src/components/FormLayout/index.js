@@ -5,14 +5,15 @@ import {
   Layout,
   Icon,
   Row,
+  Col,
 } from 'antd';
 
-import styles from './CartaLayout.module.css';
+import styles from './FormLayout.module.css';
 import Assessment from '../../containers/Assessment';
 import Welcome from '../Welcome';
 
-const CartaLayout = () => (
-  <Layout>
+const FormLayout = () => (
+  <Layout className={styles.layout}>
     <Layout.Header>
       <div className={styles.wrapper}>
         <img className={styles.logo} alt="logo" src="/images/logo_green.png" />
@@ -20,8 +21,10 @@ const CartaLayout = () => (
     </Layout.Header>
 
     <Layout.Content className={styles.content}>
-      <Route path="/assessment" component={Assessment} />
-      <Route path="/" exact component={Welcome} />
+      {/* <Col offset={6} span={12}> */}
+        <Route path="/assessment" component={Assessment} />
+        <Route path="/" exact component={Welcome} />
+      {/* </Col> */}
     </Layout.Content>
 
     <Layout.Footer className={styles.footer}>
@@ -46,4 +49,4 @@ const CartaLayout = () => (
   </Layout>
 );
 
-export default CartaLayout;
+export default FormLayout;

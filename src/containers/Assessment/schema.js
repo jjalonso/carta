@@ -74,6 +74,11 @@ export default {
       .bool()
       .label(' ')
       .notRequired(),
+    occupation: yup
+      .string()
+      .label(' ')
+      .nullable()
+      .required(),
     living: yup
       .array()
       .label(' ')
@@ -86,7 +91,7 @@ export default {
       .min(0)
       .nullable()
       .required(),
-    activities: yup
+    other: yup
       .object()
       .label(' ')
       .test(
@@ -125,6 +130,41 @@ export default {
         value => [
           ...value.map(item => item.level),
         ].every(v => !(v === null)),
+      ),
+  }),
+
+  tweaks: yup.object({
+    cognitiveConclusion: yup
+      .object()
+      .label(' ')
+      .test(
+        'required',
+        'is a required field',
+        value => !value.isEmpty(),
+      ),
+    risksConclusion: yup
+      .object()
+      .label(' ')
+      .test(
+        'required',
+        'is a required field',
+        value => !value.isEmpty(),
+      ),
+    impression: yup
+      .object()
+      .label(' ')
+      .test(
+        'required',
+        'is a required field',
+        value => !value.isEmpty(),
+      ),
+    carePlan: yup
+      .object()
+      .label(' ')
+      .test(
+        'required',
+        'is a required field',
+        value => !value.isEmpty(),
       ),
   }),
 };

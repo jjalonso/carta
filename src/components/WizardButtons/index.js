@@ -14,11 +14,11 @@ const WizardButtons = ({
   onPrev,
   onNext,
 }) => (
-  <Row className={styles.WizardButtons}>
+  <Row>
     <Col span={12} className={styles.prevCol}>
       {step > 0 && (
         <Button
-          type="primary"
+          type="secondary"
           onClick={onPrev}
         >
           <Icon type="left" />

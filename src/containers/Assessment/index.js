@@ -1,102 +1,103 @@
-/* eslint-disable no-bitwise */
 import React, { useState, useRef } from 'react';
-import { Formik } from 'formik';
 import nop from 'nop';
-import debounce from 'debounce';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
+
 import worldCountries from 'world-countries';
 import MessengerCustomerChat from 'react-messenger-customer-chat/lib/MessengerCustomerChat';
-import { Row, Col, Steps } from 'antd';
+import { Formik } from 'formik';
+import { Row, Col, Typography } from 'antd';
 import { Wizard, Steps as WizardSteps, Step } from 'react-albus';
-// import posed from 'react-pose';
 
 import schema from './schema';
-import { emptyValues as initialValues } from './initial-values';
 import styles from './Assessment.module.css';
 import WizardButtons from '../../components/WizardButtons';
 import IntroForm from '../../components/IntroForm';
 import BackgroundForm from '../../components/BackgroundForm';
 import TestsForm from '../../components/TestsForm';
-// import LetterPreview from '../../components/LetterPreview';
+import TweaksForm from '../../components/TweaksForm';
+import { filledValues as initialValues } from './initial-values';
+import {
+  fetchMedication as fetchMedicationApi,
+  fetchConclusion as fetchConclusionApi,
+} from '../../lib/services/api';
+import Paper from '../../components/Paper/Paper';
 
-// const RouteContainer = posed.div({
-//   enter: { opacity: 1, delay: 280 },
-//   exit: { opacity: 0 },
-// });
+const fetchMedDebounced = AwesomeDebouncePromise(fetchMedicationApi, 1000);
 
 const AssessmentContainer = () => {
   const [state, setState] = useState(initialValues);
   const [currentStep, setCurrentStep] = useState(0);
   const [medicationData, setMedicationData] = useState([]);
-  const [isFetchingMedication, setFetchingMedication] = useState([]);
-
+  const [isFetchingMedication, setFetchingMedication] = useState(false);
   const refForm = useRef({ current: {} });
-
-  // let isFetchingMedication = false;
-  // let medicationData = [];
 
   const countries = worldCountries
     .map(item => item.name.common)
     .sort();
 
-
   const clearMedication = () => {
     setMedicationData([]);
   };
 
-  const fetchMedication = debounce((query) => {
+  const fetchMedication = async (query) => {
+    // TODO: Error handling
     setFetchingMedication(true);
-    fetch(
-      `https://openprescribing.net/api/1.0/bnf_code/?format=json&q=${query}`,
-    )
-      .then(res => res.json())
-      .then((json) => {
-        setFetchingMedication(false);
-        setMedicationData(
-          json
-            .filter(med => med.type === 'product format')
-            .slice(0, 50)
-            .map(med => med.name.replace(/_/g, ' '))
-            // Filter Duplication
-            .filter((med, i, array) => array.indexOf(med) === i),
-        );
-      });
-  }, 350);
+    const data = await fetchMedDebounced(query);
+    setFetchingMedication(false);
+    setMedicationData(data);
+  };
+
+  const fetchConclusion = async () => {
+    // TODO: Error handling
+    const conclusion = await fetchConclusionApi(
+      state.intro.title,
+      state.tests.cognitive,
+      state.tests.risks,
+    );
+    setState({ ...state, tweaks: { ...state.tweaks, ...conclusion } });
+  };
 
   const stepsOptions = [
     {
-      title: 'Hola',
-      description: 'Patient introduction',
+      title: 'Patient introduction',
       id: 'intro',
       schema: schema.intro,
       initialValues: state.intro,
     },
     {
-      title: 'Background',
-      description: 'Patient life',
+      title: 'Personal history',
       id: 'background',
       schema: schema.background,
       initialValues: state.background,
     },
     {
-      title: 'Tests',
-      description: 'Tests result',
+      title: 'Tests results',
       id: 'tests',
       schema: schema.tests,
       initialValues: state.tests,
     },
     {
-      title: 'Voila!',
-      description: 'The final tweaks',
-      id: 'preview',
+      title: 'Final tweaks',
+      id: 'tweaks',
+      schema: schema.tweaks,
+      initialValues: state.tweaks,
     },
   ];
+
+  const saveFormState = (values) => {
+    setState({ ...state, [stepsOptions[currentStep].id]: values });
+  };
 
   const handleNextStep = async () => {
     const errors = await refForm.current.validateForm();
     const isValid = !Object.entries(errors).length;
+    const isTestsStep = stepsOptions[currentStep].id === 'tests';
     if (isValid) {
       const { values } = refForm.current.state;
-      setState({ ...state, [stepsOptions[currentStep].id]: values });
+      saveFormState(values);
+      if (isTestsStep) {
+        fetchConclusion();
+      }
       setCurrentStep(currentStep + 1);
     }
   };
@@ -104,6 +105,10 @@ const AssessmentContainer = () => {
   const handlePrevStep = () => {
     setCurrentStep(currentStep - 1);
   };
+
+  // Use state rather initialValues
+  const currentValues = stepsOptions[currentStep].initialValues
+    || state[stepsOptions[currentStep].id];
 
   return (
     <>
@@ -115,75 +120,67 @@ const AssessmentContainer = () => {
         loggedOutGreeting="Hello dear! We are here to chat in case you need help or wanted to say hi!"
       />
       <Row>
-        <Col span={24}>
-          <Steps
-            key="Steps"
-            progressDot
-            current={currentStep}
-            className={styles.navSteps}
-          >
-            {
-              stepsOptions.map(item => (
-                <Steps.Step
-                  key={item.title}
-                  title={item.title}
-                  description={item.description}
-                />
-              ))
-            }
-          </Steps>
-        </Col>
-
         <Col span={24} className={styles.assessmentContent}>
+          <Paper title={stepsOptions[currentStep].title}>
+            <Typography.Title
+              level={4}
+              className={styles.steps}
+            >
+              Step&nbsp;
+              { currentStep + 1 }
+              &nbsp;of&nbsp;
+              { stepsOptions.length }
+            </Typography.Title>
+            <Formik
+              enableReinitialize
+              validateOnBlur={false}
+              validateOnChange={false}
+              ref={refForm}
+              validationSchema={stepsOptions[currentStep].schema}
+              initialValues={currentValues}
+              onSubmit={nop}
+              render={props => (
+                <Wizard render={() => (
+                  <>
+                    <WizardSteps step={{ id: stepsOptions[currentStep].id }}>
+                      <Step id="intro">
+                        <IntroForm
+                          isFetchingMedication={isFetchingMedication}
+                          medicationData={medicationData}
+                          fetchMedication={fetchMedication}
+                          clearMedication={clearMedication}
+                          {...props}
+                        />
+                      </Step>
+                      <Step id="background">
+                        <BackgroundForm
+                          countries={countries}
+                          {...props}
+                        />
+                      </Step>
+                      <Step id="tests">
+                        <TestsForm />
+                      </Step>
+                      <Step id="tweaks">
+                        <TweaksForm
+                          {...props}
+                        />
+                      </Step>
+                    </WizardSteps>
+                    <WizardButtons
+                      steps={stepsOptions.length}
+                      step={currentStep}
+                      onPrev={handlePrevStep}
+                      onNext={handleNextStep}
+                    />
+                  </>
 
-          <Formik
-            enableReinitialize
-            validateOnBlur={false}
-            validateOnChange={false}
-            ref={refForm}
-            validationSchema={stepsOptions[currentStep].schema}
-            initialValues={stepsOptions[currentStep].initialValues}
-            onSubmit={nop}
-            render={props => (
-              <Wizard render={() => (
-                <>
-                  <WizardSteps step={{ id: stepsOptions[currentStep].id }}>
-                    <Step id="intro">
-                      <IntroForm
-                        isFetchingMedication={isFetchingMedication}
-                        medicationData={medicationData}
-                        fetchMedication={fetchMedication}
-                        clearMedication={clearMedication}
-                        {...props}
-                      />
-                    </Step>
-                    <Step id="background">
-                      <BackgroundForm
-                        countries={countries}
-                        {...props}
-                      />
-                    </Step>
-                    <Step id="tests">
-                      <TestsForm />
-                    </Step>
-                  </WizardSteps>
-                  <WizardButtons
-                    steps={stepsOptions.length}
-                    step={currentStep}
-                    onPrev={handlePrevStep}
-                    onNext={handleNextStep}
-                  />
-                </>
+                )}
+                />
 
               )}
-              />
-
-            )}
-          />
-          {/* <PoseGroup>
-          <RouteContainer key={location.pathname}>
-          </RouteContainer>
-          </PoseGroup> */}
+            />            
+          </Paper>          
         </Col>
       </Row>
     </>

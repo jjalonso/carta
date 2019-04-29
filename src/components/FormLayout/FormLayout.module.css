@@ -9,14 +9,8 @@
   overflow: hidden;
 }
 
-.requestHelp {
-  margin: 16px 35px;
-  float: right;
-  color: #24243A;
-}
-
-.requestHelp:hover {
-  color: #24243A;
+.layout {
+  background: linear-gradient( #fff 350px, #f0f2f5 1px);
 }
 
 .logo {
@@ -28,11 +22,18 @@
   composes: maxWidth;
 }
 
+.top {
+  background: white;
+  height: 290px;
+}
+
 .content {
   composes: maxWidth;
-  padding: 50px 120px;
-  background: white;
-  min-height: 900px;
+  /* padding: 50px 120px; */
+  /* background: white; */
+  /* min-height: 800px; */
+  /* width: 600px; */
+  /* margin: -290px auto 50px auto; */
 }
 
 .header {

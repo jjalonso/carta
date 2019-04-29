@@ -1,17 +1,6 @@
 
-:global(.ant-form-explain) {
-  font-size: 12px;
-  padding-top: 3px;  
-}
-
-.betaNotification {
-  background-color: #5EC1A1;
-}
-
-.navSteps {
-  padding: 60px 0 100px !important;
-}
-
-.assessmentContent {
-  min-height: 560px;
+.steps {
+  font-weight: 100 !important;
+  color: var(--primary-color) !important;
+  margin-bottom: 25px !important;
 }

@@ -1,0 +1,27 @@
+
+.letter {
+  margin-top: 50px;
+  /* border: 3px solid #5ec1a1; */
+  /* display: block; */
+  /* box-shadow: 0 0 0.5cm rgba(0,0,0,0.5); */
+  /* height: 500px; */
+}
+
+.conclusionEditor {
+  height: 160px;
+}
+
+.impressionEditor {
+  height: 150px;
+  margin-right: 5px;
+}
+
+.careEditor {
+  height: 150px;
+  margin-left: 5px;
+}
+
+.centerAligned {
+  display: flex;
+  align-items: center;
+}

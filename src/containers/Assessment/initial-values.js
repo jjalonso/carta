@@ -18,11 +18,12 @@ export const filledValues = {
   background: {
     country: 'Spain',
     emigrationYear: '1987',
-    degree: 'Mental Health Nursing',
+    degree: 'Mental health nursing',
     isDegreeIncompleted: true,
+    occupation: 'Mental health nurse',
     living: ['Superman'],
     totalChildren: '3',
-    activities: BraftEditor.createEditorState('<p>Cositas varias</p>'),
+    other: BraftEditor.createEditorState('<p>Cositas varias</p>'),
   },
   tests: {
     examination: BraftEditor.createEditorState('<p>Lo examinanos</p>'),
@@ -38,6 +39,12 @@ export const filledValues = {
       { name: 'Risk to others', level: 2 },
       { name: 'Others risks', level: 3 },
     ],
+  },
+  tweaks: {
+    cognitiveConclusion: BraftEditor.createEditorState(undefined),
+    risksConclusion: BraftEditor.createEditorState(undefined),
+    impression: BraftEditor.createEditorState('<p>Patient was very anxious bla bla bla</p>'),
+    carePlan: BraftEditor.createEditorState('<p>Nothing to do!</p>'),
   },
 };
 
@@ -57,9 +64,10 @@ export const emptyValues = {
     emigrationYear: undefined,
     degree: undefined,
     isDegreeIncompleted: true,
+    occupation: undefined,
     living: [],
     totalChildren: 0,
-    activities: BraftEditor.createEditorState(undefined),
+    other: BraftEditor.createEditorState(undefined),
   },
   tests: {
     examination: BraftEditor.createEditorState(undefined),
@@ -75,5 +83,11 @@ export const emptyValues = {
       { name: 'Risk to others', level: 1 },
       { name: 'Others risks', level: 1 },
     ],
+  },
+  tweaks: {
+    cognitiveConclusion: BraftEditor.createEditorState(undefined),
+    risksConclusion: BraftEditor.createEditorState(undefined),
+    impression: BraftEditor.createEditorState(undefined),
+    carePlan: BraftEditor.createEditorState(undefined),
   },
 };

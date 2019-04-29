@@ -1,3 +1,6 @@
+:root {
+  --primary-color: #5ec1a1;
+}
 
 :global(.html, .body, .root) {
   width: 100%;
@@ -9,15 +12,21 @@
   padding-top: 3px;  
 }
 
+:global(.ant-form-item-label) {
+  line-height: 23px;
+}
+
 :global(.ant-form-item-label > label) {
-  color: grey;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.2px;
+  font-size: 13px !important;
+  font-weight: 800;
 }
 
 :global(.ant-tag) {
   height: 30px !important;
   line-height: 28px !important;
   cursor: default;
+}
+
+:global(.ant-input-number) {
+  width: 100%;
 }
