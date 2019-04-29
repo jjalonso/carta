@@ -11,3 +11,4 @@ script:
   provider: firebase
   token:
     secure: $FIREBASE_TOKEN
+    
