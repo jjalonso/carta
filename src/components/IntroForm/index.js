@@ -55,7 +55,7 @@ const IntroForm = ({
           name="name"
           render={(field, error) => (
             <Form.Item
-              label="Name"
+              label="Patient name"
               {...error}
             >
               <Tooltip

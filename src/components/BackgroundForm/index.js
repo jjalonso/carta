@@ -15,7 +15,9 @@ import Editor from '../Editor';
 import Field from '../Field';
 
 const BackgroundForm = ({
-  countries,
+  countriesArray,
+  yearsArray,
+  childrenArray,
   values,
 }) => (
   <Form
@@ -37,7 +39,7 @@ const BackgroundForm = ({
                 placeholder="Select country"
                 {...field}
               >
-                {countries.map(name => <Select.Option key={name}>{name}</Select.Option>)}
+                {countriesArray.map(name => <Select.Option key={name}>{name}</Select.Option>)}
               </Select>
             </Form.Item>
           )}
@@ -52,10 +54,13 @@ const BackgroundForm = ({
               label="Emigration year"
               {...error}
             >
-              <InputNumber
+              <Select
+                placeholder="Select year"
                 disabled={!values.country || values.country === 'United Kingdom'}
                 {...field}
-              />
+              >
+                { yearsArray.map(num => <Select.Option key={num} value={num}>{num}</Select.Option>) }
+              </Select>
             </Form.Item>
           )}
         />
@@ -124,9 +129,12 @@ const BackgroundForm = ({
               label="Children"
               {...error}
             >
-              <InputNumber
+              <Select
+                placeholder="Select amount"
                 {...field}
-              />
+              >
+                { childrenArray.map(num => <Select.Option key={num} value={num}>{num}</Select.Option>) }
+              </Select>
             </Form.Item>
           )}
         />

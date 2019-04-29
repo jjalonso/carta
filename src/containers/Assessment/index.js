@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import nop from 'nop';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
+import moment from 'moment';
 
 import worldCountries from 'world-countries';
 import MessengerCustomerChat from 'react-messenger-customer-chat/lib/MessengerCustomerChat';
@@ -15,12 +16,13 @@ import IntroForm from '../../components/IntroForm';
 import BackgroundForm from '../../components/BackgroundForm';
 import TestsForm from '../../components/TestsForm';
 import TweaksForm from '../../components/TweaksForm';
-import { filledValues as initialValues } from './initial-values';
+import { emptyValues as initialValues } from './initial-values';
 import {
   fetchMedication as fetchMedicationApi,
   fetchConclusion as fetchConclusionApi,
 } from '../../lib/services/api';
 import Paper from '../../components/Paper/Paper';
+import { rangeArray } from '../../lib/util/helpers';
 
 const fetchMedDebounced = AwesomeDebouncePromise(fetchMedicationApi, 1000);
 
@@ -31,7 +33,10 @@ const AssessmentContainer = () => {
   const [isFetchingMedication, setFetchingMedication] = useState(false);
   const refForm = useRef({ current: {} });
 
-  const countries = worldCountries
+  const currentYear = moment().year();
+  const yearsArray = rangeArray(currentYear - 120, currentYear).reverse();
+  const childrenArray = rangeArray(0, 20);
+  const countriesArray = worldCountries
     .map(item => item.name.common)
     .sort();
 
@@ -154,7 +159,9 @@ const AssessmentContainer = () => {
                       </Step>
                       <Step id="background">
                         <BackgroundForm
-                          countries={countries}
+                          countriesArray={countriesArray}
+                          yearsArray={yearsArray}
+                          childrenArray={childrenArray}
                           {...props}
                         />
                       </Step>
@@ -179,8 +186,8 @@ const AssessmentContainer = () => {
                 />
 
               )}
-            />            
-          </Paper>          
+            />
+          </Paper>
         </Col>
       </Row>
     </>

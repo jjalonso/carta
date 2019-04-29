@@ -16,11 +16,11 @@
       {
         "source": "**",
         "destination": "/index.html"
+      },
+      {
+        "source": "/api/generateConclusion", // Some URL to expose
+        "function": "generateConclusion" // Your HTTP function
       }
-      // {
-      //   "source": "/api/generate", // Some URL to expose
-      //   "function": "generate" // Your HTTP function
-      // }
     ]
   }
 }

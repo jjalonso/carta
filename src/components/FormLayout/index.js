@@ -5,7 +5,6 @@ import {
   Layout,
   Icon,
   Row,
-  Col,
 } from 'antd';
 
 import styles from './FormLayout.module.css';
@@ -21,10 +20,8 @@ const FormLayout = () => (
     </Layout.Header>
 
     <Layout.Content className={styles.content}>
-      {/* <Col offset={6} span={12}> */}
-        <Route path="/assessment" component={Assessment} />
-        <Route path="/" exact component={Welcome} />
-      {/* </Col> */}
+      <Route path="/assessment" component={Assessment} />
+      <Route path="/" exact component={Welcome} />
     </Layout.Content>
 
     <Layout.Footer className={styles.footer}>

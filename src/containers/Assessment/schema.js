@@ -1,8 +1,4 @@
 import * as yup from 'yup';
-import moment from 'moment';
-
-const maxEmigrationYear = moment().year();
-const minEmigrationYear = maxEmigrationYear - 120;
 
 export default {
 
@@ -50,9 +46,6 @@ export default {
       .required(),
     emigrationYear: yup
       .number()
-      .nullable()
-      .min(minEmigrationYear)
-      .max(maxEmigrationYear)
       .label(' ')
       .when('country', {
         is: val => val && (val !== 'United Kingdom'),
@@ -85,11 +78,7 @@ export default {
       .notRequired(),
     totalChildren: yup
       .number()
-      .typeError('Invalid number')
       .label(' ')
-      .max(50)
-      .min(0)
-      .nullable()
       .required(),
     other: yup
       .object()
@@ -119,7 +108,7 @@ export default {
         value => [
           ...value.map(item => item.score),
           ...value.map(item => item.maxScore),
-        ].every(v => !(v === null)),
+        ].every(v => !(v == null)),
       ),
     risks: yup
       .array()

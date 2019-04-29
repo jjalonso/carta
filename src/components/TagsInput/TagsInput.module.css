@@ -2,6 +2,11 @@
   background: #fff;
   border-style: dashed;
   cursor: pointer !important;
+  transition: all 0.3s;
+}
+
+.newTag:hover {
+  border-color: var(--primary-color);
 }
 
 .newIcon {

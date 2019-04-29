@@ -63,7 +63,7 @@ export const emptyValues = {
     country: undefined,
     emigrationYear: undefined,
     degree: undefined,
-    isDegreeIncompleted: true,
+    isDegreeIncompleted: false,
     occupation: undefined,
     living: [],
     totalChildren: 0,

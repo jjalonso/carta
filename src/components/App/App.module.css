@@ -27,6 +27,22 @@
   cursor: default;
 }
 
-:global(.ant-input-number) {
-  width: 100%;
+:global(.ant-radio-wrapper) {
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 6px 5px 6px 10px;
+  transition: all 0.3s;
+}
+
+:global(.ant-radio-wrapper:hover) {
+  border-color: var(--primary-color);
+}
+
+:global(.ant-radio-wrapper > span) {
+  position: relative;
+  top: 1px;
+}
+
+:global(.ant-checkbox-inner:after) {
+  left: 3px;
 }
