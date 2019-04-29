@@ -10,10 +10,7 @@ import {
   Tooltip,
 } from 'antd';
 
-import styles from './IntroForm.module.css';
-import FieldHelp from '../FieldHelp';
 import TagsSelect from '../TagsSelect';
-// import MedicationWidget from '../MedicationWidget';
 import TagsInput from '../TagsInput';
 import Field from '../Field';
 
@@ -113,13 +110,9 @@ const IntroForm = ({
           name="companion"
           render={(field, error) => (
             <Form.Item
-              // labelCol={{ span: 12 }}
               label="Assessment companion"
               {...error}
             >
-              {/* <Col span={12}>
-                <FieldHelp text="You can select a companion from the list or create a new one" />
-              </Col> */}
               <TagsSelect
                 placeholder="Enter companion..."
                 newLabel="Add Companion"
@@ -167,12 +160,8 @@ const IntroForm = ({
           render={(field, error) => (
             <Form.Item
               label="Current medication"
-              // labelCol={{ span: 7 }}
               {...error}
             >
-              {/* <Col span={17}>
-                <FieldHelp text="You can search for a medication or create a new one" />
-              </Col> */}
               <TagsSelect
                 loading={isFetchingMedication}
                 placeholder="Search for medication..."
@@ -193,12 +182,8 @@ const IntroForm = ({
           render={(field, error) => (
             <Form.Item
               label="Patient problems"
-              // labelCol={{ span: 6 }}
               {...error}
             >
-              {/* <Col span={18}>
-                <FieldHelp text="You can select a problem from the list or create a new one" />
-              </Col> */}
               <TagsSelect
                 placeholder="Enter problems..."
                 newLabel="Add Problem"

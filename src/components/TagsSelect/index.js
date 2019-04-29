@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import nop from 'nop';
 import {
@@ -21,7 +21,7 @@ const TagsSelect = ({
   onSearch,
   onChange,
 }) => {
-  const inputRef = React.createRef();
+  const inputRef = useRef();
   const [inputVisible, setInputVisible] = useState(false);
   const [inputState, setInputState] = useState('');
 
@@ -29,7 +29,7 @@ const TagsSelect = ({
     if (inputRef.current) {
       inputRef.current.rcSelect.getInputDOMNode().click();
     }
-  }, [inputVisible]);
+  }, [inputVisible, inputRef]);
 
   const maxCharacters = 35;
   const showInput = () => setInputVisible(true);

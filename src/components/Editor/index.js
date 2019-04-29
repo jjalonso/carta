@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import BraftEditor from 'braft-editor';
 import 'braft-editor/dist/index.css';
 
@@ -12,14 +12,14 @@ const Editor = ({
 }) => {
   // ***************************
   // Workaround: https://github.com/margox/braft-editor/issues/238
-  let isFirstEnter;
+  const isFirstEnter = useRef(false);
 
   useEffect(() => {
-    isFirstEnter = true;
+    isFirstEnter.current = true;
   }, []);
 
   const handleChange = (editorState) => {
-    if (!isFirstEnter) onChange(editorState);
+    if (!isFirstEnter.current) onChange(editorState);
   };
   // ***************************
 

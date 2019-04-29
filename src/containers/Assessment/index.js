@@ -22,7 +22,7 @@ import {
   fetchConclusion as fetchConclusionApi,
 } from '../../lib/services/api';
 import Paper from '../../components/Paper/Paper';
-import { rangeArray } from '../../lib/util/helpers';
+import rangeArray from '../../lib/util/helpers';
 
 const fetchMedDebounced = AwesomeDebouncePromise(fetchMedicationApi, 1000);
 

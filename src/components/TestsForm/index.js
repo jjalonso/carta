@@ -4,7 +4,6 @@ import Editor from '../Editor';
 import RiskWidget from '../RiskWidget';
 // import FieldHelp from '../FieldHelp';
 import CognitiveWidget from '../CognitiveWidget';
-import styles from './TestsForm.module.css';
 import Field from '../Field';
 
 const TestForm = () => (

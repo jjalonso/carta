@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import nop from 'nop';
-import { Slider, Col, Tag, Row } from 'antd';
+import {
+  Slider,
+  Col,
+  Tag,
+  Row,
+} from 'antd';
 
 import styles from './RiskWidget.module.css';
 

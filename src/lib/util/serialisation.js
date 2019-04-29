@@ -1,4 +1,4 @@
-import BraftEditor, { EditorState } from 'braft-editor';
+import BraftEditor from 'braft-editor';
 
 const htmlFields = ['other', 'examination', 'cognitiveConclusion', 'risksConclusion'];
 

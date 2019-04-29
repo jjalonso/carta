@@ -4,12 +4,10 @@ import {
   Row,
   Form,
   Select,
-  InputNumber,
   Checkbox,
   Input,
 } from 'antd';
 
-import styles from './BackgroundForm.module.css';
 import TagsSelect from '../TagsSelect';
 import Editor from '../Editor';
 import Field from '../Field';
@@ -59,7 +57,7 @@ const BackgroundForm = ({
                 disabled={!values.country || values.country === 'United Kingdom'}
                 {...field}
               >
-                { yearsArray.map(num => <Select.Option key={num} value={num}>{num}</Select.Option>) }
+                { yearsArray.map(num => <Select.Option key={num} value={num}>{num}</Select.Option>)}
               </Select>
             </Form.Item>
           )}
@@ -133,7 +131,8 @@ const BackgroundForm = ({
                 placeholder="Select amount"
                 {...field}
               >
-                { childrenArray.map(num => <Select.Option key={num} value={num}>{num}</Select.Option>) }
+                { childrenArray
+                  .map(num => <Select.Option key={num} value={num}>{num}</Select.Option>)}
               </Select>
             </Form.Item>
           )}

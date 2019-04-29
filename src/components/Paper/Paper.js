@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Typography, Row } from 'antd';
+import { Typography } from 'antd';
 
 import styles from './Paper.module.css';
 
@@ -9,9 +9,7 @@ const Paper = ({ children, title }) => (
       { title }
     </Typography.Title>
     <div className={styles.paper}>
-      {/* <Col offset={4} span={16}> */}
       {children}
-      {/* </Col> */}
     </div>
   </>
 );
