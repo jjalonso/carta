@@ -20,7 +20,7 @@
     "oneline": "^1.0.3"
   },
   "devDependencies": {
-    "eslint": "^5.12.0",
+    "eslint": "^5.16.0",
     "eslint-plugin-promise": "^4.0.1"
   },
   "private": true
