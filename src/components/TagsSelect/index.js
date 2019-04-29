@@ -84,7 +84,7 @@ const TagsSelect = ({
           <Tag
             closable
             key={v}
-            afterClose={() => handleTagClose(v)}
+            onClose={() => handleTagClose(v)}
           >
             {isLongTag ? `${v.slice(0, maxCharacters)}...` : v}
           </Tag>

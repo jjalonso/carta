@@ -20,7 +20,8 @@ const Welcome = () => (
       <Typography.Paragraph>
         As promised, we will help you to generate your assessment in a jiffy.
         <br />
-        We are pretty sure that after trying Carta you will not want to write handwritten letters again.
+        We are pretty sure that after trying Carta you will never want
+        to type endlessly letters again.
       </Typography.Paragraph>
       <Typography.Paragraph>
         We are still BETA and we could still contains errors, please chat with us in case you

@@ -29,7 +29,7 @@ const IntroForm = ({
     colon={false}
   >
     <Row>
-      <Col span={4}>
+      <Col span={24}>
         <Field
           name="title"
           render={(field, error) => (
@@ -50,16 +50,16 @@ const IntroForm = ({
           )}
         />
       </Col>
-      <Col offset={1} span={8}>
+      <Col span={24}>
         <Field
           name="name"
           render={(field, error) => (
             <Form.Item
-              label="Name"
+              label="Patient name"
               {...error}
             >
               <Tooltip
-                placement="bottom"
+                placement="right"
                 title="Your patient doesn&#39;t want to be in Carta. We respect patient confidentiality."
               >
                 <Input
@@ -72,20 +72,54 @@ const IntroForm = ({
         />
       </Col>
 
-      <Col offset={1} span={10}>
+      <Col span={8}>
+        <Field
+          name="date"
+          render={(field, error) => (
+            <Form.Item
+              label="Assessment date"
+              {...error}
+            >
+              <DatePicker
+                format="DD-MM-YYYY"
+                {...field}
+              />
+            </Form.Item>
+          )}
+        />
+      </Col>
+
+      <Col offset={1} span={15}>
+        <Field
+          name="place"
+          render={(field, error) => (
+            <Form.Item
+              label="Assessment place"
+              {...error}
+            >
+              <Radio.Group
+                {...field}
+              >
+                <Radio value="clinic">Clinic</Radio>
+                <Radio value="home">Home</Radio>
+              </Radio.Group>
+            </Form.Item>
+          )}
+        />
+      </Col>
+
+      <Col span={24}>
         <Field
           name="companion"
           render={(field, error) => (
             <Form.Item
-              labelCol={{ span: 9 }}
+              // labelCol={{ span: 12 }}
               label="Assessment companion"
-              extra="Leave it empty if there is no companion"
-
               {...error}
             >
-              <Col span={15}>
+              {/* <Col span={12}>
                 <FieldHelp text="You can select a companion from the list or create a new one" />
-              </Col>
+              </Col> */}
               <TagsSelect
                 placeholder="Enter companion..."
                 newLabel="Add Companion"
@@ -109,19 +143,17 @@ const IntroForm = ({
         />
       </Col>
 
-    </Row>
-
-    <Row>
-      <Col span={5}>
+      <Col span={24}>
         <Field
-          name="date"
+          name="conditions"
           render={(field, error) => (
             <Form.Item
-              label="Assessment date"
+              label="Health conditions"
               {...error}
             >
-              <DatePicker
-                format="DD-MM-YYYY"
+              <TagsInput
+                newLabel="Add Condition"
+                placeholder="Enter condition..."
                 {...field}
               />
             </Form.Item>
@@ -129,109 +161,63 @@ const IntroForm = ({
         />
       </Col>
 
-      <Col offset={1} span={6}>
+      <Col span={24}>
         <Field
-          name="place"
+          name="medication"
           render={(field, error) => (
             <Form.Item
-              label="Assessment place"
+              label="Current medication"
+              // labelCol={{ span: 7 }}
               {...error}
             >
-              <Radio.Group
+              {/* <Col span={17}>
+                <FieldHelp text="You can search for a medication or create a new one" />
+              </Col> */}
+              <TagsSelect
+                loading={isFetchingMedication}
+                placeholder="Search for medication..."
+                newLabel="Add Medication"
+                onHideInput={clearMedication}
+                onSearch={fetchMedication}
+                choices={medicationData}
                 {...field}
-              >
-                <Radio value="clinic">Clinic</Radio>
-                <Radio value="home">Home</Radio>
-              </Radio.Group>
+              />
             </Form.Item>
           )}
         />
       </Col>
-    </Row>
 
-    <Row>
-      <Col span={12}>
-
-        <Col span={24}>
-          <Field
-            name="conditions"
-            render={(field, error) => (
-              <Form.Item
-                label="Health conditions"
-                {...error}
-              >
-                <TagsInput
-                  newLabel="Add Condition"
-                  placeholder="Enter condition..."
-                  {...field}
-                />
-              </Form.Item>
-            )}
-          />
-        </Col>
-
-        <Col span={24}>
-          <Field
-            name="medication"
-            render={(field, error) => (
-              <Form.Item
-                label="Current medication"
-                labelCol={{ span: 7 }}
-                {...error}
-              >
-                <Col span={17}>
-                  <FieldHelp text="You can search for a medication or create a new one" />
-                </Col>
-                <TagsSelect
-                  loading={isFetchingMedication}
-                  placeholder="Search for medication..."
-                  newLabel="Add Medication"
-                  onHideInput={clearMedication}
-                  onSearch={fetchMedication}
-                  choices={medicationData}
-                  {...field}
-                />
-              </Form.Item>
-            )}
-          />
-        </Col>
-
-        <Col span={24}>
-          <Field
-            name="problems"
-            render={(field, error) => (
-              <Form.Item
-                label="Patient problems"
-                labelCol={{ span: 6 }}
-                {...error}
-              >
-                <Col span={18}>
-                  <FieldHelp text="You can select a problem from the list or create a new one" />
-                </Col>
-                <TagsSelect
-                  placeholder="Enter problems..."
-                  newLabel="Add Problem"
-                  choices={[
-                    'Forgeting medication',
-                    'Forgeting to eat',
-                    'Getting confuse',
-                    'Getting muddled with Days/Dates',
-                    'Forgetful conversations',
-                    'Poor short-term memory',
-                    'Unable to retain information',
-                    'Cooking issues',
-                    'Loosing items',
-                  ]}
-                  {...field}
-                />
-              </Form.Item>
-            )}
-          />
-        </Col>
-      </Col>
-
-      <Col offset={2} span={6}>
-        <img className={styles.sideImage} alt="Introduction" src="/images/introduction.svg" />
+      <Col span={24}>
+        <Field
+          name="problems"
+          render={(field, error) => (
+            <Form.Item
+              label="Patient problems"
+              // labelCol={{ span: 6 }}
+              {...error}
+            >
+              {/* <Col span={18}>
+                <FieldHelp text="You can select a problem from the list or create a new one" />
+              </Col> */}
+              <TagsSelect
+                placeholder="Enter problems..."
+                newLabel="Add Problem"
+                choices={[
+                  'Forgeting medication',
+                  'Forgeting to eat',
+                  'Getting confuse',
+                  'Getting muddled with Days/Dates',
+                  'Forgetful conversations',
+                  'Poor short-term memory',
+                  'Unable to retain information',
+                  'Cooking issues',
+                  'Loosing items',
+                ]}
+                {...field}
+              />
+            </Form.Item>
+          )}
+        />
       </Col>
     </Row>
   </Form>

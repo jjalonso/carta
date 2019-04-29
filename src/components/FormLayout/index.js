@@ -7,12 +7,12 @@ import {
   Row,
 } from 'antd';
 
-import styles from './CartaLayout.module.css';
+import styles from './FormLayout.module.css';
 import Assessment from '../../containers/Assessment';
 import Welcome from '../Welcome';
 
-const CartaLayout = () => (
-  <Layout>
+const FormLayout = () => (
+  <Layout className={styles.layout}>
     <Layout.Header>
       <div className={styles.wrapper}>
         <img className={styles.logo} alt="logo" src="/images/logo_green.png" />
@@ -46,4 +46,4 @@ const CartaLayout = () => (
   </Layout>
 );
 
-export default CartaLayout;
+export default FormLayout;

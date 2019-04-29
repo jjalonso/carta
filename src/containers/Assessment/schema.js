@@ -1,8 +1,4 @@
 import * as yup from 'yup';
-import moment from 'moment';
-
-const maxEmigrationYear = moment().year();
-const minEmigrationYear = maxEmigrationYear - 120;
 
 export default {
 
@@ -50,9 +46,6 @@ export default {
       .required(),
     emigrationYear: yup
       .number()
-      .nullable()
-      .min(minEmigrationYear)
-      .max(maxEmigrationYear)
       .label(' ')
       .when('country', {
         is: val => val && (val !== 'United Kingdom'),
@@ -74,19 +67,20 @@ export default {
       .bool()
       .label(' ')
       .notRequired(),
+    occupation: yup
+      .string()
+      .label(' ')
+      .nullable()
+      .required(),
     living: yup
       .array()
       .label(' ')
       .notRequired(),
     totalChildren: yup
       .number()
-      .typeError('Invalid number')
       .label(' ')
-      .max(50)
-      .min(0)
-      .nullable()
       .required(),
-    activities: yup
+    other: yup
       .object()
       .label(' ')
       .test(
@@ -114,7 +108,7 @@ export default {
         value => [
           ...value.map(item => item.score),
           ...value.map(item => item.maxScore),
-        ].every(v => !(v === null)),
+        ].every(v => !(v == null)),
       ),
     risks: yup
       .array()
@@ -125,6 +119,41 @@ export default {
         value => [
           ...value.map(item => item.level),
         ].every(v => !(v === null)),
+      ),
+  }),
+
+  tweaks: yup.object({
+    cognitiveConclusion: yup
+      .object()
+      .label(' ')
+      .test(
+        'required',
+        'is a required field',
+        value => !value.isEmpty(),
+      ),
+    risksConclusion: yup
+      .object()
+      .label(' ')
+      .test(
+        'required',
+        'is a required field',
+        value => !value.isEmpty(),
+      ),
+    impression: yup
+      .object()
+      .label(' ')
+      .test(
+        'required',
+        'is a required field',
+        value => !value.isEmpty(),
+      ),
+    carePlan: yup
+      .object()
+      .label(' ')
+      .test(
+        'required',
+        'is a required field',
+        value => !value.isEmpty(),
       ),
   }),
 };
