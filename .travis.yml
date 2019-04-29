@@ -7,8 +7,7 @@ branches:
 script:
   - npm install
   - npm run build
-  deploy:
+deploy:
   provider: firebase
   token:
     secure: $FIREBASE_TOKEN
-    
