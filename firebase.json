@@ -18,8 +18,8 @@
         "destination": "/index.html"
       },
       {
-        "source": "/api/generateConclusion", // Some URL to expose
-        "function": "generateConclusion" // Your HTTP function
+        "source": "/api/generateConclusion",
+        "function": "generateConclusion"
       }
     ]
   }
