@@ -1,8 +1,8 @@
 .imagePaper {
   background: white url(/images/hello.png) no-repeat border-box top;
   background-size: 100%;
-  padding-top: 510px;
-  padding-bottom: 60px;
+  padding-top: 380px;
+  padding-bottom: 50px;
 }
 
 .pageTitle {
