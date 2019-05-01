@@ -5,22 +5,6 @@
   min-height: 500px;
   border-radius: 10px;
   padding: 40px 120px;
-  margin: 0 auto 50px auto; 
+  margin: 50px auto 50px auto; 
   width: 600px;
-}
-
-.title {
-  margin: 40px 0 75px !important;
-  text-align: center;
-}
-
-.title:after {
-  content : "";
-  position: relative;
-  top: 25px;
-  display: block;
-  height: 0;
-  width: 40px;
-  border-bottom: 3px solid var(--primary-color);
-  margin: 0 auto;
 }

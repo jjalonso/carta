@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import nop from 'nop';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
+import { animateScroll } from 'react-scroll';
+
 import moment from 'moment';
 
 import worldCountries from 'world-countries';
@@ -104,11 +106,13 @@ const AssessmentContainer = () => {
         fetchConclusion();
       }
       setCurrentStep(currentStep + 1);
+      animateScroll.scrollToTop();
     }
   };
 
   const handlePrevStep = () => {
     setCurrentStep(currentStep - 1);
+    animateScroll.scrollToTop();
   };
 
   // Use state rather initialValues
@@ -126,7 +130,7 @@ const AssessmentContainer = () => {
       />
       <Row>
         <Col span={24} className={styles.assessmentContent}>
-          <Paper title={stepsOptions[currentStep].title}>
+          <Paper>
             <Typography.Title
               level={4}
               className={styles.steps}
@@ -136,6 +140,13 @@ const AssessmentContainer = () => {
               &nbsp;of&nbsp;
               { stepsOptions.length }
             </Typography.Title>
+            <Typography.Title
+              level={2}
+              className={styles.formTitle}
+            >
+              { stepsOptions[currentStep].title }
+            </Typography.Title>
+
             <Formik
               enableReinitialize
               validateOnBlur={false}
