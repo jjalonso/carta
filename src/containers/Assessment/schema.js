@@ -113,7 +113,7 @@ export default {
       .test(
         'in-range',
         'no score can be greater than the max score',
-        value => value.every(item => item.score <= item.maxScore)
+        value => value.every(item => item.score <= item.maxScore),
       ),
     risks: yup
       .array()
