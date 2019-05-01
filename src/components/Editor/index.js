@@ -19,7 +19,7 @@ const Editor = ({
   }, []);
 
   const handleChange = (editorState) => {
-    if (!isFirstEnter.current) onChange(editorState);
+    if (isFirstEnter.current) onChange(editorState);
   };
   // ***************************
 

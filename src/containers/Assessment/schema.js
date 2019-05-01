@@ -109,6 +109,11 @@ export default {
           ...value.map(item => item.score),
           ...value.map(item => item.maxScore),
         ].every(v => !(v == null)),
+      )
+      .test(
+        'in-range',
+        'no score can be greater than the max score',
+        value => value.every(item => item.score <= item.maxScore)
       ),
     risks: yup
       .array()
