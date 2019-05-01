@@ -24,6 +24,7 @@
     "react-pose": "^4.0.8",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.0.0",
+    "react-scroll": "^1.7.11",
     "uninstall": "0.0.0",
     "world-countries": "^2.1.0",
     "yup": "^0.27.0"

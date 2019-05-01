@@ -1,7 +1,26 @@
-.image {
-  width: 100%;
+.imagePaper {
+  background: white url(/images/hello.png) no-repeat border-box top;
+  background-size: 100%;
+  padding-top: 510px;
+  padding-bottom: 60px;
 }
 
-.text {
-  padding: 100px 0;
+.pageTitle {
+  margin: 40px 0 75px !important;
+  text-align: center;
+}
+
+.pageTitle:after {
+  content : "";
+  position: relative;
+  top: 25px;
+  display: block;
+  height: 0;
+  width: 40px;
+  border-bottom: 3px solid var(--primary-color);
+  margin: 0 auto;
+}
+
+.button {
+  margin-top: 20px;
 }
