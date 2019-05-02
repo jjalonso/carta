@@ -14,12 +14,12 @@
     ],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
-      },
-      {
         "source": "/api/generateConclusion",
         "function": "generateConclusion"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   }
