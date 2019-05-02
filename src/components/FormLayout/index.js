@@ -6,8 +6,6 @@ import {
   Icon,
   Row,
   Avatar,
-  Col,
-  Typography,
 } from 'antd';
 
 import styles from './FormLayout.module.css';
