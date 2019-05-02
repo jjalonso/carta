@@ -1,6 +1,7 @@
 const { override, fixBabelImports, addLessLoader } = require('customize-cra');
 
 const cartaDark = '#24243A';
+const cartaGreen = '#5EC1A1';
 
 module.exports = override(
   fixBabelImports('import', {
@@ -11,9 +12,10 @@ module.exports = override(
   addLessLoader({
     javascriptEnabled: true,
     modifyVars: {
-      '@primary-color': '#5EC1A1',
+      '@primary-color': cartaGreen,
       '@text-color': cartaDark,
-      '@primary-3': '#5EC1A1',
+      '@text-color-secondary': cartaGreen,
+      '@primary-3': cartaGreen,
       '@heading-color': cartaDark,
       '@layout-header-background': cartaDark,
       '@error-color': '#E15750',

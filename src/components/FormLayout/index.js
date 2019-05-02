@@ -5,6 +5,9 @@ import {
   Layout,
   Icon,
   Row,
+  Avatar,
+  Col,
+  Typography,
 } from 'antd';
 
 import styles from './FormLayout.module.css';
@@ -14,8 +17,11 @@ import Welcome from '../Welcome';
 const FormLayout = () => (
   <Layout className={styles.layout}>
     <Layout.Header>
-      <div className={styles.wrapper}>
-        <img className={styles.logo} alt="logo" src="/images/logo_green.png" />
+      <div className={styles.header}>
+        <img alt="logo" src="/images/logo-green.png" className={styles.logo} />
+        <div>
+          <Avatar size="large" icon="user" src="/images/avatar-male.png" />
+        </div>
       </div>
     </Layout.Header>
 

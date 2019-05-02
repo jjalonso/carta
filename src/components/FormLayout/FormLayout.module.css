@@ -9,23 +9,34 @@
   overflow: hidden;
 }
 
+.wrapper {
+  composes: maxWidth;
+}
+
 .layout {
   background: linear-gradient( #fff 350px, #f0f2f5 1px);
 }
 
 .logo {
-  margin: 21px 35px;
-  float: left;
+  margin: 21px 0px;
 }
 
-.wrapper {
+.header {
   composes: maxWidth;
+  display: flex;
+  justify-content: space-between;
 }
 
+/* .avatar {
+  color: var(--primary-color);
+} */
+
+
+/* 
 .top {
   background: white;
   height: 290px;
-}
+} */
 
 .content {
   composes: maxWidth;
@@ -34,15 +45,6 @@
   /* min-height: 800px; */
   /* width: 600px; */
   /* margin: -290px auto 50px auto; */
-}
-
-.header {
-  /* composes: maxWidth; */
-  /* line-height: 64px; */
-}
-
-.menu {
-  line-height: 64px;
 }
 
 .footer {
