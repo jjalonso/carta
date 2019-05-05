@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import nop from 'nop';
 import {
   Row,
   Col,
@@ -15,6 +17,9 @@ import TagsInput from '../TagsInput';
 import Field from '../Field';
 
 const IntroForm = ({
+  titleOptions,
+  companionOptions,
+  problemsOptions,
   isFetchingMedication,
   medicationData,
   fetchMedication,
@@ -31,17 +36,15 @@ const IntroForm = ({
           name="title"
           render={(field, error) => (
             <Form.Item
-              label="Title"
+              label="Title *"
               {...error}
             >
               <Select
-                placeholder="Title"
+                placeholder="Select title"
                 {...field}
               >
-                <Select.Option value="Miss">Miss</Select.Option>
-                <Select.Option value="Mrs">Mrs</Select.Option>
-                <Select.Option value="Ms">Ms</Select.Option>
-                <Select.Option value="Mr">Mr</Select.Option>
+                {titleOptions
+                  .map(opt => <Select.Option key={opt} value={opt}>{opt}</Select.Option>)}
               </Select>
             </Form.Item>
           )}
@@ -116,19 +119,7 @@ const IntroForm = ({
               <TagsSelect
                 placeholder="Enter companion..."
                 newLabel="Add Companion"
-                choices={[
-                  'Husband',
-                  'Wife',
-                  'Partner',
-                  'Daughter',
-                  'Son',
-                  'Mother',
-                  'Father',
-                  'Friend',
-                  'Cousin',
-                  'Uncle',
-                  'Aunt',
-                ]}
+                choices={companionOptions}
                 {...field}
               />
             </Form.Item>
@@ -136,6 +127,25 @@ const IntroForm = ({
         />
       </Col>
 
+      <Col span={24}>
+        <Field
+          name="problems"
+          render={(field, error) => (
+            <Form.Item
+              label="Patient problems *"
+              {...error}
+            >
+              <TagsSelect
+                placeholder="Enter problems..."
+                newLabel="Add Problem"
+                choices={problemsOptions}
+                {...field}
+              />
+            </Form.Item>
+          )}
+        />
+      </Col>
+      
       <Col span={24}>
         <Field
           name="conditions"
@@ -175,37 +185,28 @@ const IntroForm = ({
           )}
         />
       </Col>
-
-      <Col span={24}>
-        <Field
-          name="problems"
-          render={(field, error) => (
-            <Form.Item
-              label="Patient problems"
-              {...error}
-            >
-              <TagsSelect
-                placeholder="Enter problems..."
-                newLabel="Add Problem"
-                choices={[
-                  'Forgeting medication',
-                  'Forgeting to eat',
-                  'Getting confuse',
-                  'Getting muddled with Days/Dates',
-                  'Forgetful conversations',
-                  'Poor short-term memory',
-                  'Unable to retain information',
-                  'Cooking issues',
-                  'Loosing items',
-                ]}
-                {...field}
-              />
-            </Form.Item>
-          )}
-        />
-      </Col>
     </Row>
   </Form>
 );
+
+IntroForm.propTypes = {
+  titleOptions: PropTypes.arrayOf(PropTypes.string),
+  companionOptions: PropTypes.arrayOf(PropTypes.string),
+  problemsOptions: PropTypes.arrayOf(PropTypes.string),
+  isFetchingMedication: PropTypes.bool,
+  medicationData: PropTypes.arrayOf(PropTypes.string),
+  fetchMedication: PropTypes.func,
+  clearMedication: PropTypes.func,
+};
+
+IntroForm.defaultProps = {
+  titleOptions: [],
+  companionOptions: [],
+  problemsOptions: [],
+  isFetchingMedication: false,
+  medicationData: [],
+  fetchMedication: nop,
+  clearMedication: nop,
+};
 
 export default IntroForm;

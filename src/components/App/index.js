@@ -20,7 +20,6 @@ const App = () => (
   <BrowserRouter>
     <Route path="/" component={FormLayout} />
   </BrowserRouter>
-
 );
 
 export default App;

@@ -14,7 +14,6 @@ module.exports = override(
     modifyVars: {
       '@primary-color': cartaGreen,
       '@text-color': cartaDark,
-      '@text-color-secondary': cartaGreen,
       '@primary-3': cartaGreen,
       '@heading-color': cartaDark,
       '@layout-header-background': cartaDark,
@@ -22,6 +21,7 @@ module.exports = override(
       '@font-family': 'Noto Sans, sans-serif',
       '@layout-footer-background': cartaDark,
       '@font-size-base': '12px',
+      '@form-item-margin-bottom': '30px',
     },
   }),
 );

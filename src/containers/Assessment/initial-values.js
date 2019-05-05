@@ -1,7 +1,6 @@
 import BraftEditor from 'braft-editor';
 import moment from 'moment';
 
-
 // For development purpose!
 // Filling forms is boring/depressive
 export const filledValues = {
@@ -23,6 +22,8 @@ export const filledValues = {
     occupation: 'Mental health nurse',
     living: ['Superman'],
     totalChildren: '3',
+    smoking: 'No',
+    alcohol: 'No',
     other: BraftEditor.createEditorState('<p>Cositas varias</p>'),
   },
   tests: {
@@ -40,9 +41,7 @@ export const filledValues = {
       { name: 'Others risks', level: 3 },
     ],
   },
-  tweaks: {
-    cognitiveConclusion: BraftEditor.createEditorState(undefined),
-    risksConclusion: BraftEditor.createEditorState(undefined),
+  conclusion: {
     impression: BraftEditor.createEditorState('<p>Patient was very anxious bla bla bla</p>'),
     carePlan: BraftEditor.createEditorState('<p>Nothing to do!</p>'),
   },
@@ -50,7 +49,7 @@ export const filledValues = {
 
 export const emptyValues = {
   intro: {
-    title: undefined,
+    // title: undefined,
     name: 'Anonymous',
     companion: [],
     place: 'clinic',
@@ -60,17 +59,19 @@ export const emptyValues = {
     problems: [],
   },
   background: {
-    country: undefined,
-    emigrationYear: undefined,
-    degree: undefined,
-    isDegreeIncompleted: false,
-    occupation: undefined,
+    // country: undefined,
+    // emigrationYear: undefined,
+    // degree: undefined,
+    // isDegreeIncompleted: false,
+    // occupation: undefined,
     living: [],
-    totalChildren: 0,
-    other: BraftEditor.createEditorState(undefined),
+    totalChildren: 'No',
+    smoking: 'No',
+    alcohol: 'No',
+    // other: undefined,
   },
   tests: {
-    examination: BraftEditor.createEditorState(undefined),
+    // examination: undefined,
     cognitive: [
       { name: 'Attention', score: undefined, maxScore: undefined },
       { name: 'Memory', score: undefined, maxScore: undefined },
@@ -84,10 +85,8 @@ export const emptyValues = {
       { name: 'Others risks', level: 1 },
     ],
   },
-  tweaks: {
-    cognitiveConclusion: BraftEditor.createEditorState(undefined),
-    risksConclusion: BraftEditor.createEditorState(undefined),
-    impression: BraftEditor.createEditorState(undefined),
-    carePlan: BraftEditor.createEditorState(undefined),
+  conclusion: {
+    // impression: undefined,
+    // carePlan: undefined,
   },
 };

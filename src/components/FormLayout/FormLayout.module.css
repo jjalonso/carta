@@ -27,24 +27,13 @@
   justify-content: space-between;
 }
 
-/* .avatar {
-  color: var(--primary-color);
-} */
-
-
-/* 
-.top {
-  background: white;
-  height: 290px;
-} */
+.avatar {
+  /* border: 2px solid var(--primary-color);
+  border-radius: 36px; */
+}
 
 .content {
   composes: maxWidth;
-  /* padding: 50px 120px; */
-  /* background: white; */
-  /* min-height: 800px; */
-  /* width: 600px; */
-  /* margin: -290px auto 50px auto; */
 }
 
 .footer {

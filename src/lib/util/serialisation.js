@@ -1,6 +1,7 @@
 import BraftEditor from 'braft-editor';
 
-const htmlFields = ['other', 'examination', 'cognitiveConclusion', 'risksConclusion'];
+// Not the best way but...
+const htmlFields = ['other', 'examination', 'cognitiveConclusion', 'risksConclusion', 'carePlan', 'impression'];
 
 export const serialise = (data) => {
   const json = {};

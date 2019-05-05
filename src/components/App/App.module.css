@@ -12,6 +12,10 @@
   padding-top: 3px;  
 }
 
+/* :global(.ant-select) {
+  text-transform: capitalize;
+} */
+
 /* FORM LABELS CUSTOMISATION */
 :global(.ant-form-item-label) {
   line-height: 23px;
@@ -30,12 +34,16 @@
   cursor: default;
 }
 /* **************** */
+/* 
+:global(.ant-select-dropdown-menu-item) {
+  text-transform: capitalize;
+} */
 
 /* RADIO CUSTOMISATION */
 :global(.ant-radio-wrapper) {
   border: 1px solid #d9d9d9;
   border-radius: 4px;
-  padding: 6px 5px 6px 10px;
+  padding: 6px 5px 5px 10px;
   transition: all 0.3s;
 }
 

@@ -18,7 +18,7 @@ const TestForm = () => (
           name="examination"
           render={(field, error) => (
             <Form.Item
-              label="Mental health examination"
+              label="Mental health examination *"
               {...error}
             >
               <Editor
@@ -35,7 +35,7 @@ const TestForm = () => (
           name="cognitive"
           render={(field, error) => (
             <Form.Item
-              label="Cognitive test result"
+              label="Cognitive test result *"
               {...error}
             >
               <CognitiveWidget {...field} />

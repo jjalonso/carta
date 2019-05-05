@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import nop from 'nop';
 import { Field as FormikField } from 'formik';
 
 const Field = ({
@@ -12,7 +14,6 @@ const Field = ({
     }
     return v;
   };
-
 
   return (
     <FormikField
@@ -29,6 +30,16 @@ const Field = ({
       }}
     />
   );
+};
+
+Field.propTypes = {
+  name: PropTypes.string,
+  render: PropTypes.func,
+};
+
+Field.defaultProps = {
+  name: '',
+  render: nop,
 };
 
 export default Field;

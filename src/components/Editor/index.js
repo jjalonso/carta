@@ -1,14 +1,17 @@
 import React, { useEffect, useRef } from 'react';
-import BraftEditor from 'braft-editor';
+import PropTypes from 'prop-types';
+import nop from 'nop';
+import classNames from 'classnames';
+import BraftEditor, { EditorState } from 'braft-editor';
 import 'braft-editor/dist/index.css';
 
 import styles from './Editor.module.css';
 
 const Editor = ({
-  onChange,
-  value,
   placeholder,
   contentClassName,
+  value,
+  onChange,
 }) => {
   // ***************************
   // Workaround: https://github.com/margox/braft-editor/issues/238
@@ -36,7 +39,7 @@ const Editor = ({
       <BraftEditor
         language="en"
         triggerChangeOnMount={false}
-        contentClassName={`${contentClassName} ${styles.content}`}
+        contentClassName={classNames([styles.content, contentClassName])}
         excludeControls={excludedControls}
         placeholder={placeholder}
         value={value}
@@ -44,6 +47,20 @@ const Editor = ({
       />
     </div>
   );
+};
+
+Editor.propTypes = {
+  placeholder: PropTypes.string,
+  contentClassName: PropTypes.string,
+  value: PropTypes.instanceOf(EditorState),
+  onChange: PropTypes.func,
+};
+
+Editor.defaultProps = {
+  placeholder: '',
+  contentClassName: '',
+  value: BraftEditor.createEditorState(),
+  onChange: nop,
 };
 
 export default Editor;
