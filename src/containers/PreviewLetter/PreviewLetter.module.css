@@ -1,0 +1,20 @@
+.skeleton {
+  margin: 20px;
+}
+
+.paper {
+  padding: 40px 50px;
+}
+
+.editionButton {
+  margin-bottom: 60px;
+  float: right;
+}
+
+.letterEditor {
+  height: 100%;
+}
+
+.copyAlert {
+  margin: 10px 0;
+}

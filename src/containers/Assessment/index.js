@@ -1,12 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, {
+  useState, useRef, useEffect, useContext,
+} from 'react';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import nop from 'nop';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import { animateScroll } from 'react-scroll';
-
-import moment from 'moment';
-
-import worldCountries from 'world-countries';
-import MessengerCustomerChat from 'react-messenger-customer-chat/lib/MessengerCustomerChat';
 import { Formik } from 'formik';
 import { Row, Col, Typography } from 'antd';
 import { Wizard, Steps as WizardSteps, Step } from 'react-albus';
@@ -17,30 +15,30 @@ import WizardButtons from '../../components/WizardButtons';
 import IntroForm from '../../components/IntroForm';
 import BackgroundForm from '../../components/BackgroundForm';
 import TestsForm from '../../components/TestsForm';
-import TweaksForm from '../../components/TweaksForm';
-import { emptyValues as initialValues } from './initial-values';
+import ConclusionForm from '../../components/ConclusionForm';
 import {
   fetchMedication as fetchMedicationApi,
-  fetchConclusion as fetchConclusionApi,
+  fetchFormOptions as fetchFormOptionsApi,
 } from '../../lib/services/api';
 import Paper from '../../components/Paper/Paper';
-import rangeArray from '../../lib/util/helpers';
+import { AppContext } from '../../components/App';
 
 const fetchMedDebounced = AwesomeDebouncePromise(fetchMedicationApi, 1000);
 
-const AssessmentContainer = () => {
-  const [state, setState] = useState(initialValues);
+const AssessmentContainer = ({ history }) => {
+  const { appState, setAppState } = useContext(AppContext);
+  const [formOptions, setFormOptions] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
   const [medicationData, setMedicationData] = useState([]);
   const [isFetchingMedication, setFetchingMedication] = useState(false);
   const refForm = useRef({ current: {} });
 
-  const currentYear = moment().year();
-  const yearsArray = rangeArray(currentYear - 120, currentYear).reverse();
-  const childrenArray = rangeArray(0, 20);
-  const countriesArray = worldCountries
-    .map(item => item.name.common)
-    .sort();
+  useEffect(() => {
+    async function asyncFetch() {
+      setFormOptions(await fetchFormOptionsApi());
+    }
+    asyncFetch();
+  }, []);
 
   const clearMedication = () => {
     setMedicationData([]);
@@ -54,57 +52,63 @@ const AssessmentContainer = () => {
     setMedicationData(data);
   };
 
-  const fetchConclusion = async () => {
-    // TODO: Error handling
-    const conclusion = await fetchConclusionApi(
-      state.intro.title,
-      state.tests.cognitive,
-      state.tests.risks,
-    );
-    setState({ ...state, tweaks: { ...state.tweaks, ...conclusion } });
-  };
-
   const stepsOptions = [
     {
       title: 'Patient introduction',
       id: 'intro',
       schema: schema.intro,
-      initialValues: state.intro,
+      initialValues: appState.assessment.intro,
     },
     {
       title: 'Personal history',
       id: 'background',
       schema: schema.background,
-      initialValues: state.background,
+      initialValues: appState.assessment.background,
     },
     {
       title: 'Tests results',
       id: 'tests',
       schema: schema.tests,
-      initialValues: state.tests,
+      initialValues: appState.assessment.tests,
     },
     {
-      title: 'Final tweaks',
-      id: 'tweaks',
-      schema: schema.tweaks,
-      initialValues: state.tweaks,
+      title: 'Final conclusion',
+      id: 'conclusion',
+      schema: schema.conclusion,
+      initialValues: appState.assessment.conclusion,
     },
   ];
 
-  const saveFormState = (values) => {
-    setState({ ...state, [stepsOptions[currentStep].id]: values });
+  const updateAssessmentState = (values) => {
+    setAppState({
+      ...appState,
+      assessment: {
+        ...appState.assessment,
+        [stepsOptions[currentStep].id]: values,
+      },
+    });
+  };
+
+  const validateAndSave = async () => {
+    const errors = await refForm.current.validateForm();
+    const isValid = !Object.entries(errors).length;
+    if (isValid) {
+      const { values } = refForm.current.state;
+      updateAssessmentState(values);
+      return true;
+    }
+    return false;
+  };
+
+  const handleLastStep = async () => {
+    if (await validateAndSave()) {
+      history.replace('/letter');
+      animateScroll.scrollToTop();
+    }
   };
 
   const handleNextStep = async () => {
-    const errors = await refForm.current.validateForm();
-    const isValid = !Object.entries(errors).length;
-    const isTestsStep = stepsOptions[currentStep].id === 'tests';
-    if (isValid) {
-      const { values } = refForm.current.state;
-      saveFormState(values);
-      if (isTestsStep) {
-        fetchConclusion();
-      }
+    if (await validateAndSave()) {
       setCurrentStep(currentStep + 1);
       animateScroll.scrollToTop();
     }
@@ -116,18 +120,12 @@ const AssessmentContainer = () => {
   };
 
   // Use state rather initialValues
-  const currentValues = stepsOptions[currentStep].initialValues
-    || state[stepsOptions[currentStep].id];
+  // const currentValues = stepsOptions[currentStep].initialValues;
+  // const currentValues = stepsOptions[currentStep].initialValues
+  //   || appState.assessment[stepsOptions[currentStep].id];
 
   return (
     <>
-      <MessengerCustomerChat
-        pageId="2029102333853119"
-        appId="163164767920929"
-        themeColor="#5EC1A1"
-        loggedInGreeting="Hello dear! We are here to chat in case you need help or wanted to say hi!"
-        loggedOutGreeting="Hello dear! We are here to chat in case you need help or wanted to say hi!"
-      />
       <Row>
         <Col span={24} className={styles.assessmentContent}>
           <Paper>
@@ -153,7 +151,7 @@ const AssessmentContainer = () => {
               validateOnChange={false}
               ref={refForm}
               validationSchema={stepsOptions[currentStep].schema}
-              initialValues={currentValues}
+              initialValues={stepsOptions[currentStep].initialValues}
               onSubmit={nop}
               render={props => (
                 <Wizard render={() => (
@@ -161,6 +159,9 @@ const AssessmentContainer = () => {
                     <WizardSteps step={{ id: stepsOptions[currentStep].id }}>
                       <Step id="intro">
                         <IntroForm
+                          titleOptions={formOptions.title}
+                          problemsOptions={formOptions.problems}
+                          companionOptions={formOptions.companion}
                           isFetchingMedication={isFetchingMedication}
                           medicationData={medicationData}
                           fetchMedication={fetchMedication}
@@ -170,17 +171,20 @@ const AssessmentContainer = () => {
                       </Step>
                       <Step id="background">
                         <BackgroundForm
-                          countriesArray={countriesArray}
-                          yearsArray={yearsArray}
-                          childrenArray={childrenArray}
+                          countriesOptions={formOptions.countries}
+                          emigrationYearsOptions={formOptions.emigrationYears}
+                          childrenOptions={formOptions.children}
+                          smokingOptions={formOptions.smoking}
+                          alcoholOptions={formOptions.alcohol}
+                          livingOptions={formOptions.living}
                           {...props}
                         />
                       </Step>
                       <Step id="tests">
                         <TestsForm />
                       </Step>
-                      <Step id="tweaks">
-                        <TweaksForm
+                      <Step id="conclusion">
+                        <ConclusionForm
                           {...props}
                         />
                       </Step>
@@ -190,12 +194,11 @@ const AssessmentContainer = () => {
                       step={currentStep}
                       onPrev={handlePrevStep}
                       onNext={handleNextStep}
+                      onFinish={handleLastStep}
                     />
                   </>
-
                 )}
                 />
-
               )}
             />
           </Paper>
@@ -203,6 +206,10 @@ const AssessmentContainer = () => {
       </Row>
     </>
   );
+};
+
+AssessmentContainer.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default AssessmentContainer;

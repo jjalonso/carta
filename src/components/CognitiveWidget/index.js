@@ -41,7 +41,7 @@ const CognitiveWidget = ({
                 className={styles.scoreInput}
                 min={1}
                 max={100}
-                placeholder="Max Score"
+                placeholder="Max score"
                 onChange={v => handleChange(index, 'maxScore', v)}
                 value={item.maxScore}
               />

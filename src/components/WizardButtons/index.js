@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import nop from 'nop';
 import {
   Icon,
   Button,
@@ -13,6 +15,7 @@ const WizardButtons = ({
   step,
   onPrev,
   onNext,
+  onFinish,
 }) => (
   <Row>
     <Col span={12} className={styles.prevCol}>
@@ -27,17 +30,31 @@ const WizardButtons = ({
       )}
     </Col>
     <Col span={12} className={styles.nextCol}>
-      {step < steps - 1 && (
-        <Button
-          type="primary"
-          onClick={onNext}
-        >
-          Next
-          <Icon type="right" />
-        </Button>
-      )}
+      <Button
+        type="primary"
+        onClick={step < steps - 1 ? onNext : onFinish}
+      >
+        Next
+        <Icon type="right" />
+      </Button>
     </Col>
   </Row>
 );
+
+WizardButtons.propTypes = {
+  steps: PropTypes.number,
+  step: PropTypes.number,
+  onPrev: PropTypes.func,
+  onNext: PropTypes.func,
+  onFinish: PropTypes.func,
+};
+
+WizardButtons.defaultProps = {
+  steps: 0,
+  step: 0,
+  onPrev: nop,
+  onNext: nop,
+  onFinish: nop,
+};
 
 export default WizardButtons;

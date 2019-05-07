@@ -2,8 +2,12 @@
   border-color: red;
 }
 
+:global(.public-DraftStyleDefault-block) {
+  margin-bottom: 1em;
+}
+
 :global(.bf-container .public-DraftEditorPlaceholder-root) {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .editor {

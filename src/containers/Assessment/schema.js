@@ -77,7 +77,15 @@ export default {
       .label(' ')
       .notRequired(),
     totalChildren: yup
-      .number()
+      .string()
+      .label(' ')
+      .required(),
+    smoking: yup
+      .string()
+      .label(' ')
+      .required(),
+    alcohol: yup
+      .string()
       .label(' ')
       .required(),
     other: yup
@@ -127,23 +135,7 @@ export default {
       ),
   }),
 
-  tweaks: yup.object({
-    cognitiveConclusion: yup
-      .object()
-      .label(' ')
-      .test(
-        'required',
-        'is a required field',
-        value => !value.isEmpty(),
-      ),
-    risksConclusion: yup
-      .object()
-      .label(' ')
-      .test(
-        'required',
-        'is a required field',
-        value => !value.isEmpty(),
-      ),
+  conclusion: yup.object({
     impression: yup
       .object()
       .label(' ')

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Col,
   Row,
@@ -13,9 +14,13 @@ import Editor from '../Editor';
 import Field from '../Field';
 
 const BackgroundForm = ({
-  countriesArray,
-  yearsArray,
-  childrenArray,
+  countriesOptions,
+  emigrationYearsOptions,
+  childrenOptions,
+  smokingOptions,
+  alcoholOptions,
+  livingOptions,
+  // eslint-disable-next-line react/prop-types
   values,
 }) => (
   <Form
@@ -29,7 +34,7 @@ const BackgroundForm = ({
           name="country"
           render={(field, error) => (
             <Form.Item
-              label="Country of birth"
+              label="Country of birth *"
               {...error}
             >
               <Select
@@ -37,7 +42,7 @@ const BackgroundForm = ({
                 placeholder="Select country"
                 {...field}
               >
-                {countriesArray.map(name => <Select.Option key={name}>{name}</Select.Option>)}
+                {countriesOptions.map(name => <Select.Option key={name}>{name}</Select.Option>)}
               </Select>
             </Form.Item>
           )}
@@ -49,15 +54,16 @@ const BackgroundForm = ({
           name="emigrationYear"
           render={(field, error) => (
             <Form.Item
-              label="Emigration year"
+              label={`Emigration year ${!values.country || values.country === 'UnitedKingdom' ? '' : '*'}`}
               {...error}
             >
               <Select
-                placeholder="Select year"
+                placeholder="Year"
                 disabled={!values.country || values.country === 'United Kingdom'}
                 {...field}
               >
-                { yearsArray.map(num => <Select.Option key={num} value={num}>{num}</Select.Option>)}
+                {emigrationYearsOptions
+                  .map(num => <Select.Option key={num} value={num}>{num}</Select.Option>)}
               </Select>
             </Form.Item>
           )}
@@ -69,7 +75,7 @@ const BackgroundForm = ({
           name="occupation"
           render={(field, error) => (
             <Form.Item
-              label="Occupation"
+              label="Occupation *"
               {...error}
             >
               <Input
@@ -98,7 +104,7 @@ const BackgroundForm = ({
         />
       </Col>
 
-      <Col span={10}>
+      <Col span={11}>
         <Field
           name="isDegreeIncompleted"
           render={(field, error) => (
@@ -117,28 +123,6 @@ const BackgroundForm = ({
           )}
         />
       </Col>
-
-      <Col offset={1} span={7}>
-        <Field
-          name="totalChildren"
-          render={(field, error) => (
-            <Form.Item
-              colon={false}
-              label="Children"
-              {...error}
-            >
-              <Select
-                placeholder="Select amount"
-                {...field}
-              >
-                { childrenArray
-                  .map(num => <Select.Option key={num} value={num}>{num}</Select.Option>)}
-              </Select>
-            </Form.Item>
-          )}
-        />
-      </Col>
-
       <Col span={24}>
         <Field
           name="living"
@@ -151,42 +135,115 @@ const BackgroundForm = ({
               <TagsSelect
                 placeholder="Enter a member..."
                 newLabel="Add Member"
-                choices={[
-                  'Husband',
-                  'Wife',
-                  'Partner',
-                  'Children',
-                  'Friend',
-                  'Parent',
-                  'Family',
-                ]}
+                choices={livingOptions}
                 {...field}
               />
             </Form.Item>
           )}
         />
       </Col>
+    </Row>
 
-      <Col span={24}>
+    <Row>
+      <Col span={6}>
         <Field
-          name="other"
+          name="totalChildren"
           render={(field, error) => (
             <Form.Item
               colon={false}
-              label="Other information"
+              label="Children"
               {...error}
             >
-              <Editor
-                placeholder="Describe patient ADL, eyesight, mobility and consumtion habits."
+              <Select
+                placeholder="Number"
                 {...field}
-              />
+              >
+                {childrenOptions
+                  .map(num => <Select.Option key={num} value={num}>{num}</Select.Option>)}
+              </Select>
             </Form.Item>
           )}
         />
       </Col>
 
+      <Col offset={1} span={8}>
+        <Field
+          name="smoking"
+          render={(field, error) => (
+            <Form.Item
+              colon={false}
+              label="Smoking"
+              {...error}
+            >
+              <Select
+                placeholder="Select"
+                {...field}
+              >
+                {smokingOptions
+                  .map(num => <Select.Option key={num} value={num}>{num}</Select.Option>)}
+              </Select>
+            </Form.Item>
+          )}
+        />
+      </Col>
+      <Col offset={1} span={8}>
+        <Field
+          name="alcohol"
+          render={(field, error) => (
+            <Form.Item
+              colon={false}
+              label="Alcohol"
+              {...error}
+            >
+              <Select
+                placeholder="Select"
+                {...field}
+              >
+                {alcoholOptions
+                  .map(num => <Select.Option key={num} value={num}>{num}</Select.Option>)}
+              </Select>
+            </Form.Item>
+          )}
+        />
+      </Col>
     </Row>
+
+    <Col span={24}>
+      <Field
+        name="other"
+        render={(field, error) => (
+          <Form.Item
+            colon={false}
+            label="Other information *"
+            {...error}
+          >
+            <Editor
+              placeholder="Describe patient ADL, eyesight, mobility..."
+              {...field}
+            />
+          </Form.Item>
+        )}
+      />
+    </Col>
   </Form>
 );
+
+BackgroundForm.propTypes = {
+  countriesOptions: PropTypes.arrayOf(PropTypes.string),
+  emigrationYearsOptions: PropTypes.arrayOf(PropTypes.number),
+  childrenOptions: PropTypes.arrayOf(PropTypes.string),
+  smokingOptions: PropTypes.arrayOf(PropTypes.string),
+  alcoholOptions: PropTypes.arrayOf(PropTypes.string),
+  livingOptions: PropTypes.arrayOf(PropTypes.string),
+};
+
+BackgroundForm.defaultProps = {
+  countriesOptions: [],
+  emigrationYearsOptions: [],
+  childrenOptions: [],
+  smokingOptions: [],
+  alcoholOptions: [],
+  livingOptions: [],
+};
 
 export default BackgroundForm;

@@ -1,6 +1,5 @@
-import BraftEditor from 'braft-editor';
-
-const htmlFields = ['other', 'examination', 'cognitiveConclusion', 'risksConclusion'];
+import BraftEditor, { EditorState } from 'braft-editor';
+import isHtml from 'is-html';
 
 export const serialise = (data) => {
   const json = {};
@@ -8,7 +7,7 @@ export const serialise = (data) => {
     const [key, value] = entry;
     // TODO: Sanitize value
     // EditorState > string
-    json[key] = htmlFields.includes(key) ? value.toHTML() : value;
+    json[key] = value instanceof EditorState ? value.toHTML() : value;
   });
   return json;
 };
@@ -18,7 +17,7 @@ export const deserialise = (json) => {
   Object.entries(json).forEach((entry) => {
     const [key, value] = entry;
     // string > EditorState
-    data[key] = htmlFields.includes(key) ? BraftEditor.createEditorState(value) : value;
+    data[key] = isHtml(value) ? BraftEditor.createEditorState(value) : value;
   });
   return data;
 };

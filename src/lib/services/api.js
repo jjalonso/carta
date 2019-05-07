@@ -10,8 +10,16 @@ export const fetchMedication = async query => (
       .filter((med, i, array) => array.indexOf(med) === i)) // Filter Duplication
 );
 
-export const fetchConclusion = (title, cognitive, risks) => {
-  const values = serialise({ title, cognitive, risks });
-  return post('/api/generateConclusion', { values })
-    .then(json => deserialise(json));
+export const fetchLetter = (state) => {
+  const values = serialise({
+    ...state.intro,
+    ...state.background,
+    ...state.tests,
+    ...state.conclusion,
+  });
+  return post('/api/generateLetter', { values })
+    .then(markup => deserialise(markup))
+    .then(json => json.markup);
 };
+
+export const fetchFormOptions = () => get('/api/formOptions').then(json => deserialise(json));

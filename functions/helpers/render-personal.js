@@ -1,4 +1,4 @@
 module.exports = [
-  'personalPronoun',
+  'render-personal',
   title => (['Miss', 'Mrs', 'Ms'].includes(title) ? 'she' : 'he'),
 ];

@@ -32,7 +32,7 @@ const Welcome = () => (
       </Typography.Paragraph>
 
       <Typography.Paragraph strong>
-        We&apos;ll love to get feedback from you!
+        Use our FB bubble chat on the bottom-right corner, We&apos;ll love to get feedback from you!
       </Typography.Paragraph>
 
       <Link to="/assessment">

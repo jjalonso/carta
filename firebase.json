@@ -14,9 +14,13 @@
     ],
     "rewrites": [
       {
-        "source": "/api/generateConclusion",
-        "function": "generateConclusion"
+        "source": "/api/formOptions",
+        "function": "formOptions"
       },
+      {
+        "source": "/api/generateLetter",
+        "function": "generateLetter"
+      },      
       {
         "source": "**",
         "destination": "/index.html"

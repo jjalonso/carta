@@ -1,4 +1,4 @@
 module.exports = [
-  'posessivePronoun',
+  'render-possessive',
   title => (['Miss', 'Mrs', 'Ms'].includes(title) ? 'her' : 'his'),
 ];
