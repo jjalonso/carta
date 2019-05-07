@@ -1,4 +1,4 @@
 module.exports = [
   'render-list',
-  array => `<ul>${array.map(item => `<li>${item}</li>`).join(' ')}</ul>`,
+  array => (array.length ? `<ul>${array.map(item => `<li>${item}</li>`).join(' ')}</ul>` : 'None reported.'),
 ];

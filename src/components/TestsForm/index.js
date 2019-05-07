@@ -2,7 +2,6 @@ import React from 'react';
 import { Row, Col, Form } from 'antd';
 import Editor from '../Editor';
 import RiskWidget from '../RiskWidget';
-// import FieldHelp from '../FieldHelp';
 import CognitiveWidget from '../CognitiveWidget';
 import Field from '../Field';
 
@@ -51,11 +50,9 @@ const TestForm = () => (
           name="risks"
           render={(field, error) => (
             <Form.Item
-              // labelCol={{ span: 7 }}
               label="Risk assestment"
               {...error}
             >
-              {/* <FieldHelp text="Drag the slider along the bar to set a risk level" /> */}
               <Row>
                 <RiskWidget {...field} />
               </Row>

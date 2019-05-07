@@ -12,6 +12,7 @@ import {
 import styles from './FormLayout.module.css';
 import Assessment from '../../containers/Assessment';
 import Welcome from '../Welcome';
+import PreviewLetter from '../../containers/PreviewLetter';
 
 const FormLayout = () => (
   <>
@@ -33,8 +34,9 @@ const FormLayout = () => (
       </Layout.Header>
 
       <Layout.Content className={styles.content}>
-        <Route path="/assessment" component={Assessment} />
         <Route path="/" exact component={Welcome} />
+        <Route path="/assessment" exact component={Assessment} />
+        <Route path="/letter" exact component={PreviewLetter} />
       </Layout.Content>
 
       <Layout.Footer className={styles.footer}>

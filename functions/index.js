@@ -19,15 +19,15 @@ exports.generateLetter = functions.https.onRequest((request, response) => {
     <p>Thank you for referring {{title}} [{{name}}] for a memory assessment.</p>
     <p>
       {{title}} [{{name}}] was aware of the purpose of the assessment and consented for it to take place.
-      {{render-personal title}} also reported that {{render-personal title}} would like to know the outcome of the assessment.
+      {{render-capitalise (render-personal title)}} also reported that {{render-personal title}} would like to know the outcome of the assessment.
     </p>
     <p>
       I saw {{title}} [{{name}}] at {{render-place place}} on {{render-date date}},
-      {{render-companion companion options.companion (render-possessive title)}}.
+      {{render-companion companion options.companion (render-possessive title)}}
     </p>
 
     <strong>Presenting Problems</strong>
-    <p>{{render-problems problems (render-personal title)}}</p>
+    <p>{{render-problems problems (render-personal title)}}.</p>
 
     <strong>Relevant Medical and Psychiatric History</strong>
     <p>{{{render-list conditions}}}</p>
@@ -45,7 +45,7 @@ exports.generateLetter = functions.https.onRequest((request, response) => {
     <strong>Alcohol and Smoking</strong>
     <p>{{render-consumption alcohol smoking}}.</p>
 
-    <strong>Mental state examination</strong>
+    <strong>Mental State Examination</strong>
     {{{examination}}}
 
     <strong>Cognitive Assessment</strong>

@@ -145,7 +145,7 @@ const IntroForm = ({
           )}
         />
       </Col>
-      
+
       <Col span={24}>
         <Field
           name="conditions"

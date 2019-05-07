@@ -12,9 +12,9 @@ module.exports = [
       const sorted = sortOptionsFirst(companion, lowerCaseOptions);
       const string = arrayToString(sorted);
       // Add prefix / suffix
-      const suffix = 'was also present';
+      const suffix = 'was also present.';
       return lowerCaseOptions.includes(sorted[0]) ? `${possesive} ${string} ${suffix}` : `${string} ${suffix}`;
     }
-    return 'alone';
+    return 'the patient was alone on the assessment and I was unable to get a collateral history from a relative.';
   },
 ];

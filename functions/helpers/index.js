@@ -1,6 +1,7 @@
 
 const Handlebars = require('handlebars');
 
+const renderCapitalise = require('./render-capitalise');
 const renderPersonal = require('./render-personal');
 const renderPossessive = require('./render-possessive');
 const renderPlace = require('./render-place');
@@ -16,7 +17,7 @@ const renderCognitive = require('./render-cognitive');
 const renderRisks = require('./render-risks');
 const renderLiving = require('./render-living');
 
-
+Handlebars.registerHelper(...renderCapitalise);
 Handlebars.registerHelper(...renderPersonal);
 Handlebars.registerHelper(...renderPossessive);
 Handlebars.registerHelper(...renderPlace);

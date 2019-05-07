@@ -17,7 +17,9 @@ export const fetchLetter = (state) => {
     ...state.tests,
     ...state.conclusion,
   });
-  return post('/api/generateLetter', { values });
+  return post('/api/generateLetter', { values })
+    .then(markup => deserialise(markup))
+    .then(json => json.markup);
 };
 
 export const fetchFormOptions = () => get('/api/formOptions').then(json => deserialise(json));

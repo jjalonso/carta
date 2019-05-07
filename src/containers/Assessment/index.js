@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+  useState, useRef, useEffect, useContext,
+} from 'react';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import nop from 'nop';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import { animateScroll } from 'react-scroll';
-
 import { Formik } from 'formik';
 import { Row, Col, Typography } from 'antd';
 import { Wizard, Steps as WizardSteps, Step } from 'react-albus';
@@ -14,20 +16,17 @@ import IntroForm from '../../components/IntroForm';
 import BackgroundForm from '../../components/BackgroundForm';
 import TestsForm from '../../components/TestsForm';
 import ConclusionForm from '../../components/ConclusionForm';
-import { filledValues as initialValues } from './initial-values';
 import {
   fetchMedication as fetchMedicationApi,
   fetchFormOptions as fetchFormOptionsApi,
-  fetchLetter as fetchLetterApi,
 } from '../../lib/services/api';
 import Paper from '../../components/Paper/Paper';
-import PreviewForm from '../../components/PreviewForm';
+import { AppContext } from '../../components/App';
 
 const fetchMedDebounced = AwesomeDebouncePromise(fetchMedicationApi, 1000);
 
-const AssessmentContainer = () => {
-  const [formState, setFormState] = useState(initialValues);
-  const [letterState, setLetterState] = useState({});
+const AssessmentContainer = ({ history }) => {
+  const { appState, setAppState } = useContext(AppContext);
   const [formOptions, setFormOptions] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
   const [medicationData, setMedicationData] = useState([]);
@@ -53,57 +52,53 @@ const AssessmentContainer = () => {
     setMedicationData(data);
   };
 
-  const fetchLetter = async () => {
-    // TODO: Error handling
-    const letterJson = await fetchLetterApi(formState);
-    setLetterState(letterJson);
-  };
-
   const stepsOptions = [
     {
       title: 'Patient introduction',
       id: 'intro',
       schema: schema.intro,
-      initialValues: formState.intro,
+      initialValues: appState.assessment.intro,
     },
     {
       title: 'Personal history',
       id: 'background',
       schema: schema.background,
-      initialValues: formState.background,
+      initialValues: appState.assessment.background,
     },
     {
       title: 'Tests results',
       id: 'tests',
       schema: schema.tests,
-      initialValues: formState.tests,
+      initialValues: appState.assessment.tests,
     },
     {
       title: 'Final conclusion',
       id: 'conclusion',
       schema: schema.conclusion,
-      initialValues: formState.conclusion,
-    },
-    {
-      title: 'Congratulation!',
-      id: 'preview',
+      initialValues: appState.assessment.conclusion,
     },
   ];
 
-  const saveFormState = (values) => {
-    setFormState({ ...formState, [stepsOptions[currentStep].id]: values });
+  const updateAssessmentState = (values) => {
+    setAppState({
+      ...appState,
+      assessment: {
+        ...appState.assessment,
+        [stepsOptions[currentStep].id]: values,
+      },
+    });
+  };
+
+  const handleFinish = () => {
+    history.replace('/letter');
   };
 
   const handleNextStep = async () => {
     const errors = await refForm.current.validateForm();
     const isValid = !Object.entries(errors).length;
-    const isConclusionStep = stepsOptions[currentStep].id === 'conclusion';
     if (isValid) {
       const { values } = refForm.current.state;
-      saveFormState(values);
-      if (isConclusionStep) {
-        fetchLetter();
-      }
+      updateAssessmentState(values);
       setCurrentStep(currentStep + 1);
       animateScroll.scrollToTop();
     }
@@ -115,8 +110,9 @@ const AssessmentContainer = () => {
   };
 
   // Use state rather initialValues
-  const currentValues = stepsOptions[currentStep].initialValues
-    || formState[stepsOptions[currentStep].id];
+  // const currentValues = stepsOptions[currentStep].initialValues;
+  // const currentValues = stepsOptions[currentStep].initialValues
+  //   || appState.assessment[stepsOptions[currentStep].id];
 
   return (
     <>
@@ -145,7 +141,7 @@ const AssessmentContainer = () => {
               validateOnChange={false}
               ref={refForm}
               validationSchema={stepsOptions[currentStep].schema}
-              initialValues={currentValues}
+              initialValues={stepsOptions[currentStep].initialValues}
               onSubmit={nop}
               render={props => (
                 <Wizard render={() => (
@@ -182,24 +178,17 @@ const AssessmentContainer = () => {
                           {...props}
                         />
                       </Step>
-                      <Step id="preview">
-                        <PreviewForm
-                          letterMarkup={letterState.markup}
-                          {...props}
-                        />
-                      </Step>
                     </WizardSteps>
                     <WizardButtons
                       steps={stepsOptions.length}
                       step={currentStep}
                       onPrev={handlePrevStep}
                       onNext={handleNextStep}
+                      onFinish={handleFinish}
                     />
                   </>
-
                 )}
                 />
-
               )}
             />
           </Paper>
@@ -207,6 +196,10 @@ const AssessmentContainer = () => {
       </Row>
     </>
   );
+};
+
+AssessmentContainer.propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default AssessmentContainer;
