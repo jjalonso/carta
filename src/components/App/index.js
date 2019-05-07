@@ -3,7 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 import 'antd/dist/antd.less';
 
-import { filledValues as initialValues } from './initial-values';
+import { emptyValues as initialValues } from './initial-values';
 import FormLayout from '../FormLayout';
 import './App.module.css';
 
