@@ -30,10 +30,10 @@ exports.generateLetter = functions.https.onRequest((request, response) => {
     <p>{{render-problems problems (render-personal title)}}.</p>
 
     <strong>Relevant Medical and Psychiatric History</strong>
-    <p>{{{render-list conditions}}}</p>
+    {{{render-list conditions}}}
 
     <strong>Medication</strong>
-    <p>{{{render-list medication}}}</p>
+    {{{render-list medication}}}
 
     <strong>Personal & Social History</strong>
     <p>
@@ -49,7 +49,7 @@ exports.generateLetter = functions.https.onRequest((request, response) => {
     {{{examination}}}
 
     <strong>Cognitive Assessment</strong>
-    <p>{{{render-cognitive cognitive (render-personal title)}}}</p>
+    {{{render-cognitive cognitive (render-personal title)}}}
 
     <strong>Risks</strong>
     <p>{{{render-risks risks}}}</p>

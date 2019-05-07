@@ -89,16 +89,26 @@ const AssessmentContainer = ({ history }) => {
     });
   };
 
-  const handleFinish = () => {
-    history.replace('/letter');
-  };
-
-  const handleNextStep = async () => {
+  const validateAndSave = async () => {
     const errors = await refForm.current.validateForm();
     const isValid = !Object.entries(errors).length;
     if (isValid) {
       const { values } = refForm.current.state;
       updateAssessmentState(values);
+      return true;
+    }
+    return false;
+  };
+
+  const handleLastStep = async () => {
+    if (await validateAndSave()) {
+      history.replace('/letter');
+      animateScroll.scrollToTop();
+    }
+  };
+
+  const handleNextStep = async () => {
+    if (await validateAndSave()) {
       setCurrentStep(currentStep + 1);
       animateScroll.scrollToTop();
     }
@@ -184,7 +194,7 @@ const AssessmentContainer = ({ history }) => {
                       step={currentStep}
                       onPrev={handlePrevStep}
                       onNext={handleNextStep}
-                      onFinish={handleFinish}
+                      onFinish={handleLastStep}
                     />
                   </>
                 )}

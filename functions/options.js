@@ -51,7 +51,7 @@ module.exports.problems = [
   'Poor short-term memory',
   'Unable to retain information',
   'Cooking issues',
-  'Loosing items',
+  'Frequently loosing items',
 ];
 
 const habits = ['No', 'Occasionally', 'Regularly'];

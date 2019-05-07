@@ -40,7 +40,7 @@ const PreviewLetter = () => {
 
   const handleCopy = () => {
     // const plainString = letterMarkup.toHTML().replace(/<\/?[^>]+(>|$)/g, '');
-    const success = copy(letterMarkup.toText());
+    const success = copy(letterMarkup.toHTML());
     if (success) setCopySuccess(true);
     else setCopySuccess(false);
   };
