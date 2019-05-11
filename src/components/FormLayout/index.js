@@ -2,17 +2,20 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import MessengerCustomerChat from 'react-messenger-customer-chat/lib/MessengerCustomerChat';
+
 import {
   Layout,
   Icon,
   Row,
-  Avatar,
 } from 'antd';
 
-import styles from './FormLayout.module.css';
-import Assessment from '../../containers/Assessment';
+import PrivateRoute from '../PrivateRoute';
+import Assessment from '../Assessment';
 import Welcome from '../Welcome';
-import PreviewLetter from '../../containers/PreviewLetter';
+import PreviewLetter from '../PreviewLetter';
+import SignIn from '../SignIn';
+import styles from './FormLayout.module.css';
+import TopBar from '../TopBar';
 
 const FormLayout = () => (
   <>
@@ -25,18 +28,18 @@ const FormLayout = () => (
     />
     <Layout className={styles.layout}>
       <Layout.Header>
+
         <div className={styles.header}>
           <img alt="logo" src="/images/logo-green.png" className={styles.logo} />
-          <div>
-            <Avatar size="large" icon="user" src="/images/avatar-female.png" className={styles.avatar} />
-          </div>
+          <TopBar />
         </div>
       </Layout.Header>
 
       <Layout.Content className={styles.content}>
-        <Route path="/" exact component={Welcome} />
-        <Route path="/assessment" exact component={Assessment} />
-        <Route path="/letter" exact component={PreviewLetter} />
+        <Route path="/signin" exact component={SignIn} />
+        <PrivateRoute path="/" exact component={Welcome} />
+        <PrivateRoute path="/assessment" exact component={Assessment} />
+        <PrivateRoute path="/letter" exact component={PreviewLetter} />
       </Layout.Content>
 
       <Layout.Footer className={styles.footer}>

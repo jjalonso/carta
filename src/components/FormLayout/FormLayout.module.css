@@ -27,11 +27,6 @@
   justify-content: space-between;
 }
 
-.avatar {
-  /* border: 2px solid var(--primary-color);
-  border-radius: 36px; */
-}
-
 .content {
   composes: maxWidth;
 }

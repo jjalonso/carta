@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
 import * as firebase from 'firebase/app';
+import { BrowserRouter, Route } from 'react-router-dom';
 import 'antd/dist/antd.less';
 
-import { emptyValues as initialValues } from './initial-values';
+import { emptyState as initialState } from './initial-state';
 import FormLayout from '../FormLayout';
+
 import './App.module.css';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import Splash from '../Splash';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyDJaQleAIw2Dr6l2maVmRpTZMkkV3Amjn0',
@@ -19,15 +22,18 @@ firebase.initializeApp({
 export const AppContext = React.createContext(null);
 
 const App = () => {
-  const [appState, setAppState] = useState({ assessment: initialValues });
+  const [appState, setAppState] = useState(initialState);
+  const { initialising } = useAuthState(firebase.auth());
 
   return (
-
-    <AppContext.Provider value={{ appState, setAppState }}>
-      <BrowserRouter>
-        <Route path="/" component={FormLayout} />
-      </BrowserRouter>
-    </AppContext.Provider>
+    <>
+      { initialising && <Splash /> }
+      <AppContext.Provider value={{ appState, setAppState }}>
+        <BrowserRouter>
+          <Route path="/" component={FormLayout} />
+        </BrowserRouter>
+      </AppContext.Provider>
+    </>
   );
 };
 

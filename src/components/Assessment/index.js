@@ -16,12 +16,12 @@ import IntroForm from '../../components/IntroForm';
 import BackgroundForm from '../../components/BackgroundForm';
 import TestsForm from '../../components/TestsForm';
 import ConclusionForm from '../../components/ConclusionForm';
+import Paper from '../../components/Paper/Paper';
+import { AppContext } from '../../components/App';
 import {
   fetchMedication as fetchMedicationApi,
   fetchFormOptions as fetchFormOptionsApi,
 } from '../../lib/services/api';
-import Paper from '../../components/Paper/Paper';
-import { AppContext } from '../../components/App';
 
 const fetchMedDebounced = AwesomeDebouncePromise(fetchMedicationApi, 1000);
 
@@ -118,11 +118,6 @@ const AssessmentContainer = ({ history }) => {
     setCurrentStep(currentStep - 1);
     animateScroll.scrollToTop();
   };
-
-  // Use state rather initialValues
-  // const currentValues = stepsOptions[currentStep].initialValues;
-  // const currentValues = stepsOptions[currentStep].initialValues
-  //   || appState.assessment[stepsOptions[currentStep].id];
 
   return (
     <>
