@@ -39,8 +39,7 @@ const PreviewLetter = () => {
   const handleEdition = () => setEditMode(!editMode);
 
   const handleCopy = () => {
-    // const plainString = letterMarkup.toHTML().replace(/<\/?[^>]+(>|$)/g, '');
-    const success = copy(letterMarkup.toHTML());
+    const success = copy(letterMarkup.toText());
     if (success) setCopySuccess(true);
     else setCopySuccess(false);
   };

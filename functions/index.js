@@ -49,7 +49,7 @@ exports.generateLetter = functions.https.onRequest((request, response) => {
     {{{examination}}}
 
     <strong>Cognitive Assessment</strong>
-    {{{render-cognitive cognitive (render-personal title)}}}
+    <p>{{{render-cognitive cognitive (render-personal title)}}}</p>
 
     <strong>Risks</strong>
     <p>{{{render-risks risks}}}</p>

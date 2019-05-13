@@ -12,7 +12,6 @@ import styles from './ConclusionForm.module.css';
 const ConclusionForm = () => (
   <Form
     autoComplete="off"
-    labelAlign="left"
     colon={false}
   >
     <Row>

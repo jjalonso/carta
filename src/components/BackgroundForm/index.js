@@ -25,7 +25,6 @@ const BackgroundForm = ({
 }) => (
   <Form
     autoComplete="off"
-    labelAlign="left"
     colon={false}
   >
     <Row>

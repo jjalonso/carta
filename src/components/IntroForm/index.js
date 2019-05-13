@@ -27,7 +27,6 @@ const IntroForm = ({
 }) => (
   <Form
     autoComplete="off"
-    labelAlign="left"
     colon={false}
   >
     <Row>

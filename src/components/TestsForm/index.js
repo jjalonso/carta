@@ -8,7 +8,6 @@ import Field from '../Field';
 const TestForm = () => (
   <Form
     autoComplete="off"
-    labelAlign="left"
     colon={false}
   >
     <Row>

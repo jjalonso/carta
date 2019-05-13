@@ -15,6 +15,7 @@ import PreviewLetter from '../PreviewLetter';
 import SignIn from '../SignIn';
 import styles from './FormLayout.module.css';
 import TopBar from '../TopBar';
+import FinishSignIn from '../FinishSignIn';
 
 const FormLayout = () => (
   <>
@@ -39,7 +40,8 @@ const FormLayout = () => (
           <Route auth exact path="/" component={Welcome} />
           <Route auth exact path="/assessment" component={Assessment} />
           <Route auth exact path="/letter" component={PreviewLetter} />
-          <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/signin/" component={SignIn} />
+          <Route exact path="/signin/finish" component={FinishSignIn} />
         </Switch>
       </Layout.Content>
 

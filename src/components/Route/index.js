@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Route as RouterRoute, Redirect } from 'react-router-dom';
 import { AuthContext } from '../App';
@@ -8,26 +8,19 @@ const Route = ({
   auth,
   ...props
 }) => {
-  const { initialising, user, signIn } = useContext(AuthContext);
-
-  const isSignInPage = () => window.location.pathname === '/signin';
-
-  useEffect(() => {
-    if (isSignInPage()) {
-      signIn();
-    }
-  }, [signIn]);
+  const { initialising, user } = useContext(AuthContext);
+  const isSignInPage = window.location.pathname === '/signin';
 
   return (
     <RouterRoute
       {...props}
-      render={({ location }, childrenProps) => {
-        if (user && isSignInPage()) {
+      render={(routeProps) => {
+        if (user && isSignInPage) {
           return (
             <Redirect
               to={{
                 pathname: '/',
-                state: { from: location },
+                state: { from: routeProps.location },
               }}
             />
           );
@@ -37,13 +30,12 @@ const Route = ({
             <Redirect
               to={{
                 pathname: '/signin',
-                state: { from: location },
+                state: { from: routeProps.location },
               }}
             />
           );
         }
-
-        if (user || !auth) return <Component {...childrenProps} />;
+        if (user || !auth) return <Component {...routeProps} />;
       }}
     />
   );

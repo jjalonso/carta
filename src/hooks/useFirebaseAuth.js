@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import * as queryParameters from 'query-parameters';
 import firebase from 'firebase';
 
 const useLinkAuth = (url) => {
@@ -7,7 +6,6 @@ const useLinkAuth = (url) => {
   const [state, setState] = useState({initialising: true, user: undefined});
 
   useEffect(() => {
-    console.log(firebase.auth());
     const unsubscribe = firebase.auth().onAuthStateChanged(handleAuthStateChange);
     return () => unsubscribe();
   }, []);
@@ -16,19 +14,19 @@ const useLinkAuth = (url) => {
     setState({ initializing: false, user });
   }
 
-  const signIn = async () => {
-    console.log('SIGNING!')
+  const signIn = async (email) => {
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
-      console.log('link!', window.location.href)
-      const paramEmail = queryParameters(window.location.search).email;
+
       return await firebase.auth()
-        .signInWithEmailLink(paramEmail, window.location.href);
+        .signInWithEmailLink(email, window.location.href).then(
+          () => window.localStorage.removeItem('emailForSignIn')
+        );
     }
   };
 
   const sendLink = async (email) => {
     const actionCodeSettings = {
-      url: `${url}?email=${email}`,
+      url: `${url}/finish`,
       handleCodeInApp: true,
     };
     setEmailSent(firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings));
