@@ -4,6 +4,7 @@
 }
 
 .accountLink {
-  font-size: 16px !important;
-  background-color: red;
+  font-size: 20px !important;
+  top: 2px;
+  position: relative;
 }

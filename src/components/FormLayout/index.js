@@ -1,15 +1,14 @@
 /* eslint react/jsx-no-target-blank:  */
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Switch, Link } from 'react-router-dom';
 import MessengerCustomerChat from 'react-messenger-customer-chat/lib/MessengerCustomerChat';
-
 import {
   Layout,
   Icon,
   Row,
 } from 'antd';
 
-import PrivateRoute from '../PrivateRoute';
+import Route from '../Route';
 import Assessment from '../Assessment';
 import Welcome from '../Welcome';
 import PreviewLetter from '../PreviewLetter';
@@ -36,10 +35,12 @@ const FormLayout = () => (
       </Layout.Header>
 
       <Layout.Content className={styles.content}>
-        <Route path="/signin" exact component={SignIn} />
-        <PrivateRoute path="/" exact component={Welcome} />
-        <PrivateRoute path="/assessment" exact component={Assessment} />
-        <PrivateRoute path="/letter" exact component={PreviewLetter} />
+        <Switch>
+          <Route auth exact path="/" component={Welcome} />
+          <Route auth exact path="/assessment" component={Assessment} />
+          <Route auth exact path="/letter" component={PreviewLetter} />
+          <Route exact path="/signin" component={SignIn} />
+        </Switch>
       </Layout.Content>
 
       <Layout.Footer className={styles.footer}>

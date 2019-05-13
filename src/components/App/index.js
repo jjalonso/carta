@@ -6,9 +6,9 @@ import 'antd/dist/antd.less';
 import { emptyState as initialState } from './initial-state';
 import FormLayout from '../FormLayout';
 
-import './App.module.css';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import Splash from '../Splash';
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import './App.module.css';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyDJaQleAIw2Dr6l2maVmRpTZMkkV3Amjn0',
@@ -20,18 +20,21 @@ firebase.initializeApp({
 });
 
 export const AppContext = React.createContext(null);
+export const AuthContext = React.createContext(null);
 
 const App = () => {
   const [appState, setAppState] = useState(initialState);
-  const { initialising } = useAuthState(firebase.auth());
+  const firebaseAuth = useFirebaseAuth('http://localhost:3000/signin');
 
   return (
     <>
-      { initialising && <Splash /> }
+      { firebaseAuth.initialising && <Splash /> }
       <AppContext.Provider value={{ appState, setAppState }}>
-        <BrowserRouter>
-          <Route path="/" component={FormLayout} />
-        </BrowserRouter>
+        <AuthContext.Provider value={firebaseAuth}>
+          <BrowserRouter>
+            <Route path="/" component={FormLayout} />
+          </BrowserRouter>
+        </AuthContext.Provider>
       </AppContext.Provider>
     </>
   );

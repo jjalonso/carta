@@ -1,41 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import * as firebase from 'firebase/app';
 import {
-  Dropdown, Menu, Icon
+  Menu, Icon, Popover, Button
 } from 'antd';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import classNames from 'classnames';
 
-
+import { AuthContext } from '../App';
 import styles from './TopBar.module.css';
 
 const TopBar = () => {
-  const { user } = useAuthState(firebase.auth());
+  const { user } = useContext(AuthContext);
 
   const handleSignOut = () => firebase.auth().signOut();
 
+  const handleOpenChat = () => {};
+
+
   return user ? (
-    <Dropdown
-      overlayClassName={styles.dropdownOverlay}
-      overlay={
+    <Popover
+      placement="bottom"
+      trigger="hover"
+      content={(
         <Menu>
-        <Menu.Item>
-          <span onClick={handleSignOut}>Chat with us</span>
-        </Menu.Item>
-        <Menu.Item>
-          <span onClick={handleSignOut}>Log Out</span>
-        </Menu.Item>
-      </Menu>
-      }>
-        <a 
-          classNames={classNames('ant-dropdown-link', styles.accountLink)}
-          href="#"
-        >
-          Account <Icon type="down" />
-        </a>
-    </Dropdown>
+          <Menu.Item>
+            <Button type="link" onClick={handleOpenChat}>Chat with us</Button>
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item>
+            <Button type="link" onClick={handleSignOut}>Log Out</Button>
+          </Menu.Item>
+        </Menu>
+      )}
+    >
+      <Button type="link">
+        <Icon type="setting" theme="filled" className={styles.accountLink} />
+      </Button>
+    </Popover>
   )
-  : '';
+    : '';
 };
 
 export default TopBar;
