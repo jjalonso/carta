@@ -49,7 +49,7 @@ export function* emailLinkCheckSaga() {
         // We have to go to another view
         // to confirm user email for
         // security reasons
-        yield call(history, '/confirm');
+        yield call(history.push, '/confirm');
       }
     } else {
       yield put(checkEmailLinkError());
@@ -130,26 +130,17 @@ export function* checkUserSaga() {
 }
 
 // Watchers
-export function* initAuthSagaWatch() {
-  const { user, noUser } = yield race({
+export function* initAuthWatch() {
+  const { noUser, ...isReadyToInit } = yield race({
     user: take(actions.AUTH_SET_USER),
     noUser: take(actions.AUTH_NO_USER_FOUND),
+    emailLinkCheck: take(actions.AUTH_CHECK_EMAIL_LINK_ERROR),
+    signInSuccess: take(actions.AUTH_SIGN_IN_SUCCESS),
+    signInError: take(actions.AUTH_SIGN_IN_ERROR),
   });
   if (noUser) {
     yield put(checkEmailLink());
   }
-  if (user) {
-    // If there is an user, any url is allowed
-    // We might to redirect somewhere on refresh
-    yield put(init());
-  }
-  // For Splash purpose
-  const isReadyToInit = yield race({
-    1: take(actions.AUTH_SET_USER),
-    2: take(actions.AUTH_CHECK_EMAIL_LINK_ERROR),
-    3: take(actions.AUTH_SIGN_IN_SUCCESS),
-    4: take(actions.AUTH_SIGN_IN_ERROR),
-  });
   if (isReadyToInit) {
     yield put(init());
   }

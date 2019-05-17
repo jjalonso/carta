@@ -1,7 +1,7 @@
 import { all, fork, spawn } from 'redux-saga/effects';
 
 import {
-  initAuthSagaWatch,
+  initAuthWatch,
   sendEmailLinkWatch,
   emailLinkCheckWatch,
   confirmEmailWatch,
@@ -14,7 +14,7 @@ import {
 function* watchers() {
   yield all([
     spawn(userStateWatch),
-    spawn(initAuthSagaWatch),
+    spawn(initAuthWatch),
     spawn(sendEmailLinkWatch),
     spawn(emailLinkCheckWatch),
     spawn(confirmEmailWatch),
