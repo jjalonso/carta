@@ -40,7 +40,7 @@ const FormLayout = () => (
           <Route exact path="/assessment" component={Assessment} />
           <Route exact path="/letter" component={PreviewLetter} />
           <Route exact path="/signin/" component={SignIn} />
-          <Route exact path="/signin/finish" component={ConfirmEmail} />
+          <Route path="/signin/confirm" component={ConfirmEmail} />
         </Switch>
       </Layout.Content>
 

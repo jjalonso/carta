@@ -5,7 +5,6 @@ import {
   take,
   takeLatest,
   race,
-  delay,
 } from 'redux-saga/effects';
 
 import actions from '../actions/auth';
@@ -26,6 +25,7 @@ const {
   checkEmailLink,
   checkEmailLinkSuccess,
   checkEmailLinkError,
+  requireConfirm,
   signIn,
   signInSuccess,
   signInError,
@@ -51,6 +51,7 @@ export function* emailLinkCheckSaga() {
         // to confirm user email for
         // security reasons
         yield call(history.push, `/signin/confirm${link}`);
+        yield put(requireConfirm());
       }
     } else {
       yield put(checkEmailLinkError());
@@ -148,7 +149,7 @@ export function* initAuthWatch() {
     2: take(actions.AUTH_SIGN_IN_SUCCESS),
     3: take(actions.AUTH_SIGN_IN_ERROR),
     4: take(actions.AUTH_CHECK_EMAIL_LINK_ERROR),
-    5: take(actions.AUTH_CONFIRM_EMAIL),
+    5: take(actions.AUTH_REQUIRE_CONFIRM),
   });
   if (isReadyToInit) {
     yield put(init());
