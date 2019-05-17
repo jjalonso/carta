@@ -12,10 +12,11 @@ import {
 } from 'antd';
 
 import { fetchLetter as fetchLetterApi } from '../../lib/services/api';
-import { AppContext } from '../../components/App';
-import Paper from '../../components/Paper/Paper';
+import { AppContext } from '../App';
+import Paper from '../Paper/Paper';
+import Editor from '../Editor';
+
 import styles from './PreviewLetter.module.css';
-import Editor from '../../components/Editor';
 
 const PreviewLetter = () => {
   const { appState } = useContext(AppContext);

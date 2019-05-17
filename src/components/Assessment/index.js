@@ -11,13 +11,13 @@ import { Wizard, Steps as WizardSteps, Step } from 'react-albus';
 
 import schema from './schema';
 import styles from './Assessment.module.css';
-import WizardButtons from '../../components/WizardButtons';
-import IntroForm from '../../components/IntroForm';
-import BackgroundForm from '../../components/BackgroundForm';
-import TestsForm from '../../components/TestsForm';
-import ConclusionForm from '../../components/ConclusionForm';
-import Paper from '../../components/Paper/Paper';
-import { AppContext } from '../../components/App';
+import WizardButtons from '../WizardButtons';
+import IntroForm from '../IntroForm';
+import BackgroundForm from '../BackgroundForm';
+import TestsForm from '../TestsForm';
+import ConclusionForm from '../ConclusionForm';
+import Paper from '../Paper/Paper';
+import { AppContext } from '../App';
 import {
   fetchMedication as fetchMedicationApi,
   fetchFormOptions as fetchFormOptionsApi,

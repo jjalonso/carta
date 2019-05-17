@@ -4,6 +4,7 @@ import {
   initAuthSagaWatch,
   sendEmailLinkWatch,
   emailLinkCheckWatch,
+  confirmEmailWatch,
   signInWatch,
   signOutWatch,
   userStateWatch,
@@ -16,6 +17,7 @@ function* watchers() {
     spawn(initAuthSagaWatch),
     spawn(sendEmailLinkWatch),
     spawn(emailLinkCheckWatch),
+    spawn(confirmEmailWatch),
     spawn(signInWatch),
     spawn(signOutWatch),
   ]);

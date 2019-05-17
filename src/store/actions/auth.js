@@ -10,6 +10,7 @@ export const AUTH_SEND_EMAIL_LINK_ERROR = 'AUTH/SEND_EMAIL_LINK_ERROR';
 export const AUTH_CHECK_EMAIL_LINK = 'AUTH/CHECK_EMAIL_LINK';
 export const AUTH_CHECK_EMAIL_LINK_SUCCESS = 'AUTH/CHECK_EMAIL_LINK_SUCCESS';
 export const AUTH_CHECK_EMAIL_LINK_ERROR = 'AUTH/CHECK_EMAIL_LINK_ERROR';
+export const AUTH_CONFIRM_EMAIL = 'AUTH/CONFIRM_EMAIL';
 export const AUTH_SIGN_IN = 'AUTH/SIGN_IN';
 export const AUTH_SIGN_IN_SUCCESS = 'AUTH/SIGN_IN_SUCCESS';
 export const AUTH_SIGN_IN_ERROR = 'AUTH/SIGN_IN_ERROR';
@@ -71,6 +72,11 @@ export const checkEmailLinkError = error => ({
   error,
 });
 
+export const confirmEmail = email => ({
+  type: AUTH_CONFIRM_EMAIL,
+  email,
+});
+
 export const signIn = (email, link) => ({
   type: AUTH_SIGN_IN,
   email,
@@ -109,6 +115,7 @@ export default {
   AUTH_CHECK_EMAIL_LINK,
   AUTH_CHECK_EMAIL_LINK_SUCCESS,
   AUTH_CHECK_EMAIL_LINK_ERROR,
+  AUTH_CONFIRM_EMAIL,
   AUTH_SIGN_IN,
   AUTH_SIGN_IN_SUCCESS,
   AUTH_SIGN_IN_ERROR,
@@ -129,6 +136,7 @@ export default {
   checkEmailLink,
   checkEmailLinkSuccess,
   checkEmailLinkError,
+  confirmEmail,
   signIn,
   signInSuccess,
   signInError,

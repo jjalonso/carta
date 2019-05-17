@@ -1,6 +1,6 @@
 /* eslint react/jsx-no-target-blank:  */
 import React from 'react';
-import { Switch, Link } from 'react-router-dom';
+import { Switch, Link, Route } from 'react-router-dom';
 import MessengerCustomerChat from 'react-messenger-customer-chat/lib/MessengerCustomerChat';
 import {
   Layout,
@@ -8,14 +8,13 @@ import {
   Row,
 } from 'antd';
 
-import Route from '../Route';
 import Assessment from '../Assessment';
 import Welcome from '../Welcome';
 import PreviewLetter from '../PreviewLetter';
 import SignIn from '../SignIn';
 import styles from './FormLayout.module.css';
 import TopBar from '../TopBar';
-import FinishSignIn from '../FinishSignIn';
+import ConfirmEmail from '../ConfirmEmail';
 
 const FormLayout = () => (
   <>
@@ -37,11 +36,11 @@ const FormLayout = () => (
 
       <Layout.Content className={styles.content}>
         <Switch>
-          <Route auth exact path="/" component={Welcome} />
-          <Route auth exact path="/assessment" component={Assessment} />
-          <Route auth exact path="/letter" component={PreviewLetter} />
+          <Route exact path="/" component={Welcome} />
+          <Route exact path="/assessment" component={Assessment} />
+          <Route exact path="/letter" component={PreviewLetter} />
           <Route exact path="/signin/" component={SignIn} />
-          <Route exact path="/signin/finish" component={FinishSignIn} />
+          <Route exact path="/signin/finish" component={ConfirmEmail} />
         </Switch>
       </Layout.Content>
 

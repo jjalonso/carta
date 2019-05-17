@@ -1,12 +1,18 @@
 import { eventChannel } from 'redux-saga';
-import { call, put, take, takeLatest, race } from 'redux-saga/effects';
+import {
+  call,
+  put,
+  take,
+  takeLatest,
+  race,
+} from 'redux-saga/effects';
 
 import actions from '../actions/auth';
-
 import history from '../../lib/services/history';
 import firebase from '../../lib/services/firebase';
 
 const { authService } = firebase;
+
 const {
   init,
   setUser,
@@ -28,7 +34,6 @@ const {
 
 export function* emailLinkCheckSaga() {
   try {
-    // yield put(checkEmailLink());
     const isEmailLink = yield call(
       authService.isSignInWithEmailLink,
       window.location.href,
@@ -70,16 +75,31 @@ export function* sendEmailLinkSaga(action) {
     yield put(sendEmailLinkError(e));
   }
 }
+function* trySignInSaga(email) {
+  yield call(authService.signInWithEmailLink, email, window.location.href);
+  yield put(signInSuccess());
+  if (localStorage.getItem('email')) {
+    yield localStorage.removeItem('email');
+  }
+  yield call(history.push, '/');
+}
 
-export function* signInSaga(action) {
-  const { email, link } = action;
-  console.log(email, link);
+export function* confirmEmailSaga(action) {
+  const { email } = action;
 
   try {
-    yield call(authService.signInWithEmailLink, email);
-    yield put(signInSuccess());
-    yield localStorage.removeItem('email');
-    yield call(history.push, '/');
+    yield call(trySignInSaga, email);
+  } catch (e) {
+    console.log(e);
+    yield put(signInError(e));
+  }
+}
+
+export function* signInSaga(action) {
+  const { email } = action;
+
+  try {
+    yield call(trySignInSaga, email);
   } catch (e) {
     console.log(e);
     yield put(signInError(e));
@@ -121,6 +141,7 @@ export function* initAuthSagaWatch() {
   if (user) {
     // If there is an user, any url is allowed
     // We might to redirect somewhere on refresh
+    yield put(init());
   }
   // For Splash purpose
   const isReadyToInit = yield race({
@@ -161,6 +182,10 @@ export function* emailLinkCheckWatch() {
 
 export function* sendEmailLinkWatch() {
   yield takeLatest(actions.AUTH_SEND_EMAIL_LINK, sendEmailLinkSaga);
+}
+
+export function* confirmEmailWatch() {
+  yield takeLatest(actions.AUTH_CONFIRM_EMAIL, confirmEmailSaga);
 }
 
 export function* signInWatch() {

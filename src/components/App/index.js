@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Router, Route } from 'react-router-dom';
 import 'antd/dist/antd.less';
 
@@ -32,4 +33,10 @@ App.defaultProps = {
   isInitialised: false,
 };
 
-export default App;
+const mapStateToProps = state => ({
+  isInitialised: state.auth.isInitialised,
+});
+
+export default connect(
+  mapStateToProps,
+)(App);
