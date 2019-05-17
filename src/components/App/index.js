@@ -1,43 +1,42 @@
 import React, { useState } from 'react';
-import * as firebase from 'firebase/app';
-import { BrowserRouter, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Router, Route } from 'react-router-dom';
 import 'antd/dist/antd.less';
 
+import history from '../../lib/services/history';
 import { emptyState as initialState } from './initial-state';
 import FormLayout from '../FormLayout';
-
 import Splash from '../Splash';
-import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+
 import './App.module.css';
 
-firebase.initializeApp({
-  apiKey: 'AIzaSyDJaQleAIw2Dr6l2maVmRpTZMkkV3Amjn0',
-  authDomain: 'carta-ec41c.firebaseapp.com',
-  databaseURL: 'https://carta-ec41c.firebaseio.com',
-  projectId: 'carta-ec41c',
-  storageBucket: 'carta-ec41c.appspot.com',
-  messagingSenderId: '703300338986',
-});
-
 export const AppContext = React.createContext(null);
-export const AuthContext = React.createContext(null);
 
-const App = () => {
+const App = ({ isInitialised }) => {
   const [appState, setAppState] = useState(initialState);
-  const firebaseAuth = useFirebaseAuth('http://localhost:3000/signin');
 
-  return (
-    <>
-      { firebaseAuth.initialising && <Splash /> }
-      <AppContext.Provider value={{ appState, setAppState }}>
-        <AuthContext.Provider value={firebaseAuth}>
-          <BrowserRouter>
-            <Route path="/" component={FormLayout} />
-          </BrowserRouter>
-        </AuthContext.Provider>
-      </AppContext.Provider>
-    </>
-  );
+  return isInitialised ? (
+    <AppContext.Provider value={{ appState, setAppState }}>
+      <Router history={history}>
+        <Route path="/" component={FormLayout} />
+      </Router>
+    </AppContext.Provider>
+  ) : <Splash />;
 };
 
-export default App;
+App.propTypes = {
+  isInitialised: PropTypes.bool,
+};
+
+App.defaultProps = {
+  isInitialised: false,
+};
+
+const mapStateToProps = state => ({
+  isInitialised: state.auth.isInitialised,
+});
+
+export default connect(
+  mapStateToProps,
+)(App);
