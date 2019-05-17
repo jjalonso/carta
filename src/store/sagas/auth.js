@@ -148,6 +148,7 @@ export function* initAuthWatch() {
     2: take(actions.AUTH_SIGN_IN_SUCCESS),
     3: take(actions.AUTH_SIGN_IN_ERROR),
     4: take(actions.AUTH_CHECK_EMAIL_LINK_ERROR),
+    5: take(actions.AUTH_CONFIRM_EMAIL),
   });
   if (isReadyToInit) {
     yield put(init());
