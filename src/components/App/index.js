@@ -16,13 +16,16 @@ export const AppContext = React.createContext(null);
 const App = ({ isInitialised }) => {
   const [appState, setAppState] = useState(initialState);
 
-  return isInitialised ? (
-    <AppContext.Provider value={{ appState, setAppState }}>
-      <Router history={history}>
-        <Route path="/" component={FormLayout} />
-      </Router>
-    </AppContext.Provider>
-  ) : <Splash />;
+  return (
+    <>
+      <AppContext.Provider value={{ appState, setAppState }}>
+        <Router history={history}>
+          <Route path="/" component={FormLayout} />
+        </Router>
+      </AppContext.Provider>
+      { !isInitialised && <Splash />}
+    </>
+  );
 };
 
 App.propTypes = {
@@ -37,6 +40,4 @@ const mapStateToProps = state => ({
   isInitialised: state.auth.isInitialised,
 });
 
-export default connect(
-  mapStateToProps,
-)(App);
+export default connect(mapStateToProps)(App);

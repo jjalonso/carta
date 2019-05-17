@@ -50,7 +50,7 @@ export function* emailLinkCheckSaga() {
         // We have to go to another view
         // to confirm user email for
         // security reasons
-        yield call(history.push, '/confirm');
+        yield call(history.push, `/signin/confirm${link}`);
       }
     } else {
       yield put(checkEmailLinkError());
