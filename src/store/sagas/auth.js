@@ -5,6 +5,7 @@ import {
   take,
   takeLatest,
   race,
+  delay,
 } from 'redux-saga/effects';
 
 import actions from '../actions/auth';
@@ -53,6 +54,7 @@ export function* emailLinkCheckSaga() {
       }
     } else {
       yield put(checkEmailLinkError());
+
       yield call(history.push, '/signin');
     }
   } catch (e) {
@@ -131,16 +133,22 @@ export function* checkUserSaga() {
 
 // Watchers
 export function* initAuthWatch() {
-  const { noUser, ...isReadyToInit } = yield race({
+  const { user, noUser } = yield race({
     user: take(actions.AUTH_SET_USER),
     noUser: take(actions.AUTH_NO_USER_FOUND),
-    emailLinkCheck: take(actions.AUTH_CHECK_EMAIL_LINK_ERROR),
-    signInSuccess: take(actions.AUTH_SIGN_IN_SUCCESS),
-    signInError: take(actions.AUTH_SIGN_IN_ERROR),
   });
   if (noUser) {
     yield put(checkEmailLink());
   }
+  if (user) {
+    yield put(init());
+  }
+  const isReadyToInit = yield race({
+    1: take(actions.AUTH_SET_USER),
+    2: take(actions.AUTH_SIGN_IN_SUCCESS),
+    3: take(actions.AUTH_SIGN_IN_ERROR),
+    4: take(actions.AUTH_CHECK_EMAIL_LINK_ERROR),
+  });
   if (isReadyToInit) {
     yield put(init());
   }
