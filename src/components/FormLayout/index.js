@@ -29,7 +29,7 @@ const FormLayout = () => (
       <Layout.Header>
 
         <div className={styles.header}>
-          <img alt="logo" src="/images/logo-green.png" className={styles.logo} />
+          <img alt="logo" src="/images/logo-green.svg" className={styles.logo} />
           <TopBar />
         </div>
       </Layout.Header>
