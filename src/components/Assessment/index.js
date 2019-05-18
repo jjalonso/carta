@@ -2,6 +2,8 @@ import React, {
   useState, useRef, useEffect, useContext,
 } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import nop from 'nop';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import { animateScroll } from 'react-scroll';
@@ -16,7 +18,7 @@ import IntroForm from '../IntroForm';
 import BackgroundForm from '../BackgroundForm';
 import TestsForm from '../TestsForm';
 import ConclusionForm from '../ConclusionForm';
-import Paper from '../Paper/Paper';
+import Paper from '../Paper';
 import { AppContext } from '../App';
 import {
   fetchMedication as fetchMedicationApi,
@@ -203,8 +205,22 @@ const AssessmentContainer = ({ history }) => {
   );
 };
 
+
 AssessmentContainer.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
 };
 
-export default AssessmentContainer;
+const mapStateToProps = state => ({
+  formData: state.assessment.data,
+
+  // loading: state.auth.loading,
+});
+
+const mapDispatchToProps = dispatch => ({
+  saveFormData: bindActionCreators(saveFormData, dispatch),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AssessmentContainer);

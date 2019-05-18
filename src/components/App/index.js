@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Router, Route } from 'react-router-dom';
+import { Transition } from 'react-spring/renderprops'
 import 'antd/dist/antd.less';
 
 import history from '../../lib/services/history';
@@ -23,7 +24,14 @@ const App = ({ isInitialised }) => {
           <Route path="/" component={FormLayout} />
         </Router>
       </AppContext.Provider>
-      { !isInitialised && <Splash />}
+      <Transition
+        items={isInitialised}
+        from={{ opacity: 1 }}
+        enter={{ opacity: 1 }}
+        leave={{ opacity: 0 }}
+      >
+        { condition => (props => !condition && <div style={props}><Splash /></div>) }
+      </Transition>
     </>
   );
 };

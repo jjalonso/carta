@@ -97,3 +97,36 @@
 [debug] [2019-05-14T19:47:42.833Z] Parsing function triggers
 [info] ✔  functions: generateLetter: http://localhost:5000/carta-ec41c/us-central1/generateLetter
 [info] ✔  functions: formOptions: http://localhost:5000/carta-ec41c/us-central1/formOptions
+[debug] [2019-05-18T11:58:56.675Z] ----------------------------------------------------------------------
+[debug] [2019-05-18T11:58:56.678Z] Command:       /Users/jjalonso/.nvm/versions/node/v8.10.0/bin/node /Users/jjalonso/Work/letter-generator/node_modules/.bin/firebase serve --only functions
+[debug] [2019-05-18T11:58:56.678Z] CLI Version:   6.7.1
+[debug] [2019-05-18T11:58:56.678Z] Platform:      darwin
+[debug] [2019-05-18T11:58:56.678Z] Node Version:  v8.10.0
+[debug] [2019-05-18T11:58:56.678Z] Time:          Sat May 18 2019 12:58:56 GMT+0100 (BST)
+[debug] [2019-05-18T11:58:56.678Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-05-18T11:58:56.691Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-05-18T11:58:56.691Z] > authorizing via signed-in user
+[debug] [2019-05-18T11:58:56.691Z] [iam] checking project carta-ec41c for permissions ["firebase.projects.get"]
+[debug] [2019-05-18T11:58:56.693Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-05-18T11:58:56.693Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-05-18T11:58:56.824Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-18T11:58:56.833Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/carta-ec41c:testIamPermissions  
+
+[debug] [2019-05-18T11:58:57.601Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-18T11:58:57.604Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/carta-ec41c  
+ 
+[debug] [2019-05-18T11:58:58.291Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/jjalonso/Work/letter-generator'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2019-05-18T11:58:59.504Z] Fetching environment
+[debug] [2019-05-18T11:58:59.506Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/703300338986:getServerAppConfig  
+ 
+[debug] [2019-05-18T11:58:59.783Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-18T11:58:59.784Z] Starting @google-cloud/functions-emulator
+[debug] [2019-05-18T11:59:01.330Z] Parsing function triggers
+[info] ✔  functions: generateLetter: http://localhost:5000/carta-ec41c/us-central1/generateLetter
+[info] ✔  functions: formOptions: http://localhost:5000/carta-ec41c/us-central1/formOptions

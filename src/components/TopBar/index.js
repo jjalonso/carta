@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import nop from 'nop';
 import {
-  Menu,
   Icon,
   Popover,
   Button,
@@ -18,21 +17,23 @@ const TopBar = ({ user, signOut }) => (user ? (
     placement="bottom"
     trigger="hover"
     content={(
-      <Menu>
-        <Menu.Item>
-          <Button type="link">Chat with us</Button>
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item>
-          <Button type="link" onClick={signOut}>
-              Log Out
+      <ul className={styles.menuList}>
+        <li>
+          <Button type="link">
+            Chat with us
           </Button>
-        </Menu.Item>
-      </Menu>
+        </li>
+        <li>
+          <Button type="link" onClick={signOut}>
+            Log Out
+          </Button>
+        </li>
+      </ul>
 )}
   >
     <Button type="link">
-      <Icon type="setting" theme="filled" className={styles.accountLink} />
+      <Icon type="smile" theme="filled" className={styles.accountLink} />
+      {/* <Icon type="setting" theme="filled" className={styles.accountLink} /> */}
     </Button>
   </Popover>
 ) : (

@@ -7,17 +7,13 @@ import {
   AUTH_SEND_EMAIL_LINK,
   AUTH_SEND_EMAIL_LINK_SUCCESS,
   AUTH_SEND_EMAIL_LINK_ERROR,
-  AUTH_CHECK_EMAIL_LINK,
-  AUTH_CHECK_EMAIL_LINK_SUCCESS,
-  AUTH_CHECK_EMAIL_LINK_ERROR,
+  AUTH_CONFIRM_EMAIL,
   AUTH_SIGN_IN,
   AUTH_SIGN_IN_SUCCESS,
   AUTH_SIGN_IN_ERROR,
   AUTH_SIGN_OUT,
   AUTH_SIGN_OUT_SUCCESS,
   AUTH_SIGN_OUT_ERROR,
-  AUTH_START_LOADING,
-  AUTH_STOP_LOADING,
 } from '../actions/auth';
 
 const initialState = {
@@ -74,20 +70,10 @@ const reducer = (state = initialState, action) => {
         loading: false,
         error: action.error,
       };
-    case AUTH_CHECK_EMAIL_LINK:
+    case AUTH_CONFIRM_EMAIL:
       return {
         ...state,
         loading: true,
-      };
-    case AUTH_CHECK_EMAIL_LINK_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-      };
-    case AUTH_CHECK_EMAIL_LINK_ERROR:
-      return {
-        ...state,
-        loading: false,
       };
     case AUTH_SIGN_IN:
       return {
@@ -122,16 +108,7 @@ const reducer = (state = initialState, action) => {
         loading: false,
         error: action.error,
       };
-    case AUTH_START_LOADING:
-      return {
-        ...state,
-        loading: true,
-      };
-    case AUTH_STOP_LOADING:
-      return {
-        ...state,
-        loading: false,
-      };
+
     default:
       return state;
   }

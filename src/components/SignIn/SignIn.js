@@ -12,11 +12,11 @@ import {
 import nop from 'nop';
 
 import scheme from './scheme';
-import Paper from '../Paper/Paper';
+import Paper from '../Paper';
 import Field from '../Field';
 import styles from './SignIn.module.css';
 
-const SignIn = ({ emailSent, onSubmit }) => (
+const SignIn = ({ emailSent, loading, onSubmit }) => (
   <>
     <Paper>
       <Formik
@@ -59,7 +59,7 @@ const SignIn = ({ emailSent, onSubmit }) => (
                       className={styles.button}
                       type="primary"
                       htmlType="submit"
-                      disabled={formikProps.isSubmitting}
+                      loading={loading}
                     >
                       Send Magic Link
                     </Button>
@@ -76,11 +76,13 @@ const SignIn = ({ emailSent, onSubmit }) => (
 
 SignIn.propTypes = {
   emailSent: PropTypes.bool,
+  loading: PropTypes.bool,
   onSubmit: PropTypes.func,
 };
 
 SignIn.defaultProps = {
   emailSent: false,
+  loading: false,
   onSubmit: nop,
 };
 

@@ -30,6 +30,7 @@
     "react-router-prop-types": "^1.0.4",
     "react-scripts": "^3.0.0",
     "react-scroll": "^1.7.11",
+    "react-spring": "^8.0.20",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.2",
     "use-react-router": "^1.0.6",

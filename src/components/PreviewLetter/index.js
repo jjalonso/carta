@@ -13,7 +13,7 @@ import {
 
 import { fetchLetter as fetchLetterApi } from '../../lib/services/api';
 import { AppContext } from '../App';
-import Paper from '../Paper/Paper';
+import Paper from '../Paper';
 import Editor from '../Editor';
 
 import styles from './PreviewLetter.module.css';

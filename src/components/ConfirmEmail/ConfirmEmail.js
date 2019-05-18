@@ -12,11 +12,12 @@ import {
 import nop from 'nop';
 
 import scheme from './scheme';
-import Paper from '../Paper/Paper';
+import Paper from '../Paper';
 import Field from '../Field';
 import styles from './ConfirmEmail.module.css';
 
 const ConfirmEmail = ({
+  loading,
   onSubmit,
 }) => (
   <>
@@ -65,9 +66,9 @@ const ConfirmEmail = ({
                   className={styles.button}
                   type="primary"
                   htmlType="submit"
-                  disabled={formikProps.isSubmitting}
+                  loading={loading}
                 >
-                  Sign In
+                  Confirm email
                 </Button>
               </Col>
             </Row>
@@ -79,10 +80,12 @@ const ConfirmEmail = ({
 );
 
 ConfirmEmail.propTypes = {
+  loading: PropTypes.bool,
   onSubmit: PropTypes.func,
 };
 
 ConfirmEmail.defaultProps = {
+  loading: false,
   onSubmit: nop,
 };
 

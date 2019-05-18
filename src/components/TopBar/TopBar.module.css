@@ -2,6 +2,17 @@
   top: 50px !important;
 }
 
+.menuList {
+  padding-left: 0;
+  margin: 0;
+  text-align: center;
+  list-style-type: none;
+}
+
+/* .menuList li {
+
+} */
+
 .accountLink {
   font-size: 20px !important;
   top: 2px;

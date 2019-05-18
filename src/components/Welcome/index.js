@@ -6,7 +6,7 @@ import {
 } from 'antd';
 
 import styles from './Welcome.module.css';
-import Paper from '../Paper/Paper';
+import Paper from '../Paper';
 
 const Welcome = () => (
   <>

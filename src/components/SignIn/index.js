@@ -7,7 +7,7 @@ import nop from 'nop';
 import { sendEmailLink as sendEmailLinkAction } from '../../store/actions/auth';
 import SignIn from './SignIn';
 
-const SignInContainer = ({ emailSent, sendEmailLink }) => {
+const SignInContainer = ({ emailSent, loading, sendEmailLink }) => {
   const handleSubmit = ({ email }) => {
     sendEmailLink(email);
   };
@@ -15,6 +15,7 @@ const SignInContainer = ({ emailSent, sendEmailLink }) => {
   return (
     <SignIn
       emailSent={emailSent}
+      loading={loading}
       onSubmit={handleSubmit}
     />
   );
@@ -22,16 +23,19 @@ const SignInContainer = ({ emailSent, sendEmailLink }) => {
 
 SignInContainer.propTypes = {
   emailSent: PropTypes.bool,
+  loading: PropTypes.bool,
   sendEmailLink: PropTypes.func,
 };
 
 SignInContainer.defaultProps = {
   emailSent: false,
+  loading: false,
   sendEmailLink: nop,
 };
 
 const mapStateToProps = state => ({
   emailSent: state.auth.emailSent,
+  loading: state.auth.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
