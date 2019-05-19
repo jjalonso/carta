@@ -25,7 +25,6 @@ function* watchers() {
 
 export default function* rootSaga() {
   yield all([
-    // fork(init),
     fork(watchers),
   ]);
 }

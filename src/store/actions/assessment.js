@@ -1,10 +1,12 @@
-export const AUTH_INIT = 'AUTH/INIT';
+export const ASSESSMENT_SAVE = 'ASSESSMENT/SAVE';
 
-export const saveAssessment = () => ({
-  type: AUTH_INIT,
+export const save = (formName, values) => ({
+  type: ASSESSMENT_SAVE,
+  formName,
+  values,
 });
 
 export default {
-  AUTH_INIT,
-  init,
+  ASSESSMENT_SAVE,
+  save,
 };

@@ -22,4 +22,4 @@ export const fetchLetter = (state) => {
     .then(json => json.markup);
 };
 
-export const fetchFormOptions = () => get('/api/formOptions').then(json => deserialise(json));
+export const fetchAssessmentOptions = () => get('/api/assessmentOptions').then(json => deserialise(json));

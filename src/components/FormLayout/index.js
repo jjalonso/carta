@@ -6,6 +6,7 @@ import {
   Layout,
   Icon,
   Row,
+  Divider,
 } from 'antd';
 
 import Assessment from '../Assessment';
@@ -48,9 +49,9 @@ const FormLayout = () => (
         <div className={styles.wrapper}>
           <Row>
             <Link className={styles.footerLink} to="/terms">Terms</Link>
-            |
+            <Divider type="vertical" />
             <Link className={styles.footerLink} to="/privacy">Privacy</Link>
-            |
+            <Divider type="vertical" />
             <Link className={styles.footerLink} to="/contact">Contact</Link>
           </Row>
           <Row>

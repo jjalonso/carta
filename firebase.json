@@ -14,8 +14,8 @@
     ],
     "rewrites": [
       {
-        "source": "/api/formOptions",
-        "function": "formOptions"
+        "source": "/api/assessmentOptions",
+        "function": "assessmentOptions"
       },
       {
         "source": "/api/generateLetter",

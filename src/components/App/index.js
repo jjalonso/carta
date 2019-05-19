@@ -6,7 +6,6 @@ import { Transition } from 'react-spring/renderprops'
 import 'antd/dist/antd.less';
 
 import history from '../../lib/services/history';
-import { emptyState as initialState } from './initial-state';
 import FormLayout from '../FormLayout';
 import Splash from '../Splash';
 
@@ -15,15 +14,15 @@ import './App.module.css';
 export const AppContext = React.createContext(null);
 
 const App = ({ isInitialised }) => {
-  const [appState, setAppState] = useState(initialState);
+  // const [appState, setAppState] = useState(initialState);
 
   return (
     <>
-      <AppContext.Provider value={{ appState, setAppState }}>
-        <Router history={history}>
-          <Route path="/" component={FormLayout} />
-        </Router>
-      </AppContext.Provider>
+      {/* <AppContext.Provider value={{ appState, setAppState }}> */}
+      <Router history={history}>
+        <Route path="/" component={FormLayout} />
+      </Router>
+      {/* </AppContext.Provider> */}
       <Transition
         items={isInitialised}
         from={{ opacity: 1 }}

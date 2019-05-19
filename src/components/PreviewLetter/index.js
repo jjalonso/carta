@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import copy from 'copy-to-clipboard';
 import { EditorState } from 'braft-editor';
 import {
@@ -8,41 +9,39 @@ import {
   Skeleton,
   Button,
   Icon,
-  Alert,
+  Divider,
+  message,
+  Dropdown,
+  Menu,
 } from 'antd';
 
 import { fetchLetter as fetchLetterApi } from '../../lib/services/api';
-import { AppContext } from '../App';
 import Paper from '../Paper';
 import Editor from '../Editor';
 
 import styles from './PreviewLetter.module.css';
 
-const PreviewLetter = () => {
-  const { appState } = useContext(AppContext);
+const PreviewLetter = ({ assessmentData }) => {
   const [letterMarkup, setLetterMarkup] = useState();
   const [fetching, setFetching] = useState(true);
   const [editMode, setEditMode] = useState(false);
-  const [copySuccess, setCopySuccess] = useState();
 
   useEffect(() => {
     async function asyncFetch() {
-      setLetterMarkup(await fetchLetterApi(appState.assessment));
+      setLetterMarkup(await fetchLetterApi(assessmentData));
       setFetching(false);
     }
     asyncFetch();
-  }, [appState.assessment]);
-
-  const handleAlertClose = () => {
-    setCopySuccess(null);
-  };
+  }, []);
 
   const handleEdition = () => setEditMode(!editMode);
 
+  const handleDownload = () => message.error('Pardon me, this feature will arrive soon.');
+
   const handleCopy = () => {
     const success = copy(letterMarkup.toText());
-    if (success) setCopySuccess(true);
-    else setCopySuccess(false);
+    if (success) message.success('Copied to clipboard');
+    else message.error('We could not copy it.');
   };
 
   return (
@@ -54,16 +53,10 @@ const PreviewLetter = () => {
           onClick={handleEdition}
         >
           {editMode
-            ? (
-              <>
-                <Icon type="left" />
-                &nbsp;
-                Finish
-              </>
-            )
+            ? 'Done'
             : (
               <>
-                <Icon type="edit" />
+                <Icon type="edit" theme="filled" />
                 &nbsp;
                 Edit
               </>
@@ -71,16 +64,43 @@ const PreviewLetter = () => {
           }
         </Button>
 
-        { document.queryCommandSupported('copy') && (
-          <Button
-            onClick={handleCopy}
-          >
-            <Icon type="paper-clip" />
-            Copy to clipboard
-          </Button>
-        )}
+        <Dropdown
+          trigger={['click']}
+          overlay={(
+            <Menu>
+              { document.queryCommandSupported('copy') && (
+                <Menu.Item key="0">
+                  <Button
+                    type="link"
+                    onClick={handleCopy}
+                  >
+                    Copy to clipboard (No format)
+                  </Button>
+                </Menu.Item>
+              )}
+              {/* <Menu.Divider /> */}
+              <Menu.Item key="2">
+                <Button
+                  type="link"
+                  onClick={handleDownload}
+                >
+                  Download Word (.doc)
+                </Button>
+              </Menu.Item>
+            </Menu>
+          )}
+        >
 
-        { copySuccess && (
+          <Button type="link" size="large">
+            Export document
+            <Icon type="down" />
+          </Button>
+        </Dropdown>
+
+        
+
+
+        {/* { copySuccess && (
           <Alert
             closable
             className={styles.copyAlert}
@@ -89,9 +109,9 @@ const PreviewLetter = () => {
             afterClose={handleAlertClose}
 
           />
-        )}
+        )} */}
 
-        { copySuccess === false && (
+        {/* { copySuccess === false && (
           <Alert
             closable
             className={styles.copyAlert}
@@ -99,10 +119,10 @@ const PreviewLetter = () => {
             type="error"
             afterClose={handleAlertClose}
           />
-        )}
+        )} */}
 
       </Row>
-
+      <Divider />
       { editMode === false && (
         <Row>
           <Col span={24}>
@@ -136,4 +156,10 @@ const PreviewLetter = () => {
   );
 };
 
-export default PreviewLetter;
+const mapStateToProps = state => ({
+  assessmentData: state.assessment.data,
+});
+
+export default connect(
+  mapStateToProps,
+)(PreviewLetter);

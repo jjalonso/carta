@@ -35,6 +35,10 @@ const {
   signOutError,
 } = actions;
 
+// *****************************************
+// WORKERS
+// *****************************************
+
 export function* emailLinkCheckSaga() {
   try {
     const isEmailLink = yield call(
@@ -139,7 +143,10 @@ function* initSaga() {
   yield put(init());
 }
 
-// Watchers
+// *****************************************
+// WATCHERS
+// *****************************************
+
 export function* initAuthWatch() {
   const { user, noUser } = yield race({
     user: take(actions.AUTH_SET_USER),

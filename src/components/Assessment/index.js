@@ -1,6 +1,7 @@
 import React, {
-  useState, useRef, useEffect, useContext,
+  useState, useRef, useEffect,
 } from 'react';
+import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -19,16 +20,21 @@ import BackgroundForm from '../BackgroundForm';
 import TestsForm from '../TestsForm';
 import ConclusionForm from '../ConclusionForm';
 import Paper from '../Paper';
-import { AppContext } from '../App';
 import {
   fetchMedication as fetchMedicationApi,
-  fetchFormOptions as fetchFormOptionsApi,
+  fetchAssessmentOptions as fetchAssessmentOptionsApi,
 } from '../../lib/services/api';
+import {
+  save as saveAction,
+} from '../../store/actions/assessment';
 
 const fetchMedDebounced = AwesomeDebouncePromise(fetchMedicationApi, 1000);
 
-const AssessmentContainer = ({ history }) => {
-  const { appState, setAppState } = useContext(AppContext);
+const Assessment = ({
+  history,
+  save,
+  assessmentData,
+}) => {
   const [formOptions, setFormOptions] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
   const [medicationData, setMedicationData] = useState([]);
@@ -37,10 +43,33 @@ const AssessmentContainer = ({ history }) => {
 
   useEffect(() => {
     async function asyncFetch() {
-      setFormOptions(await fetchFormOptionsApi());
+      setFormOptions(await fetchAssessmentOptionsApi());
     }
     asyncFetch();
   }, []);
+
+  const stepsOptions = [
+    {
+      title: 'Patient introduction',
+      id: 'intro',
+      schema: schema.intro,
+    },
+    {
+      title: 'Personal history',
+      id: 'background',
+      schema: schema.background,
+    },
+    {
+      title: 'Tests results',
+      id: 'tests',
+      schema: schema.tests,
+    },
+    {
+      title: 'Final conclusion',
+      id: 'conclusion',
+      schema: schema.conclusion,
+    },
+  ];
 
   const clearMedication = () => {
     setMedicationData([]);
@@ -54,49 +83,12 @@ const AssessmentContainer = ({ history }) => {
     setMedicationData(data);
   };
 
-  const stepsOptions = [
-    {
-      title: 'Patient introduction',
-      id: 'intro',
-      schema: schema.intro,
-      initialValues: appState.assessment.intro,
-    },
-    {
-      title: 'Personal history',
-      id: 'background',
-      schema: schema.background,
-      initialValues: appState.assessment.background,
-    },
-    {
-      title: 'Tests results',
-      id: 'tests',
-      schema: schema.tests,
-      initialValues: appState.assessment.tests,
-    },
-    {
-      title: 'Final conclusion',
-      id: 'conclusion',
-      schema: schema.conclusion,
-      initialValues: appState.assessment.conclusion,
-    },
-  ];
-
-  const updateAssessmentState = (values) => {
-    setAppState({
-      ...appState,
-      assessment: {
-        ...appState.assessment,
-        [stepsOptions[currentStep].id]: values,
-      },
-    });
-  };
-
   const validateAndSave = async () => {
     const errors = await refForm.current.validateForm();
     const isValid = !Object.entries(errors).length;
     if (isValid) {
       const { values } = refForm.current.state;
-      updateAssessmentState(values);
+      save(stepsOptions[currentStep].id, values);
       return true;
     }
     return false;
@@ -104,8 +96,9 @@ const AssessmentContainer = ({ history }) => {
 
   const handleLastStep = async () => {
     if (await validateAndSave()) {
+      // finish();
       history.replace('/letter');
-      animateScroll.scrollToTop();
+      // animateScroll.scrollToTop();
     }
   };
 
@@ -122,105 +115,105 @@ const AssessmentContainer = ({ history }) => {
   };
 
   return (
-    <>
-      <Row>
-        <Col span={24} className={styles.assessmentContent}>
-          <Paper>
-            <Typography.Title
-              level={4}
-              className={styles.steps}
-            >
-              Step&nbsp;
-              { currentStep + 1 }
-              &nbsp;of&nbsp;
-              { stepsOptions.length }
-            </Typography.Title>
-            <Typography.Title
-              level={2}
-              className={styles.formTitle}
-            >
-              { stepsOptions[currentStep].title }
-            </Typography.Title>
+    <Row>
+      <Col span={24} className={styles.assessmentContent}>
+        <Paper>
+          <Typography.Title
+            level={4}
+            className={styles.steps}
+          >
+            Step&nbsp;
+            { currentStep + 1 }
+            &nbsp;of&nbsp;
+            { stepsOptions.length }
+          </Typography.Title>
+          <Typography.Title
+            level={2}
+            className={styles.formTitle}
+          >
+            { stepsOptions[currentStep].title }
+          </Typography.Title>
 
-            <Formik
-              enableReinitialize
-              validateOnBlur={false}
-              validateOnChange={false}
-              ref={refForm}
-              validationSchema={stepsOptions[currentStep].schema}
-              initialValues={stepsOptions[currentStep].initialValues}
-              onSubmit={nop}
-              render={props => (
-                <Wizard render={() => (
-                  <>
-                    <WizardSteps step={{ id: stepsOptions[currentStep].id }}>
-                      <Step id="intro">
-                        <IntroForm
-                          titleOptions={formOptions.title}
-                          problemsOptions={formOptions.problems}
-                          companionOptions={formOptions.companion}
-                          isFetchingMedication={isFetchingMedication}
-                          medicationData={medicationData}
-                          fetchMedication={fetchMedication}
-                          clearMedication={clearMedication}
-                          {...props}
-                        />
-                      </Step>
-                      <Step id="background">
-                        <BackgroundForm
-                          countriesOptions={formOptions.countries}
-                          emigrationYearsOptions={formOptions.emigrationYears}
-                          childrenOptions={formOptions.children}
-                          smokingOptions={formOptions.smoking}
-                          alcoholOptions={formOptions.alcohol}
-                          livingOptions={formOptions.living}
-                          {...props}
-                        />
-                      </Step>
-                      <Step id="tests">
-                        <TestsForm />
-                      </Step>
-                      <Step id="conclusion">
-                        <ConclusionForm
-                          {...props}
-                        />
-                      </Step>
-                    </WizardSteps>
-                    <WizardButtons
-                      steps={stepsOptions.length}
-                      step={currentStep}
-                      onPrev={handlePrevStep}
-                      onNext={handleNextStep}
-                      onFinish={handleLastStep}
-                    />
-                  </>
-                )}
-                />
+          <Formik
+            enableReinitialize
+            validateOnBlur={false}
+            validateOnChange={false}
+            ref={refForm}
+            validationSchema={stepsOptions[currentStep].schema}
+            initialValues={assessmentData[stepsOptions[currentStep].id]}
+            onSubmit={nop}
+            render={props => (
+              <Wizard render={() => (
+                <>
+                  <WizardSteps step={{ id: stepsOptions[currentStep].id }}>
+                    <Step id="intro">
+                      <IntroForm
+                        titleOptions={formOptions.title}
+                        problemsOptions={formOptions.problems}
+                        companionOptions={formOptions.companion}
+                        isFetchingMedication={isFetchingMedication}
+                        medicationData={medicationData}
+                        fetchMedication={fetchMedication}
+                        clearMedication={clearMedication}
+                        {...props}
+                      />
+                    </Step>
+                    <Step id="background">
+                      <BackgroundForm
+                        countriesOptions={formOptions.countries}
+                        emigrationYearsOptions={formOptions.emigrationYears}
+                        childrenOptions={formOptions.children}
+                        smokingOptions={formOptions.smoking}
+                        alcoholOptions={formOptions.alcohol}
+                        livingOptions={formOptions.living}
+                        {...props}
+                      />
+                    </Step>
+                    <Step id="tests">
+                      <TestsForm />
+                    </Step>
+                    <Step id="conclusion">
+                      <ConclusionForm
+                        {...props}
+                      />
+                    </Step>
+                  </WizardSteps>
+                  <WizardButtons
+                    steps={stepsOptions.length}
+                    step={currentStep}
+                    onPrev={handlePrevStep}
+                    onNext={handleNextStep}
+                    onFinish={handleLastStep}
+                  />
+                </>
               )}
-            />
-          </Paper>
-        </Col>
-      </Row>
-    </>
+              />
+            )}
+          />
+        </Paper>
+      </Col>
+    </Row>
   );
 };
 
-
-AssessmentContainer.propTypes = {
+Assessment.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
+  save: PropTypes.func,
+};
+
+Assessment.defaultProps = {
+  save: nop,
 };
 
 const mapStateToProps = state => ({
-  formData: state.assessment.data,
-
-  // loading: state.auth.loading,
+  assessmentData: state.assessment.data,
 });
 
 const mapDispatchToProps = dispatch => ({
-  saveFormData: bindActionCreators(saveFormData, dispatch),
+  save: bindActionCreators(saveAction, dispatch),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(AssessmentContainer);
+)(Assessment);

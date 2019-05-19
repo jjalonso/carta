@@ -14,7 +14,8 @@ import styles from './TopBar.module.css';
 
 const TopBar = ({ user, signOut }) => (user ? (
   <Popover
-    placement="bottom"
+    // className={styles.popoverOverlay}
+    placement="bottomRight"
     trigger="hover"
     content={(
       <ul className={styles.menuList}>
@@ -29,15 +30,14 @@ const TopBar = ({ user, signOut }) => (user ? (
           </Button>
         </li>
       </ul>
-)}
+    )}
   >
-    <Button type="link">
-      <Icon type="smile" theme="filled" className={styles.accountLink} />
-      {/* <Icon type="setting" theme="filled" className={styles.accountLink} /> */}
-    </Button>
+    <div>
+      <Button type="primary" shape="circle" size="large" icon="user" />
+    </div>
   </Popover>
 ) : (
-  ''
+  null
 ));
 
 TopBar.propTypes = {

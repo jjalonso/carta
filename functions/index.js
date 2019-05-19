@@ -5,7 +5,7 @@ const Handlebars = require('handlebars');
 const options = require('./options');
 require('./helpers');
 
-exports.formOptions = functions.https.onRequest((request, response) => {
+exports.assessmentOptions = functions.https.onRequest((request, response) => {
   if (request.method === 'GET') {
     response.send(options);
   }
